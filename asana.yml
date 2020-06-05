@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: asana_task_comments
+    description: Tasks with their comments

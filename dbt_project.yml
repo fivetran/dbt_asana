@@ -1,0 +1,17 @@
+config-version: 2
+
+name: 'asana'
+version: '0.0.1'
+
+require-dbt-version: [">=0.16.0", "<0.18.0"]
+
+models:
+    asana:
+        materialized: table # ephemeral after testing
+
+# vars:
+#     asana:
+
+
+# delete profile after testing
+profile: dev_bigquery_dbt_testing
