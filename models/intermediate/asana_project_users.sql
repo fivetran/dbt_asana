@@ -67,5 +67,5 @@ project_users as (
     from project_assignees
 
 )
-
+-- TOOD: should we include task followers? 
 select * from project_users

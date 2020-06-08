@@ -5,3 +5,5 @@ models:
     description: Parses out and categorizes the type of story. Includes comments
   - name: asana_task_comments
     description: Tasks with their comments
+  - name: asana_project_users
+    description: Table of who is working on the project -- its owner + users assigned to it tasks 
