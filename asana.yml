@@ -1,5 +1,7 @@
 version: 2
 
 models:
+  - name: asana_task_stories
+    description: Parses out and categorizes the type of story. Includes comments
   - name: asana_task_comments
     description: Tasks with their comments

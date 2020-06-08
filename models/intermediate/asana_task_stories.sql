@@ -7,7 +7,7 @@ with story as (
 ,
 split_comments as (
 
-        select
+    select
         story_id,
         created_at,
         created_by_user_id,
@@ -24,6 +24,7 @@ split_comments as (
 ),
 
 -- the next CTE uses this dictionary to parse the type of action out of the event descfription
+-- does this belong in another file?
 {% set actions = {
     'added the name%': 'added name',
     'changed the name%': 'changed name',
@@ -68,22 +69,28 @@ split_comments as (
 
 } %}
 
-parse_events as (
+parse_actions as (
     select
-    story_id,
-    created_at,
-    created_by_user_id,
-    target_task_id,
-    comment_content,
-    case 
-    {%- for key, value in actions.items() %} 
-    when action_description like '{{key}}' then '{{value}}' 
-    {% endfor -%}
-    else action_description end as action_taken
+        story_id,
+        created_at,
+        created_by_user_id,
+        target_task_id,
+        comment_content,
+        case 
+        {%- for key, value in actions.items() %} 
+        when action_description like '{{key}}' then '{{value}}' 
+        {%- endfor %}
+        else action_description end as action_taken
     
     from split_comments
 
+),
+
+final as (
+    
+    select * from parse_actions
+    where action_taken is not null
+
 )
 
-select * from parse_events
-where action_taken is not null -- remove ones we don't care about, here "have a task due on%"
+select * from final
