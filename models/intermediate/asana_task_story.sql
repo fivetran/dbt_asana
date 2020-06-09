@@ -3,8 +3,9 @@ with story as (
     select * 
     from {{ ref('stg_asana_story') }}
 
-)
-,
+),
+
+
 split_comments as (
 
     select
@@ -22,6 +23,7 @@ split_comments as (
     from story
 
 ),
+
 
 -- the next CTE uses this dictionary to parse the type of action out of the event descfription
 -- does this belong in another file?
@@ -86,11 +88,13 @@ parse_actions as (
 
 ),
 
+
 final as (
     
     select * from parse_actions
-    where action_taken is not null
+    where action_taken is not null -- removes actions you don't care about (set to null in the actions dictionary)
 
 )
+
 
 select * from final

@@ -5,10 +5,10 @@ with task as (
 
 ),
 
-stories as (
+story as (
 
     select * 
-    from {{ ref('asana_task_stories') }}
+    from {{ ref('asana_task_story') }}
 
 ),
 
@@ -19,7 +19,7 @@ assignments as (
     target_task_id as task_id,
     max(created_at) as last_assigned_at -- current assignment, tasks can get passed around
 
-    from stories
+    from story
     where action_taken = 'assigned'
 
     group by 1,2

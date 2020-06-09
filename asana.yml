@@ -1,14 +1,14 @@
 version: 2
 
 models:
-  - name: asana_task_stories
+  - name: asana_task_story
     description: Parses out and categorizes the type of story. Includes comments
-  - name: asana_project_users
+  - name: asana_project_user
     description: Table of who is *working* on the project -- its owner + users assigned to it tasks 
-  - name: asana_team_tasks
+  - name: asana_team_task
     description: Table of tasks and projects belonging to each team
   - name: asana_task_followers
-    description: Table of tasks with an aggregated list of each's followers
+    description: Table of tasks with an aggregated list of each's followers. 0-follower tasks will not appear here.
   - name: asana_task_tags
     description: Table of tasks with an aggregated list of each's tags
   - name: asana_task_open_length

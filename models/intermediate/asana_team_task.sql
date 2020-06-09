@@ -1,4 +1,4 @@
-with project_tasks as (
+with project_task as (
     
     select *
     from {{ ref('stg_asana_project_task') }}
@@ -12,17 +12,17 @@ project as (
 
 ),
 
-team_tasks as (
+team_task as (
     
     select
         project.team_id,
         project.project_id,
-        project_tasks.task_id
+        project_task.task_id
         
-    from project_tasks
+    from project_task
     join project 
-        on project.project_id=project_tasks.project_id
+        on project.project_id=project_task.project_id
     
 )
 
-select * from team_tasks
+select * from team_task

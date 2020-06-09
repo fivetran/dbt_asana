@@ -27,7 +27,7 @@ project as (
 
 ),
 
-project_assignees as (
+project_assignee as (
 
     select
         project_tasks.project_id,
@@ -40,7 +40,7 @@ project_assignees as (
 
 ),
 
-project_owners as (
+project_owner as (
 
     select 
         project_id,
@@ -51,13 +51,13 @@ project_owners as (
     where owner_user_id is not null
 ),
 
-project_users as (
+project_user as (
     select
         project_id,
         owner_user_id as user_id,
         'owner' as role
     
-    from project_owners
+    from project_owner
 
     union all
 
@@ -66,8 +66,8 @@ project_users as (
         assignee_user_id as user_id,
         'task assignee' as role
     
-    from project_assignees
+    from project_assignee
 
 )
 -- TOOD: should we include task followers? 
-select * from project_users
+select * from project_user
