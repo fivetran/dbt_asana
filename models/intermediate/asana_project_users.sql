@@ -4,6 +4,7 @@ with project_tasks as (
     from {{ ref('stg_asana_project_task') }}
 ),
 
+-- pull tags to connect projects <> users
 tasks as (
     
     select * 
@@ -23,6 +24,7 @@ project as (
     
     select *
     from {{ ref('stg_asana_project') }}
+
 ),
 
 project_assignees as (
