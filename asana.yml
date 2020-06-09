@@ -11,3 +11,5 @@ models:
     description: Table of tasks with an aggregated list of each's followers
   - name: asana_task_tags
     description: Table of tasks with an aggregated list of each's tags
+  - name: asana_task_open_length
+    description: Table with days the task has been open since creation and since assigning it to the current assignee.

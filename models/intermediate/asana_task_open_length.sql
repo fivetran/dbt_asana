@@ -5,29 +5,45 @@ with task as (
 
 ),
 
-open_length as (
+stories as (
 
-    select
-        task_id,
-        is_completed,
-        case 
-        when is_completed then {{ dbt_utils.datediff('created_at', 'completed_at', 'day') }}
-        else {{ dbt_utils.datediff('created_at', dbt_utils.current_timestamp(), 'day') }} 
-        end as days_open
-
-    from task
+    select * 
+    from {{ ref('asana_task_stories') }}
 
 ),
 
-final as (
+assignments as (
+    
+    select 
+    story_id,
+    target_task_id as task_id,
+    max(created_at) as last_assigned_at -- current assignment, tasks can get passed around
+
+    from stories
+    where action_taken = 'assigned'
+
+    group by 1,2
+
+),
+
+
+open_assigned_length as (
+
+    {% set open_until = 'task.completed_at' if 'task.is_completed' is true else dbt_utils.current_timestamp() %}
 
     select
-        task_id,
-        is_completed,
-        days_open
-        -- cast(open_length as FLOAT64) / 60 / 60 / 24 as open_length_days
+        task.task_id,
+        task.is_completed,
+        task.completed_at,
+        assignments.last_assigned_at as last_assigned_at,
+        {{ dbt_utils.datediff('task.created_at', open_until, 'day') }} as days_open,
+        {{ dbt_utils.datediff('assignments.last_assigned_at', open_until, 'day') }} as days_assigned
 
-    from open_length
+    from task
+    left join assignments 
+        on task.task_id=assignments.task_id
+
 )
 
-select * from final
+
+select * from open_assigned_length
