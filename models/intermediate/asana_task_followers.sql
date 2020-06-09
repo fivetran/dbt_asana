@@ -20,7 +20,7 @@ agg_followers as (
         count(*) as number_of_followers
     from task_follower 
     join user 
-        on user.user_id=task_follower.user_id
+        on user.user_id = task_follower.user_id
     group by 1
     
 )

@@ -41,7 +41,7 @@ open_assigned_length as (
 
     from task
     left join assignments 
-        on task.task_id=assignments.task_id
+        on task.task_id = assignments.task_id
 
 )
 

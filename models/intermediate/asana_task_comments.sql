@@ -30,7 +30,7 @@ join_user_comments as (
     from
     comments
     left join user 
-        on user.user_id=comments.created_by_user_id 
+        on user.user_id = comments.created_by_user_id 
 
    --  order by task_id, comments.created_at asc
 

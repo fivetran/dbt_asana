@@ -36,7 +36,7 @@ project_assignee as (
 
     from project_tasks 
     join assigned_tasks 
-        on assigned_tasks.task_id=project_tasks.task_id
+        on assigned_tasks.task_id = project_tasks.task_id
 
 ),
 

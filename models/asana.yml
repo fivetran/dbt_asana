@@ -17,5 +17,8 @@ models:
     description: Table of tasks with an aggregated list of each's tags
   - name: asana_task_open_length
     description: Table with days the task has been open since creation and since assigning it to the current assignee.
+  - name: asana_task_comments
+    description: Tasks and their aggregated comments
 
   # join the above into enriched entity tables
+  - name: asana_task_joined

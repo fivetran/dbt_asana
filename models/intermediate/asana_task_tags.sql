@@ -20,7 +20,7 @@ agg_tags as (
         count(*) as number_of_tags
     from task_tag 
     join tag 
-        on tag.tag_id=task_tag.tag_id
+        on tag.tag_id = task_tag.tag_id
     group by 1
     
 )
