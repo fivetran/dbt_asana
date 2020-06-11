@@ -1,7 +1,7 @@
 with story as (
     
     select * 
-    from {{ ref('stg_asana_story') }}
+    from {{ var('story') }}
 
 ),
 
@@ -14,10 +14,10 @@ split_comments as (
         created_by_user_id,
         target_task_id,
             
-        case when event_type = 'comment' then event_description 
+        case when event_type = 'comment' then story_content 
         else null end as comment_content,
 
-        case when event_type = 'system' then event_description 
+        case when event_type = 'system' then story_content 
         else 'comment' end as action_description
     
     from story

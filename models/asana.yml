@@ -13,6 +13,8 @@ models:
     description: Attaches assignee name + email to the task id of their assignments -> will be rolled up to users table
   - name: asana_subtask_parent
     description: Table of all subtasks with their parents' info
+  - name: asana_task_first_modifier
+    description: Grabs the USER id and user name of the first person who modified/acted on the task (defined by the first person to create a story for it)
 
   # aggregational
   - name: asana_task_followers
@@ -25,4 +27,4 @@ models:
     description: Tasks and their aggregated comments
 
   # join the above into enriched entity tables
-  - name: asana_task_joined
+  - name: asana_task

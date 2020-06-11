@@ -1,12 +1,12 @@
 with task as (
     select *
-    from {{ ref('stg_asana_task') }}
+    from {{ var('task') }}
 ),
 
 task_comments as (
 
     select * 
-    from {{ref('asana_task_comments')}}
+    from {{ ref('asana_task_comments') }}
 ),
 
 task_followers as (
@@ -42,25 +42,25 @@ task_assignee as (
 task_project as (
 
     select *
-    from {{ ref('stg_asana_project_task') }}
+    from {{ var('project_task') }}
 ),
 
 project as (
 
     select *
-    from {{ ref('stg_asana_project') }}
+    from {{ var('project') }}
 ),
 
 task_section as (
 
     select * 
-    from {{ ref('stg_asana_task_section') }}
+    from {{ var('task_section') }}
 ),
 
 section as (
     
     select * 
-    from {{ ref('stg_asana_section') }}
+    from {{ var('section') }}
 ),
 
 subtask_parent as (
@@ -70,25 +70,42 @@ subtask_parent as (
 
 ),
 
+task_first_modifier as (
+    
+    select *
+    from {{ ref('asana_task_first_modifier') }}
+),
+
 task_join as (
 
     select
         task.*,
         task_assignee.assignee_name,
         task_assignee.assignee_email,
+        
+        task_open_length.days_open, 
+        task_open_length.is_currently_assigned,
+        task_open_length.has_been_assigned,
+        task_open_length.days_since_last_assignment, -- is null for never-assigned tasks
+        task_open_length.days_since_first_assignment, -- is null for never-assigned tasks
+        task_open_length.last_assigned_at,
+        task_open_length.first_assigned_at, 
+
+        task_first_modifier.first_modifier_user_id,
+        task_first_modifier.first_modifier_name,
+
         coalesce(task_comments.number_of_comments, 0) as number_of_comments,
-        task_comments.conversation, -- eh should we include/even have this?
+        task_comments.conversation, 
         task_followers.followers,
         coalesce(task_followers.number_of_followers, 0) as number_of_followers,
-        task_open_length.days_open, 
-        coalesce(task_open_length.days_assigned, 0) as days_assigned, -- unassigned tasks will = 0
-        task_open_length.last_assigned_at as assigned_at, -- to this current user
         task_tags.tags, 
-        coalesce(task_tags.number_of_tags, 0) as number_of_tags, -- not sure this is helpful
+        coalesce(task_tags.number_of_tags, 0) as number_of_tags, 
+        
         task_team.team_id,
         task_team.team_name,
         project.project_name,
         section.section_name,
+
         subtask_parent.subtask_id is not null as is_subtask, -- parent id is in task.*
         subtask_parent.parent_name,
         subtask_parent.parent_assignee_user_id,
@@ -98,9 +115,11 @@ task_join as (
 
     from
     task
+    join task_open_length on task.task_id = task_open_length.task_id
+    join task_first_modifier on task.task_id = task_first_modifier.task_id
+
     left join task_comments on task.task_id = task_comments.task_id
     left join task_followers on task.task_id = task_followers.task_id
-    left join task_open_length on task.task_id = task_open_length.task_id
     left join task_tags on task.task_id = task_tags.task_id
     left join task_team on task.task_id = task_team.task_id
     left join task_assignee on task.assignee_user_id = task_assignee.assignee_user_id

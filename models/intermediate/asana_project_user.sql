@@ -1,20 +1,14 @@
 with project_tasks as (
     
     select *
-    from {{ ref('stg_asana_project_task') }}
+    from {{ var('project_task') }}
 ),
 
 -- pull tags to connect projects <> users
-tasks as (
-    
-    select * 
-    from {{ ref('stg_asana_task') }}
-),
-
 assigned_tasks as (
     
-    select *
-    from tasks
+    select * 
+    from {{ var('task') }}
 
     where assignee_user_id is not null
     

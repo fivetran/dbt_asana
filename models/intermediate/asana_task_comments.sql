@@ -1,14 +1,7 @@
-with story as (
+with comments as (
     
     select *
     from {{ ref('asana_task_story') }}
-
-),
-
-comments as (
-
-    select * 
-    from story
     where comment_content is not null
 
 ),
@@ -16,7 +9,7 @@ comments as (
 user as (
     
     select *
-    from {{ ref('stg_asana_user') }}
+    from {{ var('user') }}
 ),
 
 join_user_comments as (
@@ -31,15 +24,13 @@ join_user_comments as (
     comments
     left join user 
         on user.user_id = comments.created_by_user_id 
-
-   --  order by task_id, comments.created_at asc
-
 ),
 
 task_conversation as (
 
     select
         task_id,
+        -- creates a chronologically ordered conversation about the task
         string_agg(concat(cast(commented_at as string), '  -  ', user_name, ':  ', comment_content), '\n' order by commented_at asc) as conversation,
         count(*) as number_of_comments
 

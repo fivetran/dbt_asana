@@ -1,14 +1,14 @@
 with task_tag as (
     
     select *
-    from {{ ref('stg_asana_task_tag') }}
+    from {{ var('task_tag') }}
 
 ),
 
 tag as (
 
     select * 
-    from {{ ref('stg_asana_tag') }}
+    from {{ var('tag') }}
 
 ),
 

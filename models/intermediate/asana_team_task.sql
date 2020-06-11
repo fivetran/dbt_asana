@@ -1,21 +1,21 @@
 with project_task as (
     
     select *
-    from {{ ref('stg_asana_project_task') }}
+    from {{ var('project_task') }}
 
 ),
 
 project as (
 
     select *
-    from {{ ref('stg_asana_project') }}
+    from {{ var('project') }}
 
 ),
 
 team as (
 
     select *
-    from {{ ref('stg_asana_team') }}
+    from {{ var('team') }}
 
 ),
 
@@ -30,7 +30,8 @@ team_task as (
     from project_task
     join project 
         on project.project_id = project_task.project_id
-    join team on project.team_id = team.team_id
+    join team 
+        on project.team_id = team.team_id
     
 )
 

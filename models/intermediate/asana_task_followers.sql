@@ -1,14 +1,14 @@
 with task_follower as (
     
     select *
-    from {{ ref('stg_asana_task_follower') }}
+    from {{ var('task_follower') }}
 
 ),
 
 user as (
 
     select * 
-    from {{ ref('stg_asana_user') }}
+    from {{ var('user') }}
 
 ),
 

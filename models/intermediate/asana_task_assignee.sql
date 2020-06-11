@@ -1,13 +1,13 @@
 with task as (
 
     select * 
-    from {{ ref('stg_asana_task') }}
+    from {{ var('task') }}
 ),
 
 user as (
 
     select *
-    from {{ ref('stg_asana_user') }}
+    from {{ var('user') }}
 ),
 
 task_assignee as (

@@ -1,7 +1,7 @@
 with task as (
     
     select *
-    from {{ ref('stg_asana_task') }}
+    from {{ var('task') }}
 
 ),
 
@@ -17,7 +17,8 @@ assignments as (
     select 
     story_id,
     target_task_id as task_id,
-    max(created_at) as last_assigned_at -- current assignment, tasks can get passed around
+    min(created_at) as first_assigned_at,
+    max(created_at) as last_assigned_at -- current assignment
 
     from story
     where action_taken = 'assigned'
@@ -35,9 +36,19 @@ open_assigned_length as (
         task.task_id,
         task.is_completed,
         task.completed_at,
+        task.assignee_user_id is not null as is_currently_assigned,
+        assignments.task_id is not null as has_been_assigned,
         assignments.last_assigned_at as last_assigned_at,
+        assignments.last_assigned_at as first_assigned_at,
         {{ dbt_utils.datediff('task.created_at', open_until, 'day') }} as days_open,
-        {{ dbt_utils.datediff('assignments.last_assigned_at', open_until, 'day') }} as days_assigned
+
+        -- if the task is currently assigned, this is the time it has been assigned to this current user.
+        {{ dbt_utils.datediff('assignments.last_assigned_at', open_until, 'day') }} as days_since_last_assignment,
+
+        -- if the task was unassigned after being assigned, this will not remove that interval from the total
+        -- @kristen -- would it be useful to have a metric accounting for this ^ ?
+        {{ dbt_utils.datediff('assignments.first_assigned_at', open_until, 'day') }} as days_since_first_assignment
+        
 
     from task
     left join assignments 

@@ -1,7 +1,7 @@
 with task as (
 
     select * 
-    from {{ ref('stg_asana_task') }}
+    from {{ var('task') }}
 ),
 
 task_assignee as (
