@@ -5,6 +5,20 @@ with story as (
 
 ),
 
+user as (
+
+    select * 
+    from {{ var('user') }}
+),
+
+story_user as (
+    select 
+        story.*,
+        user.user_name as created_by_name
+    from story
+    join user 
+        on story.created_by_user_id = user.user_id
+),
 
 split_comments as (
 
@@ -12,6 +26,7 @@ split_comments as (
         story_id,
         created_at,
         created_by_user_id,
+        created_by_name,
         target_task_id,
             
         case when event_type = 'comment' then story_content 
@@ -20,7 +35,7 @@ split_comments as (
         case when event_type = 'system' then story_content 
         else 'comment' end as action_description
     
-    from story
+    from story_user
 
 ),
 
@@ -74,15 +89,17 @@ split_comments as (
 parse_actions as (
     select
         story_id,
+        target_task_id,
         created_at,
         created_by_user_id,
-        target_task_id,
+        created_by_name,
         comment_content,
         case 
         {%- for key, value in actions.items() %} 
         when action_description like '{{key}}' then '{{value}}' 
         {%- endfor %}
-        else action_description end as action_taken
+        else action_description end as action_taken,
+        action_description
     
     from split_comments
 
@@ -91,8 +108,10 @@ parse_actions as (
 
 final as (
     
-    select * from parse_actions
-    where action_taken is not null -- removes actions you don't care about (set to null in the actions dictionary)
+    select * 
+    from parse_actions
+    where action_taken is not null 
+    -- removes actions you don't care about (set to null in the actions dictionary)
 
 )
 
