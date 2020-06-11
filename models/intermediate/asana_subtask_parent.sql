@@ -13,10 +13,11 @@ task_assignee as (
 task_assignee_join as (
 
     select 
-        task.*,
+        task.*, -- should i write this all out
         task_assignee.assignee_name
     from
-    task left join task_assignee 
+    task 
+    left join task_assignee 
         on task.task_id = task_assignee.task_id
 
 ),
@@ -32,7 +33,6 @@ subtask as (
     where parent_task_id is not null
 
 ),
-
 
 
 subtask_parent as (

@@ -9,6 +9,10 @@ models:
     description: Table of who is *working* on the project -- its owner + users assigned to it tasks 
   - name: asana_team_task
     description: Table of tasks and projects belonging to each team
+  - name: asana_task_assignee
+    description: Attaches assignee name + email to the task id of their assignments -> will be rolled up to users table
+  - name: asana_subtask_parent
+    description: Table of all subtasks with their parents' info
 
   # aggregational
   - name: asana_task_followers

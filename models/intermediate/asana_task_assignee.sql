@@ -18,8 +18,7 @@ task_assignee as (
         user.user_name as assignee_name,
         user.email as assignee_email
 
-    from
-    task join user 
+    from task join user 
         on task.assignee_user_id = user.user_id
 )
 
