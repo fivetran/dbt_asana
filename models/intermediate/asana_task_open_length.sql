@@ -15,7 +15,6 @@ story as (
 assignments as (
     
     select 
-    story_id,
     target_task_id as task_id,
     min(created_at) as first_assigned_at,
     max(created_at) as last_assigned_at -- current assignment
@@ -23,7 +22,7 @@ assignments as (
     from story
     where action_taken = 'assigned'
 
-    group by 1,2
+    group by 1
 
 ),
 

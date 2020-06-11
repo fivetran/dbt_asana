@@ -39,28 +39,16 @@ task_assignee as (
     from  {{ ref('asana_task_assignee') }}
 ),
 
-task_project as (
+task_projects as (
 
     select *
-    from {{ var('project_task') }}
+    from {{ ref('asana_task_projects') }}
 ),
 
-project as (
-
-    select *
-    from {{ var('project') }}
-),
-
-task_section as (
+task_sections as (
 
     select * 
-    from {{ var('task_section') }}
-),
-
-section as (
-    
-    select * 
-    from {{ var('section') }}
+    from {{ ref('asana_task_sections') }}
 ),
 
 subtask_parent as (
@@ -103,8 +91,8 @@ task_join as (
         
         task_team.team_id,
         task_team.team_name,
-        project.project_name,
-        section.section_name,
+        task_projects.projects,
+        task_sections.sections,
 
         subtask_parent.subtask_id is not null as is_subtask, -- parent id is in task.*
         subtask_parent.parent_name,
@@ -125,11 +113,11 @@ task_join as (
     left join task_assignee on task.assignee_user_id = task_assignee.assignee_user_id
     left join subtask_parent on task.task_id = subtask_parent.subtask_id
 
-    left join task_project on task.task_id = task_project.task_id
-    left join project on task_project.project_id = project.project_id
+    left join task_project_join on task.task_id = task_project_join.task_id
+    -- left join project on task_project.project_id = project.project_id
 
-    left join task_section on task.task_id = task_section.task_id
-    left join section on task_section.section_id = section.section_id
+    left join task_section_join on task.task_id = task_section_join.task_id
+    -- left join section on task_section.section_id = section.section_id
 
 )
 
