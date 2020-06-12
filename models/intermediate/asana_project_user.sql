@@ -4,7 +4,6 @@ with project_tasks as (
     from {{ var('project_task') }}
 ),
 
--- pull tags to connect projects <> users
 assigned_tasks as (
     
     select * 
@@ -17,7 +16,7 @@ assigned_tasks as (
 project as (
     
     select *
-    from {{ ref('stg_asana_project') }}
+    from {{ var('project') }}
 
 ),
 
@@ -26,7 +25,8 @@ project_assignee as (
     select
         project_tasks.project_id,
         project_tasks.task_id,
-        assigned_tasks.assignee_user_id
+        assigned_tasks.assignee_user_id,
+        not assigned_tasks.is_completed as currently_working_on
 
     from project_tasks 
     join assigned_tasks 
@@ -38,30 +38,38 @@ project_owner as (
 
     select 
         project_id,
+        project_name,
         owner_user_id
 
     from project
     
-    where owner_user_id is not null
+    -- where owner_user_id is not null
 ),
 
 project_user as (
     select
         project_id,
+        project_name,
         owner_user_id as user_id,
-        'owner' as role
+        'owner' as role,
+        null as currently_working_on
     
     from project_owner
+    where owner_user_id is not null
 
     union all
 
     select
-        project_id,
-        assignee_user_id as user_id,
-        'task assignee' as role
+        project_owner.project_id,
+        project_owner.project_name,
+        project_assignee.assignee_user_id as user_id,
+        'task assignee' as role,
+        project_assignee.currently_working_on
     
-    from project_assignee
+    from project_owner join project_assignee 
+        on project_owner.project_id = project_assignee.project_id
 
 )
--- TOOD: should we include task followers? 
+
+
 select * from project_user
