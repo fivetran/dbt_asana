@@ -7,7 +7,7 @@ models:
     description: Parses out and categorizes the type of story. Includes comments
   - name: asana_project_user
     description: Table of who is *working* on the project -- its owner + users assigned to it tasks 
-  - name: asana_team_task
+  - name: asana_team_task_proj
     description: Table of tasks and projects belonging to each team
   - name: asana_task_assignee
     description: Attaches assignee name + email to the task id of their assignments -> will be rolled up to users table

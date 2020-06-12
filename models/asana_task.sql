@@ -27,10 +27,10 @@ task_tags as (
     from {{ ref('asana_task_tags') }}
 ),
 
-task_team as (
+task_teams as (
 
     select *
-    from {{ ref('asana_team_task') }}
+    from {{ ref('asana_task_teams') }}
 ),
 
 task_assignee as (
@@ -89,8 +89,7 @@ task_join as (
         task_tags.tags, 
         coalesce(task_tags.number_of_tags, 0) as number_of_tags, 
         
-        task_team.team_id,
-        task_team.team_name,
+        task_teams.teams,
         task_projects.projects,
         task_sections.sections,
 
@@ -109,14 +108,14 @@ task_join as (
     left join task_comments on task.task_id = task_comments.task_id
     left join task_followers on task.task_id = task_followers.task_id
     left join task_tags on task.task_id = task_tags.task_id
-    left join task_team on task.task_id = task_team.task_id
+    left join task_teams on task.task_id = task_teams.task_id
     left join task_assignee on task.assignee_user_id = task_assignee.assignee_user_id
     left join subtask_parent on task.task_id = subtask_parent.subtask_id
 
-    left join task_project_join on task.task_id = task_project_join.task_id
+    left join task_projects on task.task_id = task_projects.task_id
     -- left join project on task_project.project_id = project.project_id
 
-    left join task_section_join on task.task_id = task_section_join.task_id
+    left join task_sections on task.task_id = task_sections.task_id
     -- left join section on task_section.section_id = section.section_id
 
 )

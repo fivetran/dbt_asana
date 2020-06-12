@@ -14,7 +14,7 @@ project as (
 agg_projects as (
     select 
         task_project.task_id,
-        string_agg( concat("'", project.project_name, "'"), ", " ) as projects,
+        string_agg( concat("'", project.project_name, "': ", project.project_id), ", " ) as projects,
         count(*) as number_of_projects
 
     from task_project 
