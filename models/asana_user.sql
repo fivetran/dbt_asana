@@ -1,20 +1,29 @@
-with user as (
+with user_task_metrics as (
 
     select * 
-    from {{ var('user') }}
+    from {{ ref('asana_user_task_metrics') }}
 ),
 
-task as (
-    
-    select * 
-    from {{ ref('asana_task') }}
 
+-- for # of tasks they follow
+tasks_followed as (
+
+    select 
+        user_id,
+        count(task_id) as number_of_tasks_followed
+
+    from {{ var('task_follower') }}
+
+    group by 1
 ),
 
+-- for the current projects being worked on and projects they own
 project_user as (
     
     select * 
     from {{ ref('asana_project_user') }}
+
+    where currently_working_on
 ),
 
 agg_user_projects as (
@@ -23,71 +32,31 @@ agg_user_projects as (
         user_id,
         sum(case when role = 'owner' then 1
             else 0 end) as number_projects_owned,
-        currently_working_on,
-        case when currently_working_on
-        count(project_id) as number_of_projects
+         sum(case when currently_working_on then 1
+            else 0 end) as number_projects_currently_assigned_to,
+        string_agg(concat("'", project_name, "' as ", role), ', ') as projects
 
     from 
         project_user
-),
 
--- team_task as (
-
---     select *
---     from {{ ref('asana_team_task_proj') }}
--- ),
-
--- task_open_length as (
-
---     select * 
---     from {{ ref('asana_task_open_length') }}
--- ),
-
-task_follower as (
-
-    select *
-    from {{ var('task_follower') }}
-),
-
-user_join as (
-
-    select
-        user.*,
-        task.task_id,
-        task.task_name,
-        task.due_date,
-        task.due_date is not null as has_due_date,
-        task.is_completed,
-        task.completed_at,
-        project_user.project_id,
-        project_user.role,
-        task_open_length.days_since_last_assignment,
-        task.followers,
-        task.projects,
-        task.teams,
-        task.tags,
-        case when project_user.role = 'owner'
-
-    from user
-    left join task on user.user_id = task.asignee_user_id -- big join
-    
-    left join task_follower on user.user_id = task_follower.user_id,
-    left join project_user on user.userid = project_user.user_id
-    left join task_open_length on task_open_length.task_id = task.assignee_user_id
-
-    left join team_task
+    where role = 'owner' or currently_working_on
+    group by 1
 
 ),
 
-agg_user_tasks as (
+users as (
 
-    select
-        user_id,
-        user_name,
-        email,
-        count(task_id) as number_of_tasks,
-        case when 
-    from user_tasks
-
+    select 
+        user_task_metrics.*,
+        tasks_followed.number_of_tasks_followed, -- total, not ones just currently open. TODO: change this?
+        agg_user_projects.number_projects_owned,
+        agg_user_projects.number_projects_currently_assigned_to,
+        agg_user_projects.projects as projects_working_on
+    from
+    user_task_metrics
+    join tasks_followed on user_task_metrics.user_id = tasks_followed.user_id
+    join agg_user_projects on user_task_metrics.user_id = agg_user_projects.user_id
 )
+
+select * from users
 

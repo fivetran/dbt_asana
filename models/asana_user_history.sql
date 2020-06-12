@@ -3,7 +3,7 @@ with task as (
     select *
     from {{ ref('asana_task') }}
 
-    where is_completed is true
+    -- where is_completed is true
 ),
 
 user as (
@@ -19,9 +19,10 @@ user_task_history as (
         user.*,
         task.task_id,
         task.task_name,
+        task.is_completed,
         task.completed_at,
         task.due_date,
-        task.completed_at <= task.due_date as completed_on_time,
+        task.completed_at <= task.due_date as completed_on_time, -- null if incomplete or without a due date
         task.days_since_last_assignment as days_assigned_this_user,
         task.last_assigned_at as assigned_this_user_at,
         task.followers as task_followers,

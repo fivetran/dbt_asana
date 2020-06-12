@@ -18,6 +18,8 @@ project as (
     select *
     from {{ var('project') }}
 
+    where not is_archived
+
 ),
 
 project_assignee as (
