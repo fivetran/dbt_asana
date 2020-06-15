@@ -1,5 +1,5 @@
 with user_task_history as (
-    -- for task metrics
+
     select * 
     from {{ ref('asana_user_history') }}
 

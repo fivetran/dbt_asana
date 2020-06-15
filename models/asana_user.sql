@@ -4,20 +4,32 @@ with user_task_metrics as (
     from {{ ref('asana_user_task_metrics') }}
 ),
 
+-- not important from the user standpoint?
+task_follower as (
 
--- for # of tasks they follow
-tasks_followed as (
-
-    select 
-        user_id,
-        count(task_id) as number_of_tasks_followed
-
+    select *
     from {{ var('task_follower') }}
+
+),
+
+incomplete_tasks as (
+    
+    select *
+    from {{ var('task') }}
+
+    where not is_completed
+),
+
+current_tasks_followed as (
+    select 
+    task_follower.user_id,
+    count(incomplete_tasks.task_id) as number_of_open_tasks_followed
+
+    from task_follower join incomplete_tasks using (task_id)
 
     group by 1
 ),
 
--- for the current projects being worked on and projects they own
 project_user as (
     
     select * 
@@ -48,13 +60,14 @@ users as (
 
     select 
         user_task_metrics.*,
-        tasks_followed.number_of_tasks_followed, -- total, not ones just currently open. TODO: change this?
+        current_tasks_followed.number_of_open_tasks_followed,
         agg_user_projects.number_projects_owned,
         agg_user_projects.number_projects_currently_assigned_to,
         agg_user_projects.projects as projects_working_on
+    
     from
     user_task_metrics
-    join tasks_followed on user_task_metrics.user_id = tasks_followed.user_id
+    join current_tasks_followed on user_task_metrics.user_id = current_tasks_followed.user_id
     join agg_user_projects on user_task_metrics.user_id = agg_user_projects.user_id
 )
 
