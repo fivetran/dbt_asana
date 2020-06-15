@@ -15,6 +15,7 @@ task_history as (
     select 
         task.task_id,
         task.task_name,
+        task.created_at as task_created_at,
         story.story_id as event_id,
         story.created_at as happened_at,
         story.created_by_user_id as done_by_user_id,

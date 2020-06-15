@@ -19,6 +19,7 @@ user_task_history as (
         user.*,
         task.task_id,
         task.task_name,
+        task.created_at as task_created_at,
         task.is_completed,
         task.completed_at,
         task.due_date,
