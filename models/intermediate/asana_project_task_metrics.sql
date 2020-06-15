@@ -28,15 +28,10 @@ order_proj_task_history as (
 
     select
         project_id,
-        -- project_id,
-        -- project_name,
-        -- is_archived,
-        -- created_at,
         task_id,
         task_name,
         task_assignee_user_id as task_assignee_user_id,
         task_assignee_name as task_assignee_name,
-        -- task_created_at,
         task_projects,
         task_teams,
         task_tags,
