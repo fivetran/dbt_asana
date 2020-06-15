@@ -47,9 +47,9 @@ project_task_history as (
         task.task_description
 
     from project
-    join project_task 
+    left join project_task 
         on project.project_id = project_task.project_id
-    join task 
+    left join task 
         on project_task.task_id = task.task_id
 
     order by project_id, task_created_at asc
