@@ -4,7 +4,6 @@ with user_task_metrics as (
     from {{ ref('asana_user_task_metrics') }}
 ),
 
--- not important from the user standpoint?
 task_follower as (
 
     select *

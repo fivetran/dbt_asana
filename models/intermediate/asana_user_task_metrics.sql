@@ -20,7 +20,7 @@ agg_user_tasks as (
 
 order_user_task_history as (
 
-    {% set date_comparison = 'user_task_history.completed_at desc' if 'user_task.is_completed' is true
+    {% set date_comparison = 'user_task_history.completed_at desc' if 'user_task_history.is_completed' is true
         else 'user_task_history.due_date asc' %}
 
     select
@@ -30,10 +30,12 @@ order_user_task_history as (
         task_id,
         task_name,
         task_projects,
+        task_teams,
         task_tags,
         is_completed,
         completed_at,
         due_date,
+        days_assigned_this_user,
 
         -- row number should be 1 for both
         row_number() over(partition by user_id, is_completed order by {{ date_comparison }}) as choose_one
@@ -49,7 +51,8 @@ next_last_user_tasks as (
         user_id,
         user_name,
         email,
-        {% set fields = ['task_id', 'task_name', 'task_projects', 'task_tags', 'due_date'] %}
+        {% set fields = ['task_id', 'task_name', 'task_projects', 'task_teams', 
+                        'task_tags', 'due_date', 'days_assigned_this_user'] %}
         {% for field in fields %} 
         
         -- Max feels like a not-great way to consolidate these, but we're comparing non-null and null value always

@@ -26,12 +26,15 @@ project_task_history as (
 
         task.task_id,
         task.task_name,
+        task.assignee_user_id as task_assignee_user_id,
+        task.assignee_name as task_assignee_name,
         task.created_at as task_created_at,
         task.is_completed as task_is_completed,
         task.completed_at as task_completed_at,
         task.due_date as task_due_date,
         task.completed_at <= task.due_date as task_completed_on_time, -- null if incomplete or without a due date
-        task.days_since_last_assignment as days_assigned_this_user,
+        task.days_since_last_assignment as task_days_assigned_current_user,
+        task.days_open as task_days_open,
         task.last_assigned_at as task_last_assigned_at,
         task.followers as task_followers,
         task.projects as task_projects,

@@ -22,6 +22,7 @@ user_task_history as (
         task.created_at as task_created_at,
         task.is_completed,
         task.completed_at,
+        task.completed_by_user_id,
         task.due_date,
         task.completed_at <= task.due_date as completed_on_time, -- null if incomplete or without a due date
         task.days_since_last_assignment as days_assigned_this_user,
@@ -37,8 +38,8 @@ user_task_history as (
         task.task_description
 
     from user
-    left join task 
-        on user.user_id = task.assignee_user_id
+    join task 
+        on user.user_id = task.assignee_user_id -- could also do on completed_by_user_id
 
     order by user_id, assigned_this_user_at asc
 
