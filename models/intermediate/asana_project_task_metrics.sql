@@ -10,6 +10,7 @@ agg_proj_tasks as (
     select 
     project_id,
     sum(case when not task_is_completed then 1 else 0 end) as number_of_open_tasks,
+    sum(case when not task_is_completed and task_assignee_user_id is not null then 1 else 0 end) as number_of_assigned_open_tasks,
     sum(case when task_is_completed then 1 else 0 end) as number_of_tasks_completed,
     sum(case when task_is_completed and task_assignee_user_id is not null then 1 else 0 end) as number_of_assigned_tasks_completed,
     sum(case when task_is_completed then task_days_open else 0 end) as total_days_open,
@@ -87,6 +88,7 @@ combine_proj_task_metrics as (
     select
         next_last_project_tasks.*,
         agg_proj_tasks.number_of_open_tasks,
+        agg_proj_tasks.number_of_assigned_open_tasks,
         agg_proj_tasks.number_of_tasks_completed,
         nullif(agg_proj_tasks.total_days_open, 0) * 1.0 / nullif(agg_proj_tasks.number_of_tasks_completed, 0) as avg_close_time_days,
         nullif(agg_proj_tasks.total_days_assigned_last_user, 0) * 1.0 / nullif(agg_proj_tasks.number_of_assigned_tasks_completed, 0) as avg_close_time_assigned_days

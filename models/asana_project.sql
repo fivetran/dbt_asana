@@ -56,8 +56,6 @@ project_join as (
         agg_project_users.users as users_involved,
         agg_project_users.number_of_users_involved,
         is_public
-
-
         
     from
     project 
