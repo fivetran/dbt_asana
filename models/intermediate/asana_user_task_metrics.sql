@@ -1,46 +1,46 @@
-with user_task_history as (
+with tasks as (
 
     select * 
-    from {{ ref('asana_user_history') }}
+    from {{ ref('asana_task') }}
 
 ), 
 
 agg_user_tasks as (
 
     select 
-    user_id,
+    assignee_user_id as user_id,
     sum(case when not is_completed then 1 else 0 end) as number_of_open_tasks,
     sum(case when is_completed then 1 else 0 end) as number_of_tasks_completed,
-    sum(case when is_completed then days_assigned_this_user else 0 end) as total_days_assigned -- will divde later for avg
+    sum(case when is_completed then days_since_last_assignment else 0 end) as days_assigned_this_user -- will divde later for avg
 
-    from  user_task_history
+    from  tasks
 
     group by 1
 ),
 
 order_user_task_history as (
 
-    {% set date_comparison = 'user_task_history.completed_at desc' if 'user_task_history.is_completed' is true
-        else 'user_task_history.due_date asc' %}
+    {% set date_comparison = 'tasks.completed_at desc' if 'tasks.is_completed' is true
+        else 'tasks.due_date asc' %}
 
     select
-        user_id,
-        user_name,
-        email,
+        assignee_user_id as user_id,
+        assignee_name as user_name,
+        assignee_email as email,
         task_id,
         task_name,
-        task_projects,
-        task_teams,
-        task_tags,
+        projects as task_projects,
+        teams task_teams,
+        tags as task_tags,
         is_completed,
         completed_at,
         due_date,
-        days_assigned_this_user,
+        days_since_last_assignment as days_assigned_this_user,
 
         -- row number should be 1 for both
-        row_number() over(partition by user_id, is_completed order by {{ date_comparison }}) as choose_one
+        row_number() over(partition by assignee_user_id, is_completed order by {{ date_comparison }}) as choose_one
 
-    from user_task_history
+    from tasks
     where is_completed or due_date is not null
      
 ),
@@ -78,7 +78,7 @@ combine_task_metrics as (
         next_last_user_tasks.*,
         agg_user_tasks.number_of_open_tasks,
         agg_user_tasks.number_of_tasks_completed,
-        nullif(agg_user_tasks.total_days_assigned, 0) * 1.0 / nullif(agg_user_tasks.number_of_tasks_completed, 0) as avg_close_time_days
+        nullif(agg_user_tasks.days_assigned_this_user, 0) * 1.0 / nullif(agg_user_tasks.number_of_tasks_completed, 0) as avg_close_time_days
 
     from 
     next_last_user_tasks
