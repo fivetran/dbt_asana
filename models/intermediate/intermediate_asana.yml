@@ -10,7 +10,10 @@ models:
           - not_null
 
   - name: asana_project_user
-    description: Relates users to the projects that they either own or are/have been assigned tasks to.
+    description: Table of who is *working* on the project -- its owner + users assigned to it tasks 
+    tests:
+      - unique:
+          column_name: "project_id || '-' || user_id || '-' || role || '-' || currently_working_on"
 
   - name: asana_subtask_parent
     description: Combines subtaskstasks + information regarding parent tasks
@@ -79,13 +82,46 @@ models:
           - not_null
   
   - name: asana_task_story
-    description: Categorizes asana stories into action types.
+    description: Parses and categorizes asana stories into action types.
+    columns:
+      - name: story_id
+        tests:
+          - unique
+          - not_null
+      - name: action_taken
+        description: The bucket that the story event falls into.
+      - name: comment_content
+        description: If the action taken is a comment, this is the comment's text. Otherwise null.
+      - name: action_description
+        description: The original pre-categorized content of the story
+
+  - name: asana_task_tags
+    description: Aggregates a count of and a list of the names of the tags attached to each task.
     columns:
       - name: task_id
         tests:
           - unique
           - not_null
-  - name: asana_task_tags
+
   - name: asana_task_teams
+    description: Aggregates a count of and a list of the names of the teams associated with the task.
+    columns:
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+
   - name: asana_team_task_proj
+    description: Relates teams to their associated tasks via projects (the only way teams can have tasks)
+    tests:
+      - unique:
+          column_name: "team_id || '-' || project_id || '-' || task_id"
+
+
   - name: asana_user_task_metrics
+    description: Draws from (non-intermediate) ASANA_TASK to compute metrics about tasks for each user.
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null

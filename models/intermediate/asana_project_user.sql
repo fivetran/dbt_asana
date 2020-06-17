@@ -61,7 +61,7 @@ project_user as (
 
     union all
 
-    select
+    ( select
         project_owner.project_id,
         project_owner.project_name,
         project_assignee.assignee_user_id as user_id,
@@ -70,6 +70,7 @@ project_user as (
     
     from project_owner join project_assignee 
         on project_owner.project_id = project_assignee.project_id
+    group by 1,2,3,4,5 )
 
 )
 

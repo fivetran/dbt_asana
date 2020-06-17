@@ -2,29 +2,13 @@ version: 2
 
 models:
 
-  # joining entities
-  - name: asana_task_story
-    description: Parses out and categorizes the type of story. Includes comments
-  - name: asana_project_user
-    description: Table of who is *working* on the project -- its owner + users assigned to it tasks 
-  - name: asana_team_task_proj
-    description: Table of tasks and projects belonging to each team
-  - name: asana_task_assignee
-    description: Attaches assignee name + email to the task id of their assignments -> will be rolled up to users table
-  - name: asana_subtask_parent
-    description: Table of all subtasks with their parents' info
-  - name: asana_task_first_modifier
-    description: Grabs the USER id and user name of the first person who modified/acted on the task (defined by the first person to create a story for it)
-
-  # aggregational
-  - name: asana_task_followers
-    description: Table of tasks with an aggregated list of each's followers. 0-follower tasks will not appear here.
-  - name: asana_task_tags
-    description: Table of tasks with an aggregated list of each's tags
-  - name: asana_task_open_length
-    description: Table with days the task has been open since creation and since assigning it to the current assignee.
-  - name: asana_task_comments
-    description: Tasks and their aggregated comments
-
-  # join the above into enriched entity tables
+  # enriched core object tables
   - name: asana_task
+  - name: asana_user
+  - name: asana_project
+  - name: asana_team
+  - name: asana_tag
+
+  - name: asana_task_history
+  - name: asana_project_history
+  - name: asana_daily_metrics
