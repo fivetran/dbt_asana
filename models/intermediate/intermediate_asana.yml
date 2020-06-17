@@ -1,0 +1,91 @@
+version: 2
+
+models:
+  - name: asana_project_task_metrics
+    description: Draws from (non-intermediate) ASANA_TASK to compute metrics about tasks in each project.
+    columns:
+      - name: project_id
+        tests:
+          - unique
+          - not_null
+
+  - name: asana_project_user
+    description: Relates users to the projects that they either own or are/have been assigned tasks to.
+
+  - name: asana_subtask_parent
+    description: Combines subtaskstasks + information regarding parent tasks
+    columns:
+      - name: subtask_id
+        tests: 
+          - unique
+          - not_null
+    
+  - name: asana_task_assignee
+    description: Combines tasks + information regarding their assigned user
+    columns:
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+  
+  - name: asana_task_comments
+    description: Aggregates all comments on a task into a conversation + the number of comments
+    columns: 
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+      - name: conversation
+        description: Line-separated comments with their author, ordered chronologically (asc)
+
+  - name: asana_task_first_modifier
+    description: Extracts the first person to make a story (modify) the task. A sort of proxy for the task creator, since that's not provided.
+    columns:
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+
+  - name: asana_task_followers
+    description: Aggregates a count of and a list of the names of the users who follow each task
+    columns:
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+
+  - name: asana_task_open_length
+    description: Computes the days that each task has spent open and assigned.
+    columns:
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+
+  - name: asana_task_projects
+    description: Aggregates a count of and a list of the names and ids of the projects that each task belongs to.
+    columns:
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+
+  - name: asana_task_sections
+    description: Aggregates a count of and a list of the names of the sections that each task lives in.
+    columns:
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+  
+  - name: asana_task_story
+    description: Categorizes asana stories into action types.
+    columns:
+      - name: task_id
+        tests:
+          - unique
+          - not_null
+  - name: asana_task_tags
+  - name: asana_task_teams
+  - name: asana_team_task_proj
+  - name: asana_user_task_metrics

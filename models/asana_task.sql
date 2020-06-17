@@ -82,7 +82,8 @@ task_join as (
         task_first_modifier.first_modifier_user_id,
         task_first_modifier.first_modifier_name,
 
-        coalesce(task_comments.number_of_comments, 0) as number_of_comments,
+        coalesce(task_comments.number_of_comments, 0) as number_of_comments, 
+        -- TODO: maybe add # of comment authors? commentors by default follow the task unless they actively unfollow it 
         task_comments.conversation, 
         task_followers.followers,
         coalesce(task_followers.number_of_followers, 0) as number_of_followers,
@@ -90,7 +91,7 @@ task_join as (
         coalesce(task_tags.number_of_tags, 0) as number_of_tags, 
         
         task_teams.teams,
-        task_projects.projects,
+        task_projects.projects, -- TODO: probably makes sense to concat project and section into one column so it's clear how they match up
         task_sections.sections,
 
         subtask_parent.subtask_id is not null as is_subtask, -- parent id is in task.*

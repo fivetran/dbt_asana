@@ -56,7 +56,7 @@ project_join as (
         agg_project_users.users as users_involved,
         agg_project_users.number_of_users_involved,
         is_public
-        
+        -- TODO: maybe add list of sections that are in the project?
     from
     project 
     join project_task_metrics on project.project_id = project_task_metrics.project_id -- this should include all
