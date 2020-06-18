@@ -4,6 +4,75 @@ models:
 
   # enriched core object tables
   - name: asana_task
+    description: An enriched task table consisting of base task info + aggregated metrics and lists 
+    columns:
+
+      - name: task_id
+        description: System generated unique ID of the task.
+        tests:
+          - unique
+          - not_null
+
+      - name: task_name
+        description: User-facing name of the task
+      
+      - name: assignee_user_id
+        description: Foreign key referencing the ASANA_USER that is currently assigned the task.
+
+      - name: assignee_name
+        description: Name of the user that the task is currently assigned to.
+
+      - name: assignee_email
+        description: Email of the user that the task is currently assigned to.
+
+      - name: assignee_status
+        description: Scheduling status for the assignee that the task is or will eventually be assigned to. This maps to the sections of "My Tasks"
+
+      - name: is_completed
+        description: Boolean that is true if the task is currently marked complete.
+
+      - name: completed_at
+        description: Timestamp of when the task was marked complete.
+
+      - name: completed_by_user_id
+        description: Foreign key referencing the USER who completed the task.
+
+      - name: created_at
+        description: Timestamp of when the task was created
+
+      - name: due_date
+        description: Date the task is due, if provided.
+
+      - name: modified_at # TODO: rename last_modified_at?
+        description: Timestamp of when the task was last modified
+
+      - name: parent_task_id
+        description: Self-referential id of the parent TASK that this is a subtask of.
+
+      - name: start_date
+        description: The start date of the task, if a date range is given.
+
+      - name: task_description
+        description: Free-form text describing the task, as seen in the UI.
+
+      - name: days_open
+        description: The number of days the task has been/was open (creation -> completion)
+
+      - name: is_currently_assigned
+        description: Boolean, true if the task is *currently* assigned
+      
+      - name: has_been_assigned
+        description: Boolean, true if the task has at one point been assigned, even if currently not.
+
+      - name: days_since_last_assignment
+        description: The number of days the task has been/was open and assigned to the current user (last assignment -> completion)
+
+      - name: days_since_first_assignment
+        description: The number of days the task has been/was open and assigned at all (first time assigned -> completion)
+      
+      # TODO : pick up here
+
+
   - name: asana_user
   - name: asana_project
   - name: asana_team
