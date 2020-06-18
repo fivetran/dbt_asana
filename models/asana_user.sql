@@ -42,9 +42,9 @@ agg_user_projects as (
     select 
         user_id,
         sum(case when role = 'owner' then 1
-            else 0 end) as number_projects_owned,
+            else 0 end) as number_of_projects_owned,
          sum(case when currently_working_on then 1
-            else 0 end) as number_projects_currently_assigned_to,
+            else 0 end) as number_of_projects_currently_assigned_to,
         string_agg(concat("'", project_name, "' as ", role), ', ') as projects
 
     from 
@@ -60,8 +60,8 @@ users as (
     select 
         user_task_metrics.*,
         current_tasks_followed.number_of_open_tasks_followed,
-        agg_user_projects.number_projects_owned,
-        agg_user_projects.number_projects_currently_assigned_to,
+        agg_user_projects.number_of_projects_owned,
+        agg_user_projects.number_of_projects_currently_assigned_to,
         agg_user_projects.projects as projects_working_on
     
     from
