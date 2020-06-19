@@ -85,8 +85,8 @@ combine_proj_task_metrics as (
         agg_proj_tasks.number_of_open_tasks,
         agg_proj_tasks.number_of_assigned_open_tasks,
         agg_proj_tasks.number_of_tasks_completed,
-        nullif(agg_proj_tasks.total_days_open, 0) * 1.0 / nullif(agg_proj_tasks.number_of_tasks_completed, 0) as avg_close_time_days,
-        nullif(agg_proj_tasks.total_days_assigned_last_user, 0) * 1.0 / nullif(agg_proj_tasks.number_of_assigned_tasks_completed, 0) as avg_close_time_assigned_days
+        round(nullif(agg_proj_tasks.total_days_open, 0) * 1.0 / nullif(agg_proj_tasks.number_of_tasks_completed, 0), 0) as avg_close_time_days,
+        round(nullif(agg_proj_tasks.total_days_assigned_last_user, 0) * 1.0 / nullif(agg_proj_tasks.number_of_assigned_tasks_completed, 0), 0) as avg_close_time_assigned_days
 
 
     from 

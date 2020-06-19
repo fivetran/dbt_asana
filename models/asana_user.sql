@@ -66,7 +66,7 @@ user_join as (
         user.*,
         coalesce(user_task_metrics.number_of_open_tasks, 0) as number_of_open_tasks,
         coalesce(user_task_metrics.number_of_tasks_completed, 0) as number_of_tasks_completed,
-        user_task_metrics.avg_close_time_days,
+        round(user_task_metrics.avg_close_time_days, 0) as avg_close_time_days,
         user_task_metrics.last_completed_task_id,
         user_task_metrics.last_completed_task_name,
         user_task_metrics.last_completed_days_assigned_this_user,

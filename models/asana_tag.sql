@@ -29,8 +29,8 @@ agg_tag as (
         sum(case when not task.is_completed and task.assignee_user_id is not null then 1 else 0 end) as number_of_assigned_open_tasks,
         sum(case when task.is_completed then 1 else 0 end) as number_of_tasks_completed,
         sum(case when task.is_completed and task.assignee_user_id is not null then 1 else 0 end) as number_of_assigned_tasks_completed,
-        avg(task.days_open) as avg_days_open,
-        avg(task.days_since_last_assignment) as avg_days_assigned
+        round(avg(task.days_open), 0) as avg_days_open,
+        round(avg(task.days_since_last_assignment), 0) as avg_days_assigned
 
 
     from tag 
