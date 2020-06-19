@@ -104,13 +104,15 @@ task_join as (
     from
     task
     join task_open_length on task.task_id = task_open_length.task_id
-    join task_first_modifier on task.task_id = task_first_modifier.task_id
+    left join task_first_modifier on task.task_id = task_first_modifier.task_id
 
     left join task_comments on task.task_id = task_comments.task_id
     left join task_followers on task.task_id = task_followers.task_id
     left join task_tags on task.task_id = task_tags.task_id
     left join task_teams on task.task_id = task_teams.task_id
-    left join task_assignee on task.assignee_user_id = task_assignee.assignee_user_id
+    
+    left join task_assignee on task.task_id = task_assignee.task_id
+
     left join subtask_parent on task.task_id = subtask_parent.subtask_id
 
     left join task_projects on task.task_id = task_projects.task_id

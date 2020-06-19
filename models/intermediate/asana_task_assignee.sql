@@ -2,6 +2,8 @@ with task as (
 
     select * 
     from {{ var('task') }}
+
+    where assignee_user_id is not null
 ),
 
 user as (

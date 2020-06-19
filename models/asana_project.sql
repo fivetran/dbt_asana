@@ -42,9 +42,35 @@ agg_project_users as (
 project_join as (
 
     select
-        -- prect.project_id,
+
         project_name,
-        project_task_metrics.*, -- first col is project_id, quicker to write out project than metrics columns
+        project.project_id,
+
+        coalesce(project_task_metrics.number_of_open_tasks, 0) as number_of_open_tasks,
+        coalesce(project_task_metrics.number_of_tasks_completed, 0) as number_of_tasks_completed,
+        round(project_task_metrics.avg_close_time_days, 0) as avg_close_time_days,
+        project_task_metrics.last_completed_task_id,
+        project_task_metrics.last_completed_task_name,
+        project_task_metrics.last_completed_task_assignee_name,
+
+        project_task_metrics.last_task_completed_at,
+        project_task_metrics.last_completed_task_days_open, 
+        project_task_metrics.last_completed_task_days_assigned_current_user,
+
+        project_task_metrics.next_due_task_id,
+        project_task_metrics.next_due_task_name,
+        project_task_metrics.next_due_task_assignee_name,
+        project_task_metrics.next_due_task_due_date,
+        project_task_metrics.next_due_task_days_open, 
+        project_task_metrics.next_due_task_days_assigned_current_user,
+        
+        project_task_metrics.last_completed_task_projects,
+        project_task_metrics.next_due_task_projects,
+        project_task_metrics.last_completed_task_teams,
+        project_task_metrics.next_due_task_teams,
+        project_task_metrics.last_completed_task_tags,
+        project_task_metrics.next_due_task_tags,
+
         project.team_id,
         team.team_name,
         project.is_archived,
@@ -59,8 +85,8 @@ project_join as (
         -- TODO: maybe add list of sections that are in the project?
     from
     project 
-    join project_task_metrics on project.project_id = project_task_metrics.project_id -- this should include all
-    join agg_project_users on project.project_id = agg_project_users.project_id  -- needs owner so can do join
+    left join project_task_metrics on project.project_id = project_task_metrics.project_id -- this should include all
+    left join agg_project_users on project.project_id = agg_project_users.project_id  -- needs owner so can do join
     join team on team.team_id = project.team_id -- every project needs a team
 
 )

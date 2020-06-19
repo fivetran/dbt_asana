@@ -403,39 +403,6 @@ models:
       - name: avg_days_assigned
         description: The avg number of days that tasks with this tag were or have been open and assigned.
 
-  - name: asana_task_history
-    description: Table of the actions (bucketed stories) taken on each task.
-    columns:
-
-      - name: task_id
-        description: Foreign key referncing the ID of the ASANA_TASK being acted on
-
-      - name: task_name
-        description: User-facing name of the task
-
-      - name: event_id
-        description: System generated unique ID for the event/story
-        tests:
-          - unique
-          - not_null
-
-      - name: happened_at
-        description: Timestamp of when the event occurred
-
-      - name: done_by_user_id
-        description: Foreign key referencing the ASANA_USER that performed the action 
-      
-      - name: done_by_user_name
-        description: Name of the user who performed the action
-
-      - name: action_taken
-        description: The category of event
-
-      - name: action_description
-        description: The pre-parsed description of the event
-
-      - name: comment_content
-        description: If the action_taken = 'comment', this is the content of the message. Otherwise null
 
   - name: asana_project_history
     description: Table of all projects' tasks. Similar to ASANA_TASK but broken out by project(s) (and their associated team(s))

@@ -7,11 +7,11 @@ with task as (
 assignments as (
 
     select 
-        {{ dbt_utils.date_trunc('day', 'happened_at') }} as day,
-        count(task_id) as number_of_tasks_assigned
+        {{ dbt_utils.date_trunc('day', 'created_at') }} as day,
+        count(target_task_id) as number_of_tasks_assigned
 
 
-    from {{ ref('asana_task_history') }}
+    from {{ ref('asana_task_story') }}
     where action_taken = 'assigned'
 
     group by 1
