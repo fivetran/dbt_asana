@@ -2,6 +2,7 @@ with tasks as (
 
     select * 
     from {{ ref('asana_task') }}
+    where assignee_user_id is not null
 
 ), 
 
@@ -16,6 +17,7 @@ agg_user_tasks as (
     from  tasks
 
     group by 1
+
 ),
 
 order_user_task_history as (
@@ -25,8 +27,8 @@ order_user_task_history as (
 
     select
         assignee_user_id as user_id,
-        assignee_name as user_name,
-        assignee_email as email,
+        -- assignee_name as user_name,
+        -- assignee_email as email,
         task_id,
         task_name,
         projects as task_projects,
@@ -49,8 +51,8 @@ next_last_user_tasks as (
 
     select
         user_id,
-        user_name,
-        email,
+        -- user_name,
+        -- email,
         {% set fields = ['task_id', 'task_name', 'task_projects', 'task_teams', 
                         'task_tags', 'due_date', 'days_assigned_this_user'] %}
         {% for field in fields %} 
@@ -68,21 +70,36 @@ next_last_user_tasks as (
     from order_user_task_history
 
     where choose_one = 1
-    group by 1,2,3
+    group by 1
 
 ),
 
 combine_task_metrics as (
 
     select
-        next_last_user_tasks.*,
+        agg_user_tasks.user_id,
         agg_user_tasks.number_of_open_tasks,
         agg_user_tasks.number_of_tasks_completed,
-        nullif(agg_user_tasks.days_assigned_this_user, 0) * 1.0 / nullif(agg_user_tasks.number_of_tasks_completed, 0) as avg_close_time_days
+        nullif(agg_user_tasks.days_assigned_this_user, 0) * 1.0 / nullif(agg_user_tasks.number_of_tasks_completed, 0) as avg_close_time_days,
+        
+        next_last_user_tasks.last_completed_task_id,
+        next_last_user_tasks.last_completed_task_name,
+        next_last_user_tasks.last_completed_days_assigned_this_user,
+        next_last_user_tasks.last_completed_at,
+        next_last_user_tasks.next_due_task_id,
+        next_last_user_tasks.next_due_task_name,
+        next_last_user_tasks.next_due_due_date,
+        next_last_user_tasks.next_due_days_assigned_this_user,
+        next_last_user_tasks.last_completed_task_projects,
+        next_last_user_tasks.next_due_task_projects,
+        next_last_user_tasks.last_completed_task_teams,
+        next_last_user_tasks.next_due_task_teams,
+        next_last_user_tasks.last_completed_task_tags,
+        next_last_user_tasks.next_due_task_tags
 
     from 
-    next_last_user_tasks
-    join agg_user_tasks on next_last_user_tasks.user_id = agg_user_tasks.user_id
+    agg_user_tasks 
+    left join next_last_user_tasks on next_last_user_tasks.user_id = agg_user_tasks.user_id
     
 )
 
