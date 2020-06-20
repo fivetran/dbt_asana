@@ -44,21 +44,50 @@ completions as (
 
 ),
 
+
+spine as (
+
+    -- should this go in a macro?
+
+    {% if execute %}
+    
+    {% set first_date_query %}
+        select min( created_at) from {{ ref('asana_task') }}
+    {% endset %}
+    {% set first_date = run_query(first_date_query).columns[0].values() %}
+    
+    {% else %} {% set first_date = "'2016-01-01'" %}
+    {% endif %}
+
+    
+    {{ dbt_utils.date_spine(
+        datepart = "day", 
+        start_date =  "'2016-01-01'", 
+        end_date = dbt_utils.dateadd("week", 1, "current_date") ) 
+    }} 
+
+),
+
+
 join_metrics as (
 
     select
-        coalesce(assignments.day, creations.day, completions.day) as day,
+        spine.date_day,
+        -- coalesce(assignments.day, creations.day, completions.day) as day,
         coalesce(number_of_tasks_created, 0) as number_of_tasks_created,
         coalesce(number_of_tasks_assigned, 0) as number_of_tasks_assigned,
         coalesce(number_of_tasks_completed, 0) as number_of_tasks_completed,
         avg_days_open as avg_days_open_of_tasks_created,
         avg_days_assigned as avg_days_assigned_of_tasks_created
 
-    from creations
-    full outer join assignments on assignments.day = creations.day -- this or a union distinct of dates?
-    full outer join completions on completions.day = creations.day
+    from 
+    spine
+    left join creations on spine.date_day = cast(creations.day as datetime)
+    left join assignments on cast(assignments.day as datetime) = spine.date_day -- this or a union distinct of dates?
+    left join completions on cast(completions.day as datetime) = spine.date_day
+
 
 )
 
 select * from join_metrics
-order by day desc
+order by date_day desc
