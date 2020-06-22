@@ -48,23 +48,24 @@ completions as (
 spine as (
 
     -- should this go in a macro?
-
     {% if execute %}
-    
     {% set first_date_query %}
-        select min( created_at) from {{ ref('asana_task') }}
+        select cast( min( created_at ) as string ) as min_date from {{ ref('asana_task') }}
     {% endset %}
-    {% set first_date = run_query(first_date_query).columns[0].values() %}
+    {% set first_date = run_query(first_date_query).columns['min_date'][0] %}
     
     {% else %} {% set first_date = "'2016-01-01'" %}
     {% endif %}
 
-    
+
     {{ dbt_utils.date_spine(
         datepart = "day", 
-        start_date =  "'2016-01-01'", 
+        start_date =  "'" ~ first_date[0:10] ~ "'", 
         end_date = dbt_utils.dateadd("week", 1, "current_date") ) 
     }} 
+
+
+    
 
 ),
 
