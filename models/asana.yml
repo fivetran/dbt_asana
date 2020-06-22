@@ -170,10 +170,8 @@ models:
 
       - name: next_due_task_tags
 
-      - name: last_completed_due_date
-        description: Due date of the last completed task
-
       - name: next_due_due_date
+        description: Due date of the next due task
 
       - name: last_completed_days_assigned_this_user
         description: Days that the task was open and assigned this user before they completed it.
@@ -255,10 +253,8 @@ models:
 
       - name: next_due_task_tags
 
-      - name: last_completed_task_due_date
-        description: Due date of the last completed task
-
       - name: next_due_task_due_date
+        description: Due date of the next task
 
       - name: last_completed_task_days_assigned_current_user
         description: Days that the task was open and assigned this user before they completed it.

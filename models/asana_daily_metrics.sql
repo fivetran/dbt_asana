@@ -64,9 +64,6 @@ spine as (
         end_date = dbt_utils.dateadd("week", 1, "current_date") ) 
     }} 
 
-
-    
-
 ),
 
 
