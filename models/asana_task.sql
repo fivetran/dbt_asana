@@ -68,6 +68,7 @@ task_join as (
 
     select
         task.*,
+        concat('https://app.asana.com/0/0/', task.task_id) as task_link, -- TODO: check that this works w kristin's account
         task_assignee.assignee_name,
         task_assignee.assignee_email,
         
@@ -83,7 +84,7 @@ task_join as (
         task_first_modifier.first_modifier_name,
 
         coalesce(task_comments.number_of_comments, 0) as number_of_comments, 
-        -- TODO: maybe add # of comment authors? commentors by default follow the task unless they actively unfollow it 
+        -- TODO: maybe add # of comment authors? commentors by default follow the task unless they actively unfollow it and you can also see them in conversation
         task_comments.conversation, 
         task_followers.followers,
         coalesce(task_followers.number_of_followers, 0) as number_of_followers,
@@ -91,7 +92,7 @@ task_join as (
         coalesce(task_tags.number_of_tags, 0) as number_of_tags, 
         
         task_teams.teams,
-        task_projects.projects, -- TODO: probably makes sense to concat project and section into one column so it's clear how they match up
+        task_projects.projects, -- TODO: probably makes sense to concat project and section into one column so it's clear how they match up (or remove section?)
         task_sections.sections,
 
         subtask_parent.subtask_id is not null as is_subtask, -- parent id is in task.*

@@ -42,13 +42,14 @@ agg_project_users as (
 project_join as (
 
     select
-
-        project_name,
         project.project_id,
+        project_name,
 
         coalesce(project_task_metrics.number_of_open_tasks, 0) as number_of_open_tasks,
         coalesce(project_task_metrics.number_of_tasks_completed, 0) as number_of_tasks_completed,
         round(project_task_metrics.avg_close_time_days, 0) as avg_close_time_days,
+
+        concat('https://app.asana.com/0/', project.project_id, '/', project.project_id) as project_link,
         project_task_metrics.last_completed_task_id,
         project_task_metrics.last_completed_task_name,
         project_task_metrics.last_completed_task_assignee_name,
