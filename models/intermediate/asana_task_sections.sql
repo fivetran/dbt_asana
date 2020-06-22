@@ -20,6 +20,8 @@ agg_sections as (
     from task_section 
     join section 
         on section.section_id = task_section.section_id
+        
+    where section_name != '(no section)'
     group by 1
 )
 
