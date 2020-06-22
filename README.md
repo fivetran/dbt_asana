@@ -11,16 +11,11 @@ This package contains transformation models, designed to work simultaneously wit
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | asana_task             | Each record represents an Asana task, enriched with data about its assignee, projects, sections, tasks, teams, tags, parent task, comments, followers, and activity. |      
-| asana_user             | Each record represents an Asana user, enriched with metrics about their completed tasks, open tasks, and the projects they work on. Also includes data about the task they most recently completed and their next due task. 
-|
-| asana_project          | Each record represents an Asana project, enriched with metrics about their completed tasks, open tasks, and the users involved in the project. Also includes data about the project's task most recently completed and next due tasks. 
-|
-| asana_team             | Each record represents an Asana team, enriched with data about their completed tasks, open tasks, their projects, and the users involved with the team. 
-|
-| asana_tag              | Each record represents an Asana tag, enriched with metrics about open and completed tasks associated with the tag. 
-|
-| asana_daily_metrics    | Each record represents a single day, enriched with metrics about tasks opened at created that day. 
-|
+| asana_user             | Each record represents an Asana user, enriched with metrics about their completed tasks, open tasks, and the projects they work on. Also includes data about the task they most recently completed and their next due task. |
+| asana_project          | Each record represents an Asana project, enriched with metrics about their completed tasks, open tasks, and the users involved in the project. Also includes data about the project's task most recently completed and next due tasks. |
+| asana_team             | Each record represents an Asana team, enriched with data about their completed tasks, open tasks, their projects, and the users involved with the team. |
+| asana_tag              | Each record represents an Asana tag, enriched with metrics about open and completed tasks associated with the tag. |
+| asana_daily_metrics    | Each record represents a single day, enriched with metrics about tasks opened at created that day. |
 
 
 ## Installation Instructions
