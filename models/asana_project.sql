@@ -46,8 +46,10 @@ project_join as (
         project_name,
 
         coalesce(project_task_metrics.number_of_open_tasks, 0) as number_of_open_tasks,
+        coalesce(project_task_metrics.number_of_assigned_open_tasks, 0) as number_of_assigned_open_tasks,
         coalesce(project_task_metrics.number_of_tasks_completed, 0) as number_of_tasks_completed,
         round(project_task_metrics.avg_close_time_days, 0) as avg_close_time_days,
+        round(project_task_metrics.avg_close_time_assigned_days, 0) as avg_close_time_assigned_days,
 
         concat('https://app.asana.com/0/', project.project_id, '/', project.project_id) as project_link,
         project_task_metrics.last_completed_task_id,
