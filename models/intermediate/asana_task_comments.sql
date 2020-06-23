@@ -6,37 +6,16 @@ with comments as (
 
 ),
 
-user as (
-    
-    select *
-    from {{ var('user') }}
-),
-
-join_user_comments as (
-
-    select
-    comments.target_task_id as task_id,
-    comments.created_at as commented_at,
-    comments.comment_content,
-    user.user_name,
-    user.user_id
-
-    from
-    comments
-    left join user 
-        on user.user_id = comments.created_by_user_id 
-),
-
 task_conversation as (
 
     select
-        task_id,
+        target_task_id as task_id,
         -- creates a chronologically ordered conversation about the task
-        string_agg(concat(cast(commented_at as string), '  -  ', user_name, ':  ', comment_content), '\n' order by commented_at asc) as conversation,
+        string_agg(concat(cast(created_at as string), '  -  ', created_by_name, ':  ', comment_content), '\n' order by created_at asc) as conversation,
         count(*) as number_of_comments,
-        count(distinct user_id) as number_of_authors 
+        count(distinct created_by_user_id) as number_of_authors 
 
-    from join_user_comments        
+    from comments        
     group by 1
 )
 
