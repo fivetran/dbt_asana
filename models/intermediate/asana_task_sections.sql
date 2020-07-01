@@ -14,7 +14,7 @@ section as (
 agg_sections as (
     select 
         task_section.task_id,
-        string_agg( concat("'", section.section_name, "'"), ", " ) as sections,
+        {{ string_agg( 'section.section_name', "', '" )}} as sections,
         count(*) as number_of_sections
 
     from task_section 

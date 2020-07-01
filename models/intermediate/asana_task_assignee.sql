@@ -17,6 +17,7 @@ task_assignee as (
     select
         task.task_id,
         task.assignee_user_id,
+        task.is_completed,
         user.user_name as assignee_name,
         user.email as assignee_email
 

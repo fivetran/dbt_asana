@@ -8,8 +8,8 @@ require-dbt-version: '>=0.17.0'
 models:
     asana:
         materialized: table
-        # intermediate:
-        #     materialized: ephemeral 
+        intermediate:
+            materialized: table #ephemeral after testing
 
 vars:
     asana: 
@@ -27,4 +27,5 @@ vars:
 
 
 # delete profile after testing
-profile: dev_bigquery_dbt_testing
+# profile: dev_bigquery_dbt_testing
+profile: integration_test

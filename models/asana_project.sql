@@ -30,7 +30,8 @@ agg_project_users as (
 
     select 
     project_user.project_id,
-    string_agg(concat("'", user.user_name, "' as ", role), ', ') as users,
+    -- need to use string agg macro here
+    string_agg(concat("'",user.user_name, "' as ", role), ', ') as users,
     count(distinct user_id) as number_of_users_involved
 
     from project_user join user using(user_id)
@@ -52,27 +53,6 @@ project_join as (
         round(project_task_metrics.avg_close_time_assigned_days, 0) as avg_close_time_assigned_days,
 
         concat('https://app.asana.com/0/', project.project_id, '/', project.project_id) as project_link,
-        project_task_metrics.last_completed_task_id,
-        project_task_metrics.last_completed_task_name,
-        project_task_metrics.last_completed_task_assignee_name,
-
-        project_task_metrics.last_task_completed_at,
-        project_task_metrics.last_completed_task_days_open, 
-        project_task_metrics.last_completed_task_days_assigned_current_user,
-
-        project_task_metrics.next_due_task_id,
-        project_task_metrics.next_due_task_name,
-        project_task_metrics.next_due_task_assignee_name,
-        project_task_metrics.next_due_task_due_date,
-        project_task_metrics.next_due_task_days_open, 
-        project_task_metrics.next_due_task_days_assigned_current_user,
-        
-        project_task_metrics.last_completed_task_projects,
-        project_task_metrics.next_due_task_projects,
-        project_task_metrics.last_completed_task_teams,
-        project_task_metrics.next_due_task_teams,
-        project_task_metrics.last_completed_task_tags,
-        project_task_metrics.next_due_task_tags,
 
         project.team_id,
         team.team_name,
