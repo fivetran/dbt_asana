@@ -2,4 +2,4 @@ packages:
   - package: fishtown-analytics/dbt_utils
     version: 0.3.0
   
-  - local: ~/Documents/github_repos/dbt_asana_source
+  - local: ~/Documents/github/dbt_asana_source
