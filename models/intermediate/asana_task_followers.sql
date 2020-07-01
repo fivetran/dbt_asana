@@ -16,7 +16,7 @@ agg_followers as (
 
     select
         task_follower.task_id,
-        string_agg( concat("'", user.user_name, "'"), ", " ) as followers,
+        {{ string_agg( 'user.user_name', "', '" )}} as followers,
         count(*) as number_of_followers
     from task_follower 
     join user 

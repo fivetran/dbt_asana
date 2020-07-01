@@ -1,9 +1,40 @@
-with proj_task_history as (
+with task as (
+
+    select *
+    from {{ ref('asana_task') }}
+
+),
+
+project as (
 
     select * 
-    from {{ ref('asana_project_history') }}
+    from {{ var('project') }}
 
-), 
+),
+
+project_task as (
+
+    select * 
+    from {{ ref('asana_team_task_proj') }}
+),
+
+project_task_history as (
+
+    select
+        project.project_id,
+        task.task_id,
+        task.is_completed as task_is_completed,
+        task.assignee_user_id as task_assignee_user_id,
+        task.days_open as task_days_open,
+        task.days_since_last_assignment as task_days_assigned_current_user
+
+    from project
+    left join project_task 
+        on project.project_id = project_task.project_id
+    left join task 
+        on project_task.task_id = task.task_id
+
+),
 
 agg_proj_tasks as (
 
@@ -16,83 +47,21 @@ agg_proj_tasks as (
     sum(case when task_is_completed then task_days_open else 0 end) as total_days_open,
     sum(case when task_is_completed then task_days_assigned_current_user else 0 end) as total_days_assigned_last_user -- will divde later for avg
 
-    from  proj_task_history
+    from  project_task_history
 
     group by 1
-),
-
-order_proj_task_history as (
-
-    {% set date_comparison = 'proj_task_history.task_completed_at desc' if 'proj_task_history.task_is_completed' is true
-        else 'proj_task_history.task_due_date asc' %}
-
-    select
-        project_id,
-        task_id,
-        task_name,
-        task_assignee_user_id as task_assignee_user_id,
-        task_assignee_name as task_assignee_name,
-        task_projects,
-        task_teams,
-        task_tags,
-        task_is_completed,
-        task_completed_at,
-        task_due_date,
-        task_days_assigned_current_user,
-        task_days_open,
-
-
-        -- row number should be 1 for both
-        row_number() over(partition by project_id, task_is_completed order by {{ date_comparison }}) as choose_one
-
-    from proj_task_history
-    where task_is_completed or task_due_date is not null
-     
-),
-
-next_last_project_tasks as (
-
-    select
-        project_id,
-
-        {% set fields = ['task_id', 'task_name', 'task_assignee_user_id', 'task_assignee_name',
-                        'task_projects', 'task_teams', 'task_tags', 'task_due_date', 
-                        'task_days_assigned_current_user', 'task_days_open'] %}
-
-        {% for field in fields %} 
-        
-        -- Max feels like a not-great way to consolidate these, but we're comparing non-null and null value always
-        max ( case when task_is_completed then 
-        {{ field }} else null end) as last_completed_{{ field }},
-        max ( case when not task_is_completed then 
-        {{ field }} else null end) as next_due_{{ field }},
-
-        {% endfor %}
-
-        max(task_completed_at) as last_task_completed_at
-
-    from order_proj_task_history
-
-    where choose_one = 1
-    group by 1
 
 ),
 
-combine_proj_task_metrics as (
+final as (
 
     select
-        next_last_project_tasks.*,
-        agg_proj_tasks.number_of_open_tasks,
-        agg_proj_tasks.number_of_assigned_open_tasks,
-        agg_proj_tasks.number_of_tasks_completed,
-        round(nullif(agg_proj_tasks.total_days_open, 0) * 1.0 / nullif(agg_proj_tasks.number_of_tasks_completed, 0), 0) as avg_close_time_days,
-        round(nullif(agg_proj_tasks.total_days_assigned_last_user, 0) * 1.0 / nullif(agg_proj_tasks.number_of_assigned_tasks_completed, 0), 0) as avg_close_time_assigned_days
+        agg_proj_tasks.*,
+        round(nullif(total_days_open, 0) * 1.0 / nullif(number_of_tasks_completed, 0), 0) as avg_close_time_days,
+        round(nullif(total_days_assigned_last_user, 0) * 1.0 / nullif(number_of_assigned_tasks_completed, 0), 0) as avg_close_time_assigned_days
 
-
-    from 
-    next_last_project_tasks
-    join agg_proj_tasks on next_last_project_tasks.project_id = agg_proj_tasks.project_id
+    from agg_proj_tasks
     
 )
 
-select * from combine_proj_task_metrics
+select * from final

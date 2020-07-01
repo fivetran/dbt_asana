@@ -7,9 +7,7 @@ with project_tasks as (
 assigned_tasks as (
     
     select * 
-    from {{ var('task') }}
-
-    where assignee_user_id is not null
+    from {{ ref('asana_task_assignee') }}
     
 ),
 
@@ -28,6 +26,7 @@ project_assignee as (
         project_tasks.project_id,
         project_tasks.task_id,
         assigned_tasks.assignee_user_id,
+        assigned_tasks.assignee_name,
         not assigned_tasks.is_completed as currently_working_on
 
     from project_tasks 
@@ -45,10 +44,11 @@ project_owner as (
 
     from project
     
-    -- where owner_user_id is not null
+    where owner_user_id is not null
 ),
 
 project_user as (
+    
     select
         project_id,
         project_name,
@@ -57,20 +57,21 @@ project_user as (
         null as currently_working_on
     
     from project_owner
-    where owner_user_id is not null
 
     union all
 
-    ( select
-        project_owner.project_id,
-        project_owner.project_name,
+    select
+        project.project_id,
+        project.project_name,
         project_assignee.assignee_user_id as user_id,
         'task assignee' as role,
         project_assignee.currently_working_on
     
-    from project_owner join project_assignee 
-        on project_owner.project_id = project_assignee.project_id
-    group by 1,2,3,4,5 )
+    from project 
+    
+    join project_assignee 
+        on project.project_id = project_assignee.project_id
+    group by 1,2,3,4,5
 
 )
 

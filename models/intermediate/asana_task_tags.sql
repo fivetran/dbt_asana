@@ -16,7 +16,7 @@ agg_tags as (
 
     select
         task_tag.task_id,
-        string_agg( concat("'", tag.tag_name, "'"), ", " ) as tags,
+        {{ string_agg( 'tag.tag_name', "', '" )}} as tags,
         count(*) as number_of_tags
     from task_tag 
     join tag 

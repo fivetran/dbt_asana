@@ -23,7 +23,7 @@ agg_task_teams as (
 
     select 
         task_id,
-        string_agg( concat("'", team_name, "'"), ", " ) as teams,
+        {{ string_agg( 'team_name', "', '" )}} as teams,
         count(*) as number_of_teams
     
     from team_task
