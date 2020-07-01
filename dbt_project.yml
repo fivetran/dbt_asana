@@ -9,7 +9,7 @@ models:
     asana:
         materialized: table
         intermediate:
-            materialized: table #need to update to ephemeral after testing
+            materialized: table #ephemeral after testing
 
 vars:
     asana: 
@@ -27,4 +27,5 @@ vars:
 
 
 # delete profile after testing
+# profile: dev_bigquery_dbt_testing
 profile: integration_test
