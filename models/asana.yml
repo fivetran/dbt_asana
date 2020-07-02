@@ -292,3 +292,25 @@ models:
 
 
   - name: asana_daily_metrics
+    description: Table of task metrics per each day
+    columns:
+      - name: date_day
+        description: Unique day for which metrics are calculated. 
+        tests:
+          - unique
+          - not_null
+
+      - name: number_of_tasks_created
+        description: The number of tasks created on that day
+
+      - name: number_of_tasks_assigned
+        description: The number of tasks assigned on that day
+
+      - name: number_of_tasks_completed
+        description: The number of tasks completed on that day
+
+      - name: avg_days_open_of_tasks_created
+        description: The average days that a task created on this day has spent open
+
+      - name: avg_days_assigned_of_tasks_created
+        description: The average days that a task created on this day has spent assigned

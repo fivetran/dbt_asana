@@ -79,7 +79,6 @@ task_join as (
         task_first_modifier.first_modifier_name,
 
         coalesce(task_comments.number_of_comments, 0) as number_of_comments, 
-        -- TODO: maybe add # of comment authors? commentors by default follow the task unless they actively unfollow it and you can also see them in conversation
         task_comments.conversation, 
         task_followers.followers,
         coalesce(task_followers.number_of_followers, 0) as number_of_followers,
@@ -110,10 +109,8 @@ task_join as (
     left join subtask_parent on task.task_id = subtask_parent.subtask_id
 
     left join task_projects on task.task_id = task_projects.task_id
-    -- left join project on task_project.project_id = project.project_id
 
     left join task_sections on task.task_id = task_sections.task_id
-    -- left join section on task_section.section_id = section.section_id
 
 )
 
