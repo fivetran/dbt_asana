@@ -43,7 +43,7 @@ models:
       - name: due_date
         description: Date the task is due, if provided.
 
-      - name: modified_at # TODO: rename last_modified_at?
+      - name: modified_at
         description: Timestamp of when the task was last modified
 
       - name: start_date
@@ -97,9 +97,6 @@ models:
       - name: number_of_tags
         description: Count of the tags associated with the task.
 
-      - name: teams
-        description: A list of the teams associated with the task
-
       - name: projects
         description: A list of the projects that this task is listed under.
 
@@ -112,7 +109,7 @@ models:
       - name: parent_task_id
         description: Self-referential id of the parent TASK that this is a subtask of.
 
-      - name: parent_name # TODO: maybe rename parent_task_name
+      - name: parent_task_name 
         description: User-facing name of the task's parent task.
 
       - name: parent_assignee_user_id
@@ -144,44 +141,6 @@ models:
       - name: email
         description: The user's email
 
-      - name: last_completed_task_id # TODO: should this include tasks that they completed but were not assigned to....
-        description: Foreign key referencing the last ASANA_TASK that the user was assigned to and completed.
-
-      - name: next_due_task_id
-        description: Foreign key referencing the next due (earliest due-date) ASANA_TASK that the user is assigned
-
-      - name: last_completed_task_name
-        description: User-facing name of the last task the user completed (and was assigned to)
-
-      - name: next_due_task_name
-      
-      - name: last_completed_task_projects
-        description: Projects that the user's last completed task belonged to.
-
-      - name: next_due_task_projects
-
-      - name: last_completed_task_teams
-        description: Teams associated with the user's last completed task.
-
-      - name: next_due_task_teams
-
-      - name: last_completed_task_tags
-        description: Tags associated with the user's last completed task.
-
-      - name: next_due_task_tags
-
-      - name: next_due_due_date
-        description: Due date of the next due task
-
-      - name: last_completed_days_assigned_this_user
-        description: Days that the task was open and assigned this user before they completed it.
-      
-      - name: next_due_days_assigned_this_user
-        description: Days that the next due task has spent open and assigned to this user
-
-      - name: last_completed_at
-        description: Timestamp of when the user last completed a task.
-
       - name: number_of_open_tasks
         description: Count of the currently open tasks assigned to this user
 
@@ -190,9 +149,6 @@ models:
 
       - name: avg_close_time_days
         description: The avg number of days it has taken the user to complete tasks once assigned to them.
-
-      - name: number_of_open_tasks_followed
-        description: Count of the open tasks that the user is currently following.
       
       - name: number_of_projects_owned
         description: Count of the projects that this user is the owner of (excludes archived projects)
@@ -216,60 +172,6 @@ models:
       
       - name: project_name
         description: UI-facing name of the project
-
-      - name: last_completed_task_id
-        description: Foreign key referencing the last ASANA_TASK in this project to be completed.
-
-      - name: next_due_task_id
-        description: Foreign key referencing the next due (open + earliest due date) task in this project
-
-      - name: last_completed_task_name
-        description: Name of the last completed task.
-
-      - name: next_due_task_name
-
-      - name: last_completed_task_assignee_user_id
-        description: Foreign key referencing the ASANA_USER who was assigned the last completed task.
-
-      - name: next_due_task_assignee_user_id
-
-      - name: last_completed_task_assignee_name
-        description: Name of the user who completed the last task.
-
-      - name: next_due_task_assignee_name
-
-      - name: last_completed_task_projects
-        description: Projects that the last completed task belonged to (can be multiple)
-
-      - name: next_due_task_projects
-
-      - name: last_completed_task_teams
-        description: Teams associated with the project's last completed task.
-
-      - name: next_due_task_teams
-
-      - name: last_completed_task_tags
-        description: Tags associated with the last completed task.
-
-      - name: next_due_task_tags
-
-      - name: next_due_task_due_date
-        description: Due date of the next task
-
-      - name: last_completed_task_days_assigned_current_user
-        description: Days that the task was open and assigned this user before they completed it.
-      
-      - name: next_due_task_days_assigned_current_user
-        description: Days that the next due task has spent open and assigned to this user
-
-      - name: last_completed_task_days_open
-        description: Number of days the last task was open (creation -> completion)
-
-      - name: next_due_task_days_open
-        description: Number of days the next due task has been open 
-
-      - name: last_task_completed_at
-        description: Timestamp of when the last task was completed.
 
       - name: number_of_open_tasks
         description: Count of the currently open tasks in this project
@@ -333,12 +235,6 @@ models:
       - name: team_name
         description: UI-facing name of the team.
 
-      - name: users_involved
-        description: Aggregated list of users invovled with this team, with their project roles
-
-      - name: number_of_users_invovled
-        description: Count of unique users involved with this team/its projects.
-
       - name: number_of_open_tasks
         description: Count of the currently open tasks for this team.
 
@@ -363,8 +259,6 @@ models:
       - name: number_of_archived_projects
         description: Count of archived projects
   
-# so tag task days open metrics currently don't exclude incomplete tasks, while user/proj/team does. which seems more helpful?
-# TODO ^
   - name: asana_tag 
     description: Table of tag basic info enriched with some task metrics.
     columns:
@@ -390,14 +284,11 @@ models:
       - name: number_of_tasks_completed
         description: Count of tasks with this tag that have been completed.
 
-      - name: number_of_assigned_tasks_completed # idk why i added this...TODO: remove?
-        description: Count of tasks with this tag that have been completed.
-
       - name: avg_days_open
-        description: The avg number of days that tasks with this tag were or have been open.
+        description: The avg number of days that completed tasks with this tag were open.
 
       - name: avg_days_assigned
-        description: The avg number of days that tasks with this tag were or have been open and assigned.
+        description: The avg number of days that completed tasks with this tag were open and assigned.
 
 
   - name: asana_daily_metrics

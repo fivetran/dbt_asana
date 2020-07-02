@@ -90,7 +90,7 @@ task_join as (
         task_sections.sections,
 
         subtask_parent.subtask_id is not null as is_subtask, -- parent id is in task.*
-        subtask_parent.parent_name,
+        subtask_parent.parent_task_name,
         subtask_parent.parent_assignee_user_id,
         subtask_parent.parent_assignee_name,
         subtask_parent.parent_due_date,
