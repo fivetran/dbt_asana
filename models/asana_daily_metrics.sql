@@ -47,7 +47,6 @@ completions as (
 
 spine as (
 
-    -- should this go in a macro?
     {% if execute %}
     {% set first_date_query %}
         select cast( min( created_at ) as string ) as min_date from {{ ref('asana_task') }}

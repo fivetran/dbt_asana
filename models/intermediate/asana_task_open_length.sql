@@ -44,8 +44,6 @@ open_assigned_length as (
         -- if the task is currently assigned, this is the time it has been assigned to this current user.
         {{ dbt_utils.datediff('assignments.last_assigned_at', open_until, 'day') }} as days_since_last_assignment,
 
-        -- if the task was unassigned after being assigned, this will not remove that interval from the total
-        -- @kristen -- would it be useful to have a metric accounting for this ^ ?
         {{ dbt_utils.datediff('assignments.first_assigned_at', open_until, 'day') }} as days_since_first_assignment
         
 

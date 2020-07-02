@@ -27,16 +27,11 @@ task_tags as (
     from {{ ref('asana_task_tags') }}
 ),
 
-task_teams as (
-
-    select *
-    from {{ ref('asana_task_teams') }}
-),
-
 task_assignee as (
 
     select * 
     from  {{ ref('asana_task_assignee') }}
+    where has_assignee
 ),
 
 task_projects as (
@@ -68,7 +63,7 @@ task_join as (
 
     select
         task.*,
-        concat('https://app.asana.com/0/0/', task.task_id) as task_link, -- TODO: check that this works w kristin's account
+        concat('https://app.asana.com/0/0/', task.task_id) as task_link,
         task_assignee.assignee_name,
         task_assignee.assignee_email,
         
@@ -91,7 +86,6 @@ task_join as (
         task_tags.tags, 
         coalesce(task_tags.number_of_tags, 0) as number_of_tags, 
         
-        task_teams.teams,
         task_projects.projects, -- TODO: probably makes sense to concat project and section into one column so it's clear how they match up (or remove section?)
         task_sections.sections,
 
@@ -110,7 +104,6 @@ task_join as (
     left join task_comments on task.task_id = task_comments.task_id
     left join task_followers on task.task_id = task_followers.task_id
     left join task_tags on task.task_id = task_tags.task_id
-    left join task_teams on task.task_id = task_teams.task_id
     
     left join task_assignee on task.task_id = task_assignee.task_id
 

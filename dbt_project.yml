@@ -9,7 +9,7 @@ models:
     asana:
         materialized: table
         intermediate:
-            materialized: table #ephemeral after testing
+            materialized: ephemeral
 
 vars:
     asana: 
@@ -24,8 +24,3 @@ vars:
         task: "{{ ref('stg_asana_task') }}"
         team: "{{ ref('stg_asana_team') }}"
         user: "{{ ref('stg_asana_user') }}"
-
-
-# delete profile after testing
-# profile: dev_bigquery_dbt_testing
-profile: integration_test
