@@ -15,7 +15,7 @@ project as (
 project_task as (
 
     select * 
-    from {{ ref('asana_team_task_proj') }}
+    from {{ var('project_task') }}
 ),
 
 project_task_history as (

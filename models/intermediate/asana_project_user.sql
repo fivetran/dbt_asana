@@ -8,6 +8,7 @@ assigned_tasks as (
     
     select * 
     from {{ ref('asana_task_assignee') }}
+    where has_assignee
     
 ),
 

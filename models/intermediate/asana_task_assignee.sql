@@ -3,7 +3,6 @@ with task as (
     select * 
     from {{ var('task') }}
 
-    where assignee_user_id is not null
 ),
 
 user as (
@@ -15,13 +14,13 @@ user as (
 task_assignee as (
 
     select
-        task.task_id,
-        task.assignee_user_id,
-        task.is_completed,
+        task.*,
+        assignee_user_id is not null as has_assignee,
         user.user_name as assignee_name,
         user.email as assignee_email
 
-    from task join user 
+    from task 
+    left join user 
         on task.assignee_user_id = user.user_id
 )
 

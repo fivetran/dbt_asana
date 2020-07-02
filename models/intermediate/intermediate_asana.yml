@@ -42,7 +42,7 @@ models:
         description: Line-separated comments with their author, ordered chronologically (asc)
 
   - name: asana_task_first_modifier
-    description: Extracts the first person to make a story (modify) the task. A sort of proxy for the task creator, since that's not provided.
+    description: Extracts the first person to make a story (modify) the task. A proxy for the task creator, since that's not provided.
     columns:
       - name: task_id
         tests:
@@ -102,21 +102,6 @@ models:
         tests:
           - unique
           - not_null
-
-  - name: asana_task_teams
-    description: Aggregates a count of and a list of the names of the teams associated with the task.
-    columns:
-      - name: task_id
-        tests:
-          - unique
-          - not_null
-
-  - name: asana_team_task_proj
-    description: Relates teams to their associated tasks via projects (the only way teams can have tasks)
-    tests:
-      - unique:
-          column_name: "team_id || '-' || project_id || '-' || task_id"
-
 
   - name: asana_user_task_metrics
     description: Draws from (non-intermediate) ASANA_TASK to compute metrics about tasks for each user.
