@@ -18,15 +18,17 @@ agg_user_tasks as (
 
     group by 1
 
+),
+
+final as (
+    select
+        agg_user_tasks.user_id,
+        agg_user_tasks.number_of_open_tasks,
+        agg_user_tasks.number_of_tasks_completed,
+        nullif(agg_user_tasks.days_assigned_this_user, 0) * 1.0 / nullif(agg_user_tasks.number_of_tasks_completed, 0) as avg_close_time_days
+
+    from 
+    agg_user_tasks 
 )
 
-select
-    agg_user_tasks.user_id,
-    agg_user_tasks.number_of_open_tasks,
-    agg_user_tasks.number_of_tasks_completed,
-    nullif(agg_user_tasks.days_assigned_this_user, 0) * 1.0 / nullif(agg_user_tasks.number_of_tasks_completed, 0) as avg_close_time_days,
-
-from 
-agg_user_tasks 
-
-
+select * from final

@@ -31,6 +31,7 @@ agg_project_users as (
     select 
     project_user.project_id,
     {{ string_agg( "concat(user.user_name, ' as ', project_user.role)" , "', '" ) }} as users,
+    count(distinct user.user_id) as number_of_users_involved
 
     from project_user join user using(user_id)
 
