@@ -49,7 +49,7 @@ spine as (
     {% set first_date_query %}
         select cast( min( created_at ) as string ) as min_date from {{ ref('asana_task') }}
     {% endset %}
-    {% set first_date = run_query(first_date_query).columns['min_date'][0] %}
+    {% set first_date = run_query(first_date_query).columns[0][0] %}
     
     {% else %} {% set first_date = "'2016-01-01'" %}
     {% endif %}
