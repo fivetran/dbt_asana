@@ -9,7 +9,7 @@ models:
     asana:
         materialized: table
         intermediate:
-            materialized: ephemeral
+            materialized: table # todo: chanfe
 
 vars:
     asana: 
