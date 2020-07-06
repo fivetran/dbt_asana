@@ -30,9 +30,7 @@ agg_project_users as (
 
     select 
     project_user.project_id,
-    -- need to use string agg macro here
-    string_agg(concat("'",user.user_name, "' as ", role), ', ') as users,
-    count(distinct user_id) as number_of_users_involved
+    {{ string_agg( "concat(user.user_name, ' as ', project_user.role)" , "', '" ) }} as users,
 
     from project_user join user using(user_id)
 
@@ -69,7 +67,7 @@ project_join as (
     from
     project 
     left join project_task_metrics on project.project_id = project_task_metrics.project_id -- this should include all
-    left join agg_project_users on project.project_id = agg_project_users.project_id  -- needs owner so can do join
+    left join agg_project_users on project.project_id = agg_project_users.project_id  
     join team on team.team_id = project.team_id -- every project needs a team
 
 )

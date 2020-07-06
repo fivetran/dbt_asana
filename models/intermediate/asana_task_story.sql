@@ -41,7 +41,6 @@ split_comments as (
 
 
 -- the next CTE uses this dictionary to parse the type of action out of the event descfription
--- does this belong in another file?
 {% set actions = {
     'added the name%': 'added name',
     'changed the name%': 'changed name',
