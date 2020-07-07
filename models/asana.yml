@@ -97,11 +97,8 @@ models:
       - name: number_of_tags
         description: Count of the tags associated with the task.
 
-      - name: projects
-        description: A list of the projects that this task is listed under.
-
-      - name: sections
-        description: A list of the sections that the task lives in
+      - name: projects_sections
+        description: A list of the projects + sections that this task is listed under.
 
       - name: is_subtask
         description: Boolean that's true if the task is a subtask of another.

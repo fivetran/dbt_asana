@@ -26,6 +26,17 @@ team as (
     from {{ var('team') }}
 ),
 
+agg_sections as (
+
+    select
+        project_id,
+        {{ string_agg( 'section_name', "', '") }} as sections
+
+    from {{ var('section') }}
+    where section_name != '(no section)'
+    group by 1
+),
+
 agg_project_users as (
 
     select 
@@ -73,14 +84,16 @@ project_join as (
         owner_user_id,
         agg_project_users.users as users_involved,
         count_project_users.number_of_users_involved,
+        agg_sections.sections,
         is_public
-        -- TODO: maybe add list of sections that are in the project?
+
     from
     project 
     left join project_task_metrics on project.project_id = project_task_metrics.project_id -- this should include all
     left join agg_project_users on project.project_id = agg_project_users.project_id  
     left join count_project_users on project.project_id = count_project_users.project_id
     join team on team.team_id = project.team_id -- every project needs a team
+    left join agg_sections on project.project_id = agg_sections.project_id
 
 )
 

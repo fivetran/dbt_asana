@@ -40,12 +40,6 @@ task_projects as (
     from {{ ref('asana_task_projects') }}
 ),
 
-task_sections as (
-
-    select * 
-    from {{ ref('asana_task_sections') }}
-),
-
 subtask_parent as (
 
     select * 
@@ -85,8 +79,7 @@ task_join as (
         task_tags.tags, 
         coalesce(task_tags.number_of_tags, 0) as number_of_tags, 
         
-        task_projects.projects, -- TODO: probably makes sense to concat project and section into one column so it's clear how they match up (or remove section?)
-        task_sections.sections,
+        task_projects.projects_sections,
 
         subtask_parent.subtask_id is not null as is_subtask, -- parent id is in task.*
         subtask_parent.parent_task_name,
@@ -109,8 +102,6 @@ task_join as (
     left join subtask_parent on task.task_id = subtask_parent.subtask_id
 
     left join task_projects on task.task_id = task_projects.task_id
-
-    left join task_sections on task.task_id = task_sections.task_id
 
 )
 

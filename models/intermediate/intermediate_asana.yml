@@ -66,15 +66,7 @@ models:
           - not_null
 
   - name: asana_task_projects
-    description: Aggregates a count of and a list of the names and ids of the projects that each task belongs to.
-    columns:
-      - name: task_id
-        tests:
-          - unique
-          - not_null
-
-  - name: asana_task_sections
-    description: Aggregates a count of and a list of the names of the sections that each task lives in.
+    description: Aggregates a count of and a list of the namesof the projects and sections that each task belongs to.
     columns:
       - name: task_id
         tests:

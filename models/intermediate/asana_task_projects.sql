@@ -11,16 +11,47 @@ project as (
     from {{ var ('project') }}
 ),
 
-agg_projects as (
+task_section as (
+
+    select * 
+    from {{ var('task_section') }}
+
+),
+
+section as (
+    
+    select * 
+    from {{ var ('section') }}
+
+),
+
+task_project_section as (
+
     select 
         task_project.task_id,
-        {{ string_agg( 'project.project_name', "', '" )}} as projects,
-        count(*) as number_of_projects
-
-    from task_project 
+        project.project_name || (case when section.section_name = '(no section)' then ''
+            else ': ' || section.section_name end) as project_section, 
+        project.project_id
+    from
+    task_project 
     join project 
         on project.project_id = task_project.project_id
+    join task_section
+        on task_section.task_id = task_project.task_id
+    join section 
+        on section.section_id = task_section.section_id 
+        and section.project_id = project.project_id
+),
+
+agg_project_sections as (
+    select 
+        task_id,
+        {{ string_agg( 'task_project_section.project_section', "', '" )}} as projects_sections,
+        count(project_id) as number_of_projects
+
+    from task_project_section 
+
     group by 1
 )
 
-select * from agg_projects
+select * from agg_project_sections
