@@ -26,4 +26,5 @@ vars:
         user: "{{ ref('stg_asana_user') }}"
 
 # TODO: delete profile after testing
-profile: integration_test
+# profile: integration_test
+profile: dev_bigquery_dbt_testing
