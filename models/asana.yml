@@ -297,17 +297,20 @@ models:
           - unique
           - not_null
 
+      - name: number_of_tasks_open
+        description: The number of tasks open at that point in time
+
+      - name: number_of_tasks_open_assigned
+        description: The number of tasks that are open on that day and have been assigned
+
       - name: number_of_tasks_created
         description: The number of tasks created on that day
-
-      - name: number_of_tasks_assigned
-        description: The number of tasks assigned on that day
 
       - name: number_of_tasks_completed
         description: The number of tasks completed on that day
 
-      - name: avg_days_open_of_tasks_created
-        description: The average days that a task created on this day has spent open
+      - name: avg_days_open
+        description: The average time that all tasks open on this day have spent open.
 
-      - name: avg_days_assigned_of_tasks_created
-        description: The average days that a task created on this day has spent assigned
+      - name: avg_days_open_assigned
+        description: The average time that all tasks open on this day have spent open and assigned.
