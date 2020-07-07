@@ -217,6 +217,9 @@ models:
 
       - name: is_public
         description: Boolean that's true if public to the whole workspace, false if private.
+
+      - name: sections
+        description: Aggregated list of the sections that exist in the project. 
  
       
   - name: asana_team
