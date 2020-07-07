@@ -30,11 +30,21 @@ agg_project_users as (
 
     select 
     project_user.project_id,
-    {{ string_agg( "concat(asana_user.user_name, ' as ', project_user.role)" , "', '" ) }} as users,
-    count(distinct asana_user.user_id) as number_of_users_involved
+    {{ string_agg( "asana_user.user_name || ' as ' || project_user.role" , "', '" ) }} as users
 
     from project_user join asana_user using(user_id)
 
+    group by 1
+
+),
+
+-- need to split from above due to redshift's inability to string/list_agg and use distinct aggregates
+count_project_users as (
+ 
+    select 
+        project_id, 
+        count(distinct user_id) as number_of_users_involved
+    from project_user
     group by 1
 
 ),
@@ -51,7 +61,7 @@ project_join as (
         round(project_task_metrics.avg_close_time_days, 0) as avg_close_time_days,
         round(project_task_metrics.avg_close_time_assigned_days, 0) as avg_close_time_assigned_days,
 
-        concat('https://app.asana.com/0/', project.project_id, '/', project.project_id) as project_link,
+        'https://app.asana.com/0/' || project.project_id ||'/' || project.project_id as project_link,
 
         project.team_id,
         team.team_name,
@@ -62,13 +72,14 @@ project_join as (
         modified_at as last_modified_at,
         owner_user_id,
         agg_project_users.users as users_involved,
-        agg_project_users.number_of_users_involved,
+        count_project_users.number_of_users_involved,
         is_public
         -- TODO: maybe add list of sections that are in the project?
     from
     project 
     left join project_task_metrics on project.project_id = project_task_metrics.project_id -- this should include all
     left join agg_project_users on project.project_id = agg_project_users.project_id  
+    left join count_project_users on project.project_id = count_project_users.project_id
     join team on team.team_id = project.team_id -- every project needs a team
 
 )
