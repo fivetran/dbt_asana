@@ -5,7 +5,7 @@ with task_follower as (
 
 ),
 
-user as (
+asana_user as (
 
     select * 
     from {{ var('user') }}
@@ -16,11 +16,11 @@ agg_followers as (
 
     select
         task_follower.task_id,
-        {{ string_agg( 'user.user_name', "', '" )}} as followers,
+        {{ string_agg( 'asana_user.user_name', "', '" )}} as followers,
         count(*) as number_of_followers
     from task_follower 
-    join user 
-        on user.user_id = task_follower.user_id
+    join asana_user 
+        on asana_user.user_id = task_follower.user_id
     group by 1
     
 )

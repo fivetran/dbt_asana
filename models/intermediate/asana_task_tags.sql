@@ -5,7 +5,7 @@ with task_tag as (
 
 ),
 
-tag as (
+asana_tag as (
 
     select * 
     from {{ var('tag') }}
@@ -16,11 +16,11 @@ agg_tags as (
 
     select
         task_tag.task_id,
-        {{ string_agg( 'tag.tag_name', "', '" )}} as tags,
+        {{ string_agg( 'asana_tag.tag_name', "', '" )}} as tags,
         count(*) as number_of_tags
     from task_tag 
-    join tag 
-        on tag.tag_id = task_tag.tag_id
+    join asana_tag 
+        on asana_tag.tag_id = task_tag.tag_id
     group by 1
     
 )

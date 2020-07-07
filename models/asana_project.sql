@@ -16,7 +16,7 @@ project_user as (
     from {{ ref('asana_project_user') }}
 ),
 
-user as (
+asana_user as (
     select *
     from {{ var('user') }}
 ),
@@ -30,10 +30,10 @@ agg_project_users as (
 
     select 
     project_user.project_id,
-    {{ string_agg( "concat(user.user_name, ' as ', project_user.role)" , "', '" ) }} as users,
+    {{ string_agg( "concat(asana_user.user_name, ' as ', project_user.role)" , "', '" ) }} as users,
     count(distinct user.user_id) as number_of_users_involved
 
-    from project_user join user using(user_id)
+    from project_user join asana_user using(user_id)
 
     group by 1
 

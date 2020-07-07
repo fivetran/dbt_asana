@@ -5,7 +5,7 @@ with story as (
 
 ),
 
-user as (
+asana_user as (
 
     select * 
     from {{ var('user') }}
@@ -14,10 +14,10 @@ user as (
 story_user as (
     select 
         story.*,
-        user.user_name as created_by_name
+        asana_user.user_name as created_by_name
     from story
-    join user 
-        on story.created_by_user_id = user.user_id
+    join asana_user 
+        on story.created_by_user_id = asana_user.user_id
 ),
 
 split_comments as (
