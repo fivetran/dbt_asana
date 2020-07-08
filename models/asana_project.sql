@@ -85,7 +85,8 @@ project_join as (
         agg_project_users.users as users_involved,
         count_project_users.number_of_users_involved,
         agg_sections.sections,
-        is_public
+        project.notes,
+        project.is_public
 
     from
     project 
