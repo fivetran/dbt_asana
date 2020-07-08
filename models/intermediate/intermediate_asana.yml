@@ -16,7 +16,7 @@ models:
           column_name: "project_id || '-' || user_id || '-' || role || '-' || currently_working_on"
 
   - name: asana_subtask_parent
-    description: Combines subtaskstasks + information regarding parent tasks
+    description: Combines subtasks + information regarding parent tasks
     columns:
       - name: subtask_id
         tests: 
@@ -38,8 +38,6 @@ models:
         tests:
           - unique
           - not_null
-      - name: conversation
-        description: Line-separated comments with their author, ordered chronologically (asc)
 
   - name: asana_task_first_modifier
     description: Extracts the first person to make a story (modify) the task. A proxy for the task creator, since that's not provided.
@@ -74,7 +72,7 @@ models:
           - not_null
   
   - name: asana_task_story
-    description: Parses and categorizes asana stories into action types.
+    description: Parses and categorizes asana stories into action types. Useful for looking at individual-task histories
     columns:
       - name: story_id
         tests:

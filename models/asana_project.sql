@@ -40,8 +40,8 @@ agg_sections as (
 agg_project_users as (
 
     select 
-    project_user.project_id,
-    {{ string_agg( "asana_user.user_name || ' as ' || project_user.role" , "', '" ) }} as users
+        project_user.project_id,
+        {{ string_agg( "asana_user.user_name || ' as ' || project_user.role" , "', '" ) }} as users
 
     from project_user join asana_user using(user_id)
 
@@ -55,6 +55,7 @@ count_project_users as (
     select 
         project_id, 
         count(distinct user_id) as number_of_users_involved
+
     from project_user
     group by 1
 
@@ -90,7 +91,7 @@ project_join as (
 
     from
     project 
-    left join project_task_metrics on project.project_id = project_task_metrics.project_id -- this should include all
+    left join project_task_metrics on project.project_id = project_task_metrics.project_id 
     left join agg_project_users on project.project_id = agg_project_users.project_id  
     left join count_project_users on project.project_id = count_project_users.project_id
     join team on team.team_id = project.team_id -- every project needs a team

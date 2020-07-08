@@ -109,8 +109,9 @@ final as (
     
     select * 
     from parse_actions
+
+    -- remove actions you don't care about (set to null in the actions dictionary above)
     where action_taken is not null 
-    -- removes actions you don't care about (set to null in the actions dictionary)
 
 )
 

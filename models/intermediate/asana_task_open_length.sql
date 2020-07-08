@@ -38,7 +38,7 @@ open_assigned_length as (
         task.assignee_user_id is not null as is_currently_assigned,
         assignments.task_id is not null as has_been_assigned,
         assignments.last_assigned_at as last_assigned_at,
-        assignments.last_assigned_at as first_assigned_at,
+        assignments.first_assigned_at as first_assigned_at,
         {{ dbt_utils.datediff('task.created_at', open_until, 'day') }} as days_open,
 
         -- if the task is currently assigned, this is the time it has been assigned to this current user.

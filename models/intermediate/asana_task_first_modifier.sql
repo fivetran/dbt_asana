@@ -2,6 +2,7 @@ with story as (
 
     select *
     from {{ ref('asana_task_story') }}
+    where created_by_user_id is not null -- sometimes user id can be null in story. limit to ones with associated users
 ),
 
 ordered_stories as (
@@ -14,7 +15,6 @@ ordered_stories as (
         row_number() over ( partition by target_task_id order by created_at asc ) as nth_story
         
     from story
-    where created_by_user_id is not null -- sometimes user id can be null in story. limit to ones with associated users
 
 ),
 

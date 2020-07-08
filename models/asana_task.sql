@@ -72,8 +72,8 @@ task_join as (
         task_first_modifier.first_modifier_user_id,
         task_first_modifier.first_modifier_name,
 
-        coalesce(task_comments.number_of_comments, 0) as number_of_comments, 
         task_comments.conversation, 
+        coalesce(task_comments.number_of_comments, 0) as number_of_comments, 
         task_followers.followers,
         coalesce(task_followers.number_of_followers, 0) as number_of_followers,
         task_tags.tags, 
