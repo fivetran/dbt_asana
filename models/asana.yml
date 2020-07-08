@@ -220,6 +220,9 @@ models:
 
       - name: sections
         description: Aggregated list of the sections that exist in the project. 
+
+      - name: notes
+        description: Free-form textual description associated with project
  
       
   - name: asana_team
