@@ -24,7 +24,3 @@ vars:
         task: "{{ ref('stg_asana_task') }}"
         team: "{{ ref('stg_asana_team') }}"
         user: "{{ ref('stg_asana_user') }}"
-
-# TODO: delete profile after testing
-# profile: integration_test
-profile: dev_bigquery_dbt_testing
