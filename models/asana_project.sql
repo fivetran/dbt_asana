@@ -84,7 +84,7 @@ project_join as (
         modified_at as last_modified_at,
         owner_user_id,
         agg_project_users.users as users_involved,
-        count_project_users.number_of_users_involved,
+        coalesce(count_project_users.number_of_users_involved, 0) as number_of_users_involved,
         agg_sections.sections,
         project.notes,
         project.is_public
