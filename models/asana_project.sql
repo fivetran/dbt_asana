@@ -30,7 +30,7 @@ agg_sections as (
 
     select
         project_id,
-        {{ string_agg( 'section_name', "', '") }} as sections
+        {{ fivetran_utils.string_agg( 'section_name', "', '") }} as sections
 
     from {{ var('section') }}
     where section_name != '(no section)'
@@ -41,7 +41,7 @@ agg_project_users as (
 
     select 
         project_user.project_id,
-        {{ string_agg( "asana_user.user_name || ' as ' || project_user.role" , "', '" ) }} as users
+        {{ fivetran_utils.string_agg( "asana_user.user_name || ' as ' || project_user.role" , "', '" ) }} as users
 
     from project_user join asana_user using(user_id)
 

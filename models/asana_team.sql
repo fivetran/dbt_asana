@@ -22,7 +22,7 @@ team_join as (
         round(avg(project.avg_close_time_assigned_days), 0) as avg_close_time_assigned_days,
 
         coalesce( sum(case when not project.is_archived then 1 else 0 end), 0) as number_of_active_projects,
-        {{ string_agg('case when not project.is_archived then project.project_name else null end', "', '") }} as active_projects,
+        {{ fivetran_utils.string_agg('case when not project.is_archived then project.project_name else null end', "', '") }} as active_projects,
         coalesce( sum(case when project.is_archived then 1 else 0 end), 0) as number_of_archived_projects
 
         

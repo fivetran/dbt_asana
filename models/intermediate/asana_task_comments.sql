@@ -12,7 +12,7 @@ task_conversation as (
     select
         target_task_id as task_id,
         -- creates a chronologically ordered conversation about the task
-        {{ string_agg( "created_at || '  -  ' || created_by_name || ':  ' || comment_content", "'\\n'" ) }} as conversation,
+        {{ fivetran_utils.string_agg( "created_at || '  -  ' || created_by_name || ':  ' || comment_content", "'\\n'" ) }} as conversation,
         count(*) as number_of_comments
 
     from comments        

@@ -47,7 +47,7 @@ agg_user_projects as (
 
     select 
     user_id,
-    {{ string_agg( 'project_name', "', '" )}} as projects_working_on
+    {{ fivetran_utils.string_agg( 'project_name', "', '" )}} as projects_working_on
 
     from unique_user_projects
     group by 1
