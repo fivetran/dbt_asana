@@ -46,7 +46,7 @@ task_project_section as (
 agg_project_sections as (
     select 
         task_id,
-        {{ string_agg( 'task_project_section.project_section', "', '" )}} as projects_sections,
+        {{ fivetran_utils.string_agg( 'task_project_section.project_section', "', '" )}} as projects_sections,
         count(project_id) as number_of_projects
 
     from task_project_section 
