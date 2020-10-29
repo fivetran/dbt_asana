@@ -4,6 +4,8 @@ This package models Asana data from [Fivetran's connector](https://fivetran.com/
 
 This package enables you to better understand tasks and how they're being worked on in Asana. Its primary focus is to enhance the task table and other core objects that relate to tasks: users, projects, teams, and tags. Each of these objects is enriched with metrics that reflect the volume and breadth of work being done now and the velocity of work that has been completed. Moreover, the daily metrics table lays out a timeline of task creations and completions for understanding the overall pace of deliverables at the organization.
 
+**See the package docs site [here](https://fivetran-dbt-asana.netlify.app/#!/overview).**
+
 ## Models
 
 This package contains transformation models, designed to work simultaneously with our [Asana source package](https://github.com/fivetran/dbt_asana_source). A dependency on the source package is declared in this package's `packages.yml` file, so it will automatically download when you run `dbt deps`. The primary outputs of this package are described below. Intermediate models are used to create these output models.
