@@ -1,10 +1,10 @@
-# Asana 
+# Asana ([docs](https://fivetran-dbt-asana.netlify.app/#!/overview))
 
 This package models Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/14m2L2aYGmt0IXseExR80FlEO-7fxjBKfoALR2jVh0G8/edit).
 
 This package enables you to better understand tasks and how they're being worked on in Asana. Its primary focus is to enhance the task table and other core objects that relate to tasks: users, projects, teams, and tags. Each of these objects is enriched with metrics that reflect the volume and breadth of work being done now and the velocity of work that has been completed. Moreover, the daily metrics table lays out a timeline of task creations and completions for understanding the overall pace of deliverables at the organization.
 
-**See the package docs site [here](https://fivetran-dbt-asana.netlify.app/#!/overview).**
+> The Asana dbt package is compatible with BigQuery, Redshift, and Snowflake.
 
 ## Models
 
