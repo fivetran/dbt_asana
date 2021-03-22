@@ -3,7 +3,7 @@ version: 2
 models:
 
   # enriched core object tables
-  - name: asana_task
+  - name: asana__task
     description: An enriched task table consisting of base task info + aggregated metrics and lists 
     columns:
 
@@ -125,7 +125,7 @@ models:
         description: Timestamp of when the parent task was created
 
 
-  - name: asana_user
+  - name: asana__user
     description: Enriched user table consisting of base user info + metrics around tasks and completions
     columns:
 
@@ -160,7 +160,7 @@ models:
         description: Aggregated list of the projects that the user is currently assigned to or owns 
 
 
-  - name: asana_project
+  - name: asana__project
     description: Table of projects' basic info enriched with metrics regarding tasks and completions
     columns:
 
@@ -195,7 +195,7 @@ models:
         description: User-facing name of the project's team
 
       - name: is_archived
-        description: Boolean representing if the project has been arhcived in the UI
+        description: Boolean representing if the project has been archived in the UI
 
       - name: project_link
         description: URL formatted to bring you directly to the project in asana.
@@ -231,7 +231,7 @@ models:
         description: Free-form textual description associated with project
  
       
-  - name: asana_team
+  - name: asana__team
     description: Enriched team table consisting of basic team info + task/completion metrics (note that teams can only act on tasks in projects)
     columns:
 
@@ -268,12 +268,12 @@ models:
       - name: number_of_archived_projects
         description: Count of archived projects
   
-  - name: asana_tag 
+  - name: asana__tag 
     description: Table of tag basic info enriched with some task metrics.
     columns:
 
       - name: tag_id
-        description: System-gemerated unique ID for the tag
+        description: System-generated unique ID for the tag
         tests:
           - unique
           - not_null
@@ -300,7 +300,7 @@ models:
         description: The avg number of days that completed tasks with this tag were open and assigned.
 
 
-  - name: asana_daily_metrics
+  - name: asana__daily_metrics
     description: Table of task metrics per each day
     columns:
       - name: date_day

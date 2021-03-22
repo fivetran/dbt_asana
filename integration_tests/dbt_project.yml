@@ -1,0 +1,92 @@
+config-version: 2
+
+name: 'asana_integration_tests'
+version: '0.3.0'
+
+require-dbt-version: [">=0.18.0", "<0.20.0"]
+profile: 'integration_tests' 
+
+vars:
+  asana_schema: asana_integration_tests
+  asana:
+    user:           "{{ ref('stg_asana__user') }}" 
+    project:        "{{ ref('stg_asana__project') }}"
+    task:           "{{ ref('stg_asana__task') }}"
+    story:          "{{ ref('stg_asana__story') }}"  
+    team:           "{{ ref('stg_asana__team') }}"
+    tag:            "{{ ref('stg_asana__tag') }}"
+    project_task:   "{{ ref('stg_asana__project_task') }}" 
+    task_follower:  "{{ ref('stg_asana__task_follower') }}" 
+    task_tag:       "{{ ref('stg_asana__task_tag') }}"
+    section:        "{{ ref('stg_asana__section') }}"
+    task_section:   "{{ ref('stg_asana__task_section') }}"
+
+  asana_source:
+    user:           "{{ ref('user_data') }}" 
+    project:        "{{ ref('project_data') }}"
+    task:           "{{ ref('task_data') }}"
+    story:          "{{ ref('story_data') }}"  
+    team:           "{{ ref('team_data') }}"
+    tag:            "{{ ref('tag_data') }}"
+    project_task:   "{{ ref('project_task_data') }}" 
+    task_follower:  "{{ ref('task_follower_data') }}" 
+    task_tag:       "{{ ref('task_tag_data') }}"
+    section:        "{{ ref('section_data') }}"
+    task_section:   "{{ ref('task_section_data') }}"
+    
+seeds:
+  +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+  asana_integration_tests:
+    +column_types:
+      _fivetran_synced: timestamp
+    user_data:
+      +column_types:
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    project_data:
+      +column_types:
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        owner_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        team_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        workspace_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    task_data:
+      +column_types:
+        created_at: timestamp
+        completed_at: timestamp
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        assignee_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        completed_by_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        parent_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        workspace_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    story_data:
+      +column_types:
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        created_by_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        target_id:  "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    team_data:
+      +column_types:
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        organization_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    tag_data:
+      +column_types:
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        workspace_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    project_task_data:
+      +column_types:
+        project_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        task_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    task_follower_data:
+      +column_types:
+        user_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        task_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    task_tag_data:
+      +column_types:
+        tag_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        task_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    section_data:
+      +column_types:
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        project_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    task_section_data:
+      +column_types:
+        section_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        task_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"

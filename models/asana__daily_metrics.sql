@@ -1,7 +1,7 @@
 with task as (
 
     select *
-    from {{ ref('asana_task') }}
+    from {{ ref('asana__task') }}
 ),
 
 
@@ -9,11 +9,11 @@ spine as (
 
     {% if execute %}
     {% set first_date_query %}
-        select  min( created_at )  as min_date from {{ ref('asana_task') }}
+        select  min( created_at )  as min_date from {{ ref('asana__task') }}
     {% endset %}
     {% set first_date = run_query(first_date_query).columns[0][0]|string %}
     
-    {% else %} {% set first_date = "'2016-01-01'" %}
+    {% else %} {% set first_date = "2016-01-01" %}
     {% endif %}
 
 

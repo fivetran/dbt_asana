@@ -1,7 +1,7 @@
 with story as (
 
     select *
-    from {{ ref('asana_task_story') }}
+    from {{ ref('int_asana__task_story') }}
     where created_by_user_id is not null -- sometimes user id can be null in story. limit to ones with associated users
 ),
 

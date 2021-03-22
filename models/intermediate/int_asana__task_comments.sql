@@ -1,7 +1,7 @@
 with comments as (
     
     select *
-    from {{ ref('asana_task_story') }}
+    from {{ ref('int_asana__task_story') }}
     where comment_content is not null
     order by target_task_id, created_at asc
 

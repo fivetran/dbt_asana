@@ -6,51 +6,51 @@ with task as (
 task_comments as (
 
     select * 
-    from {{ ref('asana_task_comments') }}
+    from {{ ref('int_asana__task_comments') }}
 ),
 
 task_followers as (
 
     select *
-    from {{ ref('asana_task_followers') }}
+    from {{ ref('int_asana__task_followers') }}
 ),
 
 task_open_length as (
 
     select *
-    from {{ ref('asana_task_open_length') }}
+    from {{ ref('int_asana__task_open_length') }}
 ),
 
 task_tags as (
 
     select *
-    from {{ ref('asana_task_tags') }}
+    from {{ ref('int_asana__task_tags') }}
 ),
 
 task_assignee as (
 
     select * 
-    from  {{ ref('asana_task_assignee') }}
+    from  {{ ref('int_asana__task_assignee') }}
     where has_assignee
 ),
 
 task_projects as (
 
     select *
-    from {{ ref('asana_task_projects') }}
+    from {{ ref('int_asana__task_projects') }}
 ),
 
 subtask_parent as (
 
     select * 
-    from {{ ref('asana_subtask_parent') }}
+    from {{ ref('int_asana__subtask_parent') }}
 
 ),
 
 task_first_modifier as (
     
     select *
-    from {{ ref('asana_task_first_modifier') }}
+    from {{ ref('int_asana__task_first_modifier') }}
 ),
 
 task_join as (
