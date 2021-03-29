@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: asana_project_task_metrics
+  - name: int_asana__project_task_metrics
     description: Draws from (non-intermediate) ASANA_TASK to compute metrics about tasks in each project.
     columns:
       - name: project_id
@@ -9,13 +9,17 @@ models:
           - unique
           - not_null
 
-  - name: asana_project_user
+  - name: int_asana__project_user
     description: Table of who is *working* on the project -- its owner + users assigned to it tasks 
     tests:
-      - unique:
-          column_name: "project_id || '-' || user_id || '-' || role || '-' || currently_working_on"
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - project_id
+            - user_id
+            - role
+            - currently_working_on
 
-  - name: asana_subtask_parent
+  - name: int_asana__subtask_parent
     description: Combines subtasks + information regarding parent tasks
     columns:
       - name: subtask_id
@@ -23,7 +27,7 @@ models:
           - unique
           - not_null
     
-  - name: asana_task_assignee
+  - name: int_asana__task_assignee
     description: Combines tasks + information regarding their assigned user
     columns:
       - name: task_id
@@ -31,7 +35,7 @@ models:
           - unique
           - not_null
   
-  - name: asana_task_comments
+  - name: int_asana__task_comments
     description: Aggregates all comments on a task into a conversation + the number of comments
     columns: 
       - name: task_id
@@ -39,7 +43,7 @@ models:
           - unique
           - not_null
 
-  - name: asana_task_first_modifier
+  - name: int_asana__task_first_modifier
     description: Extracts the first person to make a story (modify) the task. A proxy for the task creator, since that's not provided.
     columns:
       - name: task_id
@@ -47,7 +51,7 @@ models:
           - unique
           - not_null
 
-  - name: asana_task_followers
+  - name: int_asana__task_followers
     description: Aggregates a count of and a list of the names of the users who follow each task
     columns:
       - name: task_id
@@ -55,7 +59,7 @@ models:
           - unique
           - not_null
 
-  - name: asana_task_open_length
+  - name: int_asana__task_open_length
     description: Computes the days that each task has spent open and assigned.
     columns:
       - name: task_id
@@ -63,15 +67,15 @@ models:
           - unique
           - not_null
 
-  - name: asana_task_projects
-    description: Aggregates a count of and a list of the namesof the projects and sections that each task belongs to.
+  - name: int_asana__task_projects
+    description: Aggregates a count of and a list of the names of the projects and sections that each task belongs to.
     columns:
       - name: task_id
         tests:
           - unique
           - not_null
   
-  - name: asana_task_story
+  - name: int_asana__task_story
     description: Parses and categorizes asana stories into action types. Useful for looking at individual-task histories
     columns:
       - name: story_id
@@ -85,7 +89,7 @@ models:
       - name: action_description
         description: The original pre-categorized content of the story
 
-  - name: asana_task_tags
+  - name: int_asana__task_tags
     description: Aggregates a count of and a list of the names of the tags attached to each task.
     columns:
       - name: task_id
@@ -93,7 +97,7 @@ models:
           - unique
           - not_null
 
-  - name: asana_user_task_metrics
+  - name: int_asana__user_task_metrics
     description: Draws from (non-intermediate) ASANA_TASK to compute metrics about tasks for each user.
     columns:
       - name: user_id

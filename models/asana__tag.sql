@@ -13,7 +13,7 @@ task_tag as (
 task as (
 
     select *
-    from {{ ref('asana_task') }}
+    from {{ ref('asana__task') }}
 
     where is_completed and tags is not null
 

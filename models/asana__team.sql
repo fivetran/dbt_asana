@@ -6,7 +6,7 @@ with team as (
 project as (
 
     select * 
-    from {{ ref('asana_project') }}
+    from {{ ref('asana__project') }}
 ),
 
 team_join as (

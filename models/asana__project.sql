@@ -1,7 +1,7 @@
 with project_task_metrics as (
 
     select *
-    from {{ ref('asana_project_task_metrics') }}
+    from {{ ref('int_asana__project_task_metrics') }}
 ),
 
 project as (
@@ -13,7 +13,7 @@ project as (
 project_user as (
     
     select *
-    from {{ ref('asana_project_user') }}
+    from {{ ref('int_asana__project_user') }}
 ),
 
 asana_user as (

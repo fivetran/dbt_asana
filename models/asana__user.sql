@@ -1,7 +1,7 @@
 with user_task_metrics as (
 
     select * 
-    from {{ ref('asana_user_task_metrics') }}
+    from {{ ref('int_asana__user_task_metrics') }}
 ),
 
 asana_user as (
@@ -12,7 +12,7 @@ asana_user as (
 project_user as (
     
     select * 
-    from {{ ref('asana_project_user') }}
+    from {{ ref('int_asana__project_user') }}
 
     where currently_working_on or role = 'owner'
 ),

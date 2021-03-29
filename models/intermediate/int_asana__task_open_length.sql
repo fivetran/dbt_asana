@@ -8,7 +8,7 @@ with task as (
 story as (
 
     select * 
-    from {{ ref('asana_task_story') }}
+    from {{ ref('int_asana__task_story') }}
 
 ),
 

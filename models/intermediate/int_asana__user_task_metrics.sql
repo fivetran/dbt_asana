@@ -1,7 +1,7 @@
 with tasks as (
 
     select * 
-    from {{ ref('asana_task') }}
+    from {{ ref('asana__task') }}
     where assignee_user_id is not null
 
 ), 

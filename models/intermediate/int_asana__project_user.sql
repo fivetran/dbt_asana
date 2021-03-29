@@ -7,7 +7,7 @@ with project_tasks as (
 assigned_tasks as (
     
     select * 
-    from {{ ref('asana_task_assignee') }}
+    from {{ ref('int_asana__task_assignee') }}
     where has_assignee
     
 ),

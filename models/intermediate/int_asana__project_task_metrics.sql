@@ -1,7 +1,7 @@
 with task as (
 
     select *
-    from {{ ref('asana_task') }}
+    from {{ ref('asana__task') }}
 
 ),
 

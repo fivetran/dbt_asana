@@ -1,7 +1,7 @@
 with task_assignee as (
 
     select * 
-    from  {{ ref('asana_task_assignee') }}
+    from  {{ ref('int_asana__task_assignee') }}
 
 ),
 
