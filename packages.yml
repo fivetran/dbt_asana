@@ -1,6 +1,3 @@
 packages:
-  # - package: fivetran/asana_source
-  #   version: [">=0.3.0","<0.4.0"]
-  - git: https://github.com/fivetran/dbt_asana_source.git
-    revision: jm-updates
-    warn-unpinned: false
+  - package: fivetran/asana_source
+    version: [">=0.3.0","<0.4.0"]
