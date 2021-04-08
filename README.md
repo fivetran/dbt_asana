@@ -51,6 +51,19 @@ models:
     +schema: my_new_schema_name # leave blank for just the target_schema
 ```
 
+This package allows users to include addtiional columns to the task table.  You must include any additional columns in both the `asana` and `asana_source` pass-through variables to ensure the downstream columns are present.
+
+```
+# dbt_project.yml
+
+...
+vars:
+  asana:
+    task_enhanced_pass_through_columns: [custom_status, custom_department]
+  asana_source:
+    task_pass_through_columns: [custom_status, custom_department]
+```
+
 ## Database support
 This package is compatible with BigQuery, Snowflake, and Redshift.
 

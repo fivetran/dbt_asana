@@ -25,3 +25,5 @@ vars:
         task:           "{{ ref('stg_asana__task') }}"
         team:           "{{ ref('stg_asana__team') }}"
         user:           "{{ ref('stg_asana__user') }}"
+        # Use to add custom fields to the tasks table
+        task_enhanced_pass_through_columns: []
