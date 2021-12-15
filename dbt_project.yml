@@ -1,27 +1,27 @@
 config-version: 2
 
 name: 'asana'
-version: '0.4.0'
+version: '0.5.0'
 
-require-dbt-version: ">=0.20.0"
+require-dbt-version: [">=1.0.0", "<2.0.0"]
 
 models:
-    asana:
-        +schema: asana
-        materialized: table
-        intermediate:
-            materialized: ephemeral 
+  asana:
+    +schema: asana
+    materialized: table
+    intermediate:
+      materialized: ephemeral
 
 vars:
-    asana: 
-        project_task:   "{{ ref('stg_asana__project_task') }}"
-        project:        "{{ ref('stg_asana__project') }}"
-        section:        "{{ ref('stg_asana__section') }}"
-        story:          "{{ ref('stg_asana__story') }}"
-        tag:            "{{ ref('stg_asana__tag') }}"
-        task_follower:  "{{ ref('stg_asana__task_follower') }}"
-        task_section:   "{{ ref('stg_asana__task_section') }}"
-        task_tag:       "{{ ref('stg_asana__task_tag') }}"
-        task:           "{{ ref('stg_asana__task') }}"
-        team:           "{{ ref('stg_asana__team') }}"
-        user:           "{{ ref('stg_asana__user') }}"
+  asana:
+    project_task: "{{ ref('stg_asana__project_task') }}"
+    project: "{{ ref('stg_asana__project') }}"
+    section: "{{ ref('stg_asana__section') }}"
+    story: "{{ ref('stg_asana__story') }}"
+    tag: "{{ ref('stg_asana__tag') }}"
+    task_follower: "{{ ref('stg_asana__task_follower') }}"
+    task_section: "{{ ref('stg_asana__task_section') }}"
+    task_tag: "{{ ref('stg_asana__task_tag') }}"
+    task: "{{ ref('stg_asana__task') }}"
+    team: "{{ ref('stg_asana__team') }}"
+    user: "{{ ref('stg_asana__user') }}"
