@@ -25,9 +25,6 @@ models:
       - name: assignee_email
         description: Email of the user that the task is currently assigned to.
 
-      - name: assignee_status
-        description: Scheduling status for the assignee that the task is or will eventually be assigned to. This maps to the sections of "My Tasks"
-
       - name: is_completed
         description: Boolean that is true if the task is currently marked complete.
 
