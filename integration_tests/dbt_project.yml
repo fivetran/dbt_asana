@@ -52,6 +52,7 @@ seeds:
         completed_at: timestamp
         due_on: timestamp
         due_at: timestamp
+        start_on: timestamp
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         assignee_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         completed_by_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
