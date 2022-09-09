@@ -10,7 +10,7 @@ spine as (
     {% if execute %}
     {% set first_date_query %}
         select  
-            {{ safe_cast( " ~ min(created_at) ~ " as {{ dbt_utils.type_timestamp() }}, 
+            {{ safe_cast( " ~ min(created_at) as {{ dbt_utils.type_timestamp() }} ~ ", 
                 api.Column.translate_type("date")) }} as min_date 
         from {{ ref('asana__task') }}
     {% endset %}
