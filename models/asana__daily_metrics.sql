@@ -10,7 +10,7 @@ spine as (
     {% if execute %}
     {% set first_date_query %}
         select  
-            {{ safe_cast(min(created_at), api.Column.translate_type("date")) }} as min_date 
+            min( {{ safe_cast(created_at, api.Column.translate_type("date")) }} ) as min_date 
         from {{ ref('asana__task') }}
     {% endset %}
     {% set first_date = run_query(first_date_query).columns[0][0]|string %}
