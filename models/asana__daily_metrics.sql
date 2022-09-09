@@ -9,7 +9,9 @@ spine as (
 
     {% if execute %}
     {% set first_date_query %}
-        select  min( created_at )  as min_date from {{ ref('asana__task') }}
+        select  
+            cast(min( created_at ) as {{ dbt_utils.type_timestamp() }}) as min_date 
+        from {{ ref('asana__task') }}
     {% endset %}
     {% set first_date = run_query(first_date_query).columns[0][0]|string %}
     
