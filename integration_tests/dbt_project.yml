@@ -5,7 +5,7 @@ version: '0.4.0'
 profile: 'integration_tests' 
 
 vars:
-  asana_schema: asana_integration_tests
+  asana_schema: asana_integrations_tests
   asana:
     user:           "{{ ref('stg_asana__user') }}" 
     project:        "{{ ref('stg_asana__project') }}"
