@@ -1,3 +1,6 @@
+# dbt_asana v0.5.1
+- PostgreSQL compatibility 🎉
+- Updated README for enhanced user experience
 # dbt_asana v0.5.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
