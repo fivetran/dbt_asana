@@ -11,13 +11,15 @@
 </p>
 
 # Asana dbt Package ([Docs](https://fivetran.github.io/dbt_asana/))
-# 📣 What does this dbt package do?#
+# 📣 What does this dbt package do?
 
 - Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation) and builds off of the output of our [Asana source package](https://github.com/fivetran/dbt_asana_source).
 
-- Enables you to better understand tasks and how they're being worked on in Asana. Its primary focus is to enhance the task table and other core objects that relate to tasks: 
+- Enables you to better understand tasks and how they are being worked on in Asana. Its primary focus is to enhance the task table and other core objects related to tasks across varying grains: 
   - users, projects, teams, and tags.
     - Each of these objects is enriched with metrics that reflect the volume and breadth of work being done now and the velocity of work that has been completed. Moreover, the daily metrics table lays out a timeline of task creations and completions for understanding the overall pace of deliverables at the organization.
+- Generates a comprehensive data dictionary of your source and modeled Microsoft Ads data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
+- These tables are designed to work simultaneously with our [Asana source package](https://github.com/fivetran/dbt_asana_source).
 
 The following table provides a detailed list of all models materialized within this package by default. 
 > TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_asana/#!/overview?g_v=1&g_e=seeds).
@@ -37,10 +39,9 @@ To use this dbt package, you must have the following:
 
 - At least one Fivetran Asana connector syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, or **PostgreSQL** destination.
-Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 
 ## Step 2: Install the package
-Include the following asana_source package version in your `packages.yml` file.
+Include the following asana package version in your `packages.yml` file.
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yaml
 packages:
@@ -82,6 +83,18 @@ models:
   asana_source:
     +schema: my_new_schema_name # leave blank for just the target_schema
 ```
+</details>
+
+### Change the source table references
+If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
+
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_asana/blob/main/dbt_project.yml) variable declarations to see the expected names.
+
+```yml
+vars:
+    asana_<default_source_table_name>_identifier: your_table_name 
+```
+
 </details>
 
 ## (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™    
