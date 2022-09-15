@@ -124,6 +124,9 @@ models:
       - name: parent_created_at
         description: Timestamp of when the parent task was created
 
+      - name: workspace_id
+        description: Foreign key reference to the workspace
+
 
   - name: asana__user
     description: Enriched user table consisting of base user info + metrics around tasks and completions
