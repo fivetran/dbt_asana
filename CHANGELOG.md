@@ -1,6 +1,8 @@
 # dbt_asana v0.5.1
+PR [#19](https://github.com/fivetran/dbt_asana/pull/19) introduced the following updates.
 - PostgreSQL compatibility 🎉
 - Updated README for enhanced user experience
+
 # dbt_asana v0.5.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
