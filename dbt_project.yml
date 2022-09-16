@@ -8,9 +8,9 @@ require-dbt-version: [">=1.0.0", "<2.0.0"]
 models:
   asana:
     +schema: asana
-    materialized: table
+    +materialized: table
     intermediate:
-      materialized: ephemeral
+      +materialized: ephemeral
 
 vars:
   asana:
