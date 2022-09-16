@@ -48,15 +48,18 @@ seeds:
         workspace_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     task_data:
       +column_types:
-        due_on: "timestamp"
-        due_at: "timestamp"
-        created_at: timestamp
-        completed_at: timestamp
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         assignee_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         completed_by_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         parent_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         workspace_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        completed_at: "timestamp"
+        created_at: "timestamp"
+        due_on: "timestamp"
+        due_at: "timestamp"
+        modified_at: "timestamp"
+        start_on: "timestamp"
+        _fivetran_synced: "timestamp"
     story_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
