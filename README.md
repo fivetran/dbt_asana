@@ -15,9 +15,9 @@
 
 - Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation) and builds off of the output of our [Asana source package](https://github.com/fivetran/dbt_asana_source).
 
-- Enables you to better understand tasks by enhancing the task, users, projects, teams, and tags tables.
-- Each of these tables is enriched with metrics that reflect the volume and breadth of current work and also the velocity of completed work. Moreover, the daily metrics table lays out a timeline of task creations and completions to provide the overall pace of deliverables.
-- Generates a comprehensive data dictionary of your source and modeled Microsoft Ads data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
+- Enhances the task, users, projects, teams, and tags tables. Each of these tables is enriched with metrics that reflect the volume and breadth of current work and also the velocity of completed work. 
+- Provides a daily metrics table, which lays out a timeline of task creations and completions to show the overall pace of deliverables.
+- Generates a comprehensive data dictionary of your source and modeled Asana data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
 - These tables are designed to work simultaneously with our [Asana source package](https://github.com/fivetran/dbt_asana_source).
 
 The following table provides a detailed list of all models materialized within this package by default. 
