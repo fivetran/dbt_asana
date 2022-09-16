@@ -110,7 +110,7 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/asana_source
-      version: [">=0.5.0", "<0.6.0"]
+      version: [">=0.6.0", "<0.7.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.3.0", "<0.4.0"]
