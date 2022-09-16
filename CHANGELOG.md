@@ -1,6 +1,15 @@
-# dbt_asana v0.5.1
+# dbt_asana v0.6.0
+🛠 Deprecated columns fix 🛠
+## 🚨 Breaking Changes 🚨
+- As per our Release Notes for the Asana connector, we have updated the `dbt_asana_source` package to remove deprecated columns from the Task table (https://fivetran.com/docs/applications/asana/changelog#june2021) - please refer to the June 2021 and March 2021 release notes. The following columns have been deprecated from the Task table:
+  - `assignee_status`
+  - `hearted` - the `liked` column has been added to replace hearted
+  - `num_hearts` - the `num_likes` column has been added to replace num_hearts
+Please be sure to update your queries.
+
+## 🎉 Features 🎉
 PR [#19](https://github.com/fivetran/dbt_asana/pull/19) introduced the following updates.
-- PostgreSQL compatibility 🎉
+- PostgreSQL compatibility 
 - Updated README for enhanced user experience
 
 # dbt_asana v0.5.0
