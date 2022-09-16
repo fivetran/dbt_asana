@@ -48,6 +48,8 @@ seeds:
         workspace_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     task_data:
       +column_types:
+        due_on: "timestamp"
+        due_at: "timestamp"
         created_at: timestamp
         completed_at: timestamp
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
