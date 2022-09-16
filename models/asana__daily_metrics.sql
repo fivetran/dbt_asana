@@ -9,7 +9,9 @@ spine as (
 
     {% if execute %}
     {% set first_date_query %}
-        select  min( created_at )  as min_date from {{ ref('asana__task') }}
+        select  
+            cast(min(created_at) as {{ dbt_utils.type_timestamp() }}) as min_date 
+        from {{ ref('asana__task') }}
     {% endset %}
     {% set first_date = run_query(first_date_query).columns[0][0]|string %}
     
@@ -19,7 +21,7 @@ spine as (
 
     {{ dbt_utils.date_spine(
         datepart = "day", 
-        start_date =  "'" ~ first_date[0:10] ~ "'", 
+        start_date =  "cast('" ~ first_date[0:10] ~ "'as date)", 
         end_date = dbt_utils.dateadd("week", 1, "current_date") ) 
     }} 
 

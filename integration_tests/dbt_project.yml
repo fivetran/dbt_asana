@@ -5,32 +5,19 @@ version: '0.6.0'
 profile: 'integration_tests' 
 
 vars:
-  asana_schema: asana_integration_tests
-  asana:
-    user:           "{{ ref('stg_asana__user') }}" 
-    project:        "{{ ref('stg_asana__project') }}"
-    task:           "{{ ref('stg_asana__task') }}"
-    story:          "{{ ref('stg_asana__story') }}"  
-    team:           "{{ ref('stg_asana__team') }}"
-    tag:            "{{ ref('stg_asana__tag') }}"
-    project_task:   "{{ ref('stg_asana__project_task') }}" 
-    task_follower:  "{{ ref('stg_asana__task_follower') }}" 
-    task_tag:       "{{ ref('stg_asana__task_tag') }}"
-    section:        "{{ ref('stg_asana__section') }}"
-    task_section:   "{{ ref('stg_asana__task_section') }}"
-
+  asana_schema: asana_integrations_tests
   asana_source:
-    user:           "{{ ref('user_data') }}" 
-    project:        "{{ ref('project_data') }}"
-    task:           "{{ ref('task_data') }}"
-    story:          "{{ ref('story_data') }}"  
-    team:           "{{ ref('team_data') }}"
-    tag:            "{{ ref('tag_data') }}"
-    project_task:   "{{ ref('project_task_data') }}" 
-    task_follower:  "{{ ref('task_follower_data') }}" 
-    task_tag:       "{{ ref('task_tag_data') }}"
-    section:        "{{ ref('section_data') }}"
-    task_section:   "{{ ref('task_section_data') }}"
+    asana_user_identifier:          "user_data"
+    asana_project_identifier:       "project_data"
+    asana_task_identifier:          "task_data"
+    asana_story_identifier:         "story_data"  
+    asana_team_identifier:          "team_data"
+    asana_tag_identifier:           "tag_data"
+    asana_project_task_identifier:  "project_task_data" 
+    asana_task_follower_identifier: "task_follower_data" 
+    asana_task_tag_identifier:      "task_tag_data"
+    asana_section_identifier:       "section_data"
+    asana_task_section_identifier:  "task_section_data"
     
 seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
@@ -53,13 +40,13 @@ seeds:
         completed_by_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         parent_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         workspace_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
-        completed_at: "timestamp"
-        created_at: "timestamp"
-        due_on: "timestamp"
-        due_at: "timestamp"
-        modified_at: "timestamp"
-        start_on: "timestamp"
-        _fivetran_synced: "timestamp"
+        completed_at: timestamp
+        created_at: timestamp
+        due_on: timestamp
+        due_at: timestamp
+        modified_at: timestamp
+        start_on: timestamp
+        _fivetran_synced: timestamp
     story_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
