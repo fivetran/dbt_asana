@@ -15,9 +15,8 @@
 
 - Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation) and builds off of the output of our [Asana source package](https://github.com/fivetran/dbt_asana_source).
 
-- Enables you to better understand tasks and how they are being worked on in Asana. Its primary focus is to enhance the task table and other core objects related to tasks across varying grains: 
-  - users, projects, teams, and tags.
-    - Each of these objects is enriched with metrics that reflect the volume and breadth of work being done now and the velocity of work that has been completed. Moreover, the daily metrics table lays out a timeline of task creations and completions for understanding the overall pace of deliverables at the organization.
+- Enables you to better understand tasks by enhancing the task, users, projects, teams, and tags tables.
+- Each of these tables is enriched with metrics that reflect the volume and breadth of current work and also the velocity of completed work. Moreover, the daily metrics table lays out a timeline of task creations and completions to provide the overall pace of deliverables.
 - Generates a comprehensive data dictionary of your source and modeled Microsoft Ads data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
 - These tables are designed to work simultaneously with our [Asana source package](https://github.com/fivetran/dbt_asana_source).
 
@@ -64,9 +63,9 @@ vars:
 ## (Optional) Step 4: Additional configurations
 <details><summary>Expand for configurations</summary>
 
-### Passing Through Additional Metrics 
+### Passing Through Additional Columns 
 This package allows users to include additional columns to the source task table.  To do this, include any additional columns to the `asana_source` pass-through variables to ensure the downstream columns are present.
->**Note** Please exercise due diligence when adding metrics to these models. The metrics added by default have been vetted by the Fivetran team maintaining this package for accuracy. There are metrics included within the source reports, for example metric averages, which may be inaccurately represented at the grain for reports created in this package. You will want to ensure whichever metrics you pass through are indeed appropriate to aggregate at the respective reporting levels provided in this package.
+
 ```yml
 vars:
   asana_source:
