@@ -12,6 +12,9 @@ PR [#19](https://github.com/fivetran/dbt_asana/pull/19) introduced the following
 - PostgreSQL compatibility 
 - Updated README for enhanced user experience
 
+## Contributors
+- @fivetran-poonamagate ([#21](https://github.com/fivetran/dbt_asana_source/pull/21)).
+
 # dbt_asana v0.5.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
