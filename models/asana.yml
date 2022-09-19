@@ -124,6 +124,12 @@ models:
       - name: workspace_id
         description: Foreign key reference to the workspace
 
+      - name: is_liked
+        description: Boolean that is true if the task is liked by the authorized user.
+
+      - name: number_of_likes
+        description: Number of users who have liked this task.
+
 
   - name: asana__user
     description: Enriched user table consisting of base user info + metrics around tasks and completions
