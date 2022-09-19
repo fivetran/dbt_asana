@@ -1,16 +1,16 @@
 config-version: 2
 
 name: 'asana'
-version: '0.5.0'
+version: '0.6.0'
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
 models:
   asana:
     +schema: asana
-    materialized: table
+    +materialized: table
     intermediate:
-      materialized: ephemeral
+      +materialized: ephemeral
 
 vars:
   asana:

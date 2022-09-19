@@ -25,9 +25,6 @@ models:
       - name: assignee_email
         description: Email of the user that the task is currently assigned to.
 
-      - name: assignee_status
-        description: Scheduling status for the assignee that the task is or will eventually be assigned to. This maps to the sections of "My Tasks"
-
       - name: is_completed
         description: Boolean that is true if the task is currently marked complete.
 
@@ -123,6 +120,15 @@ models:
 
       - name: parent_created_at
         description: Timestamp of when the parent task was created
+
+      - name: workspace_id
+        description: Foreign key reference to the workspace
+
+      - name: is_liked
+        description: Boolean that is true if the task is liked by the authorized user.
+
+      - name: number_of_likes
+        description: Number of users who have liked this task.
 
 
   - name: asana__user
