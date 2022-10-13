@@ -29,7 +29,7 @@ assignments as (
 
 open_assigned_length as (
 
-    {% set open_until = 'task.completed_at' if 'task.is_completed' is true else dbt_utils.current_timestamp() %}
+    {% set open_until = 'task.completed_at' if 'task.is_completed' is true else dbt.current_timestamp_backcompat() %}
 
     select
         task.task_id,
@@ -39,12 +39,12 @@ open_assigned_length as (
         assignments.task_id is not null as has_been_assigned,
         assignments.last_assigned_at as last_assigned_at,
         assignments.first_assigned_at as first_assigned_at,
-        {{ dbt_utils.datediff('task.created_at', open_until, 'day') }} as days_open,
+        {{ dbt.datediff('task.created_at', open_until, 'day') }} as days_open,
 
         -- if the task is currently assigned, this is the time it has been assigned to this current user.
-        {{ dbt_utils.datediff('assignments.last_assigned_at', open_until, 'day') }} as days_since_last_assignment,
+        {{ dbt.datediff('assignments.last_assigned_at', open_until, 'day') }} as days_since_last_assignment,
 
-        {{ dbt_utils.datediff('assignments.first_assigned_at', open_until, 'day') }} as days_since_first_assignment
+        {{ dbt.datediff('assignments.first_assigned_at', open_until, 'day') }} as days_since_first_assignment
         
 
     from task
