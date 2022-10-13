@@ -1,24 +1,21 @@
 config-version: 2
-
 name: 'asana_integration_tests'
-version: '0.6.0'
-profile: 'integration_tests' 
-
+version: '0.7.0'
+profile: 'integration_tests'
 vars:
   asana_schema: asana_integrations_tests
   asana_source:
-    asana_user_identifier:          "user_data"
-    asana_project_identifier:       "project_data"
-    asana_task_identifier:          "task_data"
-    asana_story_identifier:         "story_data"  
-    asana_team_identifier:          "team_data"
-    asana_tag_identifier:           "tag_data"
-    asana_project_task_identifier:  "project_task_data" 
-    asana_task_follower_identifier: "task_follower_data" 
-    asana_task_tag_identifier:      "task_tag_data"
-    asana_section_identifier:       "section_data"
-    asana_task_section_identifier:  "task_section_data"
-    
+    asana_user_identifier: "user_data"
+    asana_project_identifier: "project_data"
+    asana_task_identifier: "task_data"
+    asana_story_identifier: "story_data"
+    asana_team_identifier: "team_data"
+    asana_tag_identifier: "tag_data"
+    asana_project_task_identifier: "project_task_data"
+    asana_task_follower_identifier: "task_follower_data"
+    asana_task_tag_identifier: "task_tag_data"
+    asana_section_identifier: "section_data"
+    asana_task_section_identifier: "task_section_data"
 seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
   asana_integration_tests:
@@ -51,7 +48,7 @@ seeds:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         created_by_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
-        target_id:  "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        target_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     team_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
