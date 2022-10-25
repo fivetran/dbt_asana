@@ -1,3 +1,7 @@
 packages:
-- package: fivetran/asana_source
-  version: [">=0.7.0", "<0.8.0"]
+# - package: fivetran/asana_source
+#   version: [">=0.7.0", "<0.8.0"]
+
+# Update before merge
+  - git: https://github.com/fivetran/dbt_asana_source.git
+    revision: MagicBot/dbt-utils-cross-db-migration
