@@ -10,7 +10,7 @@ models:
       +materialized: ephemeral
 vars:
   asana:
-    project_task: "{{ ref('stg_asana__project_task') }}"
+    project_task: "{{ ref('stg_asana__project_task_tmp') }}"
     project: "{{ ref('stg_asana__project') }}"
     section: "{{ ref('stg_asana__section') }}"
     story: "{{ ref('stg_asana__story') }}"
