@@ -1,6 +1,6 @@
 config-version: 2
 name: 'asana_integration_tests'
-version: '0.7.0'
+version: 0.8.0
 profile: 'integration_tests'
 vars:
   asana_schema: asana_integrations_tests
@@ -77,3 +77,7 @@ seeds:
       +column_types:
         section_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         task_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']
