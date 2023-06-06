@@ -37,7 +37,7 @@ The following table provides a detailed list of all models materialized within t
 To use this dbt package, you must have the following:
 
 - At least one Fivetran Asana connector syncing data into your destination.
-- A **BigQuery**, **Snowflake**, **Redshift**, or **PostgreSQL** destination.
+- A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
 
 ## Step 2: Install the package
 Include the following asana package version in your `packages.yml` file.
@@ -45,9 +45,8 @@ Include the following asana package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/asana
-    version: [">=0.7.0", "<0.8.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.8.0", "<0.9.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
-
 Do NOT include the `asana_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
 
 ## Step 3: Define database and schema variables
@@ -111,7 +110,7 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/asana_source
-      version: [">=0.7.0", "<0.8.0"]
+      version: [">=0.8.0", "<0.9.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
