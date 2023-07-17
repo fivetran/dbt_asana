@@ -31,7 +31,7 @@ task_project_section as (
         task_project.task_id,
         project.project_name || (case when section.section_name = '(no section)' then ''
             else ': ' || section.section_name end) as project_section,
-        project.project_id,
+        cast(project.project_id as {{ dbt.type_string() }}) as project_id,
         project.project_name,
         task_project._fivetran_synced
     from
@@ -49,8 +49,10 @@ task_project_section as (
 task_project_primary as (
     select distinct
         task_id,
-        {{ fivetran_utils.first_value(first_value_field="task_project_section.project_id", partition_field="task_id", order_by_field="_fivetran_synced", order="asc") }} as project_id,
-        {{ fivetran_utils.first_value(first_value_field="task_project_section.project_name", partition_field="task_id", order_by_field="_fivetran_synced", order="asc") }} as project_name
+        {{ fivetran_utils.first_value(first_value_field="task_project_section.project_id", 
+            partition_field="task_id", order_by_field="_fivetran_synced", order="asc") }} as current_project_id,
+        {{ fivetran_utils.first_value(first_value_field="task_project_section.project_name", 
+            partition_field="task_id", order_by_field="_fivetran_synced", order="asc") }} as current_project_name
     from task_project_section
 ),
 
@@ -70,9 +72,9 @@ agg_project_sections as (
 final as (
     select
         agg_project_sections.task_id,
-        task_project_primary.project_id,
+        task_project_primary.current_project_id,
         agg_project_sections.project_ids,
-        task_project_primary.project_name,
+        task_project_primary.current_project_name,
         agg_project_sections.project_names,
         agg_project_sections.projects_sections,
         agg_project_sections.number_of_projects
