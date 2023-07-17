@@ -4,4 +4,4 @@ packages:
 
   - git: https://github.com/fivetran/dbt_asana_source.git
     revision: feature/add-project-id
-    warn-unpinned: false s
+    warn-unpinned: false
