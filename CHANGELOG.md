@@ -4,7 +4,7 @@
 - Updated `int_asana__task_projects` to create the following new columns that are brought into `asana__task`:
   - first_project_id
   - project_ids
-  - first_project_names
+  + first_project_name
   - project_names
   - number_of_projects
 - Refer to [our documentation](https://fivetran.github.io/dbt_asana/#!/overview) for definitions. 
