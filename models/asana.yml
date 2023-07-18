@@ -130,14 +130,14 @@ models:
       - name: number_of_likes
         description: Number of users who have liked this task.
 
-      - name: current_project_id
-        description: The most recent project_id associated with the task.
+      - name: first_project_id
+        description: The first project_id associated with the task.
 
       - name: project_ids
         description: List of all project_ids associated with the task.
 
-      - name: current_project_name
-        description: The most recent project_name associated with the task.
+      - name: first_project_name
+        description: The first project_name associated with the task.
 
       - name: project_names
         description: List of all project_names associated with the task.

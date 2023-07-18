@@ -1,3 +1,17 @@
+# dbt_asana v0.8.1
+[PR #29](https://github.com/fivetran/dbt_asana/pull/29) includes the following updates:
+## 🎉 Feature Update 🎉
+- Updated `int_asana__task_projects` to create the following new columns that are brought into `asana__task`:
+  - first_project_id
+  - project_ids
+  - first_project_names
+  - project_names
+  - number_of_projects
+- Refer to [our documentation](https://fivetran.github.io/dbt_asana/#!/overview) for definitions. 
+
+## Contributors
+- [@irvingpop ](https://github.com/irvingpop ) ([PR #28](https://github.com/fivetran/dbt_asana/pull/28))
+
 # dbt_asana v0.8.0
 ## 🎉 Feature Update 🎉
 - Databricks compatibility! ([#28](https://github.com/fivetran/dbt_asana/pull/28))

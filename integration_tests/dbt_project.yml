@@ -3,7 +3,7 @@ name: 'asana_integration_tests'
 version: 0.8.1
 profile: 'integration_tests'
 vars:
-  asana_schema: asana_integrations_tests
+  asana_schema: asana_integrations_tests_02
   asana_source:
     asana_user_identifier: "user_data"
     asana_project_identifier: "project_data"

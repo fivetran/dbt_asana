@@ -33,7 +33,9 @@ task_project_section as (
             else ': ' || section.section_name end) as project_section,
         cast(project.project_id as {{ dbt.type_string() }}) as project_id,
         project.project_name,
-        task_project._fivetran_synced
+        -- Using the first detected task project pairing as the "primary"
+        row_number() over (partition by task_project.task_id 
+            order by task_project._fivetran_synced asc, project.created_at asc) = 1 as is_first_project
     from
     task_project
     join project
@@ -45,15 +47,13 @@ task_project_section as (
         and section.project_id = project.project_id
 ),
 
--- Asana doesn't really have the concept of a "primary" project for a task, but let's use the first detected (via _fivetran_synced) pairing as the primary
 task_project_primary as (
     select distinct
         task_id,
-        {{ fivetran_utils.first_value(first_value_field="task_project_section.project_id", 
-            partition_field="task_id", order_by_field="_fivetran_synced", order="asc") }} as current_project_id,
-        {{ fivetran_utils.first_value(first_value_field="task_project_section.project_name", 
-            partition_field="task_id", order_by_field="_fivetran_synced", order="asc") }} as current_project_name
+        task_project_section.project_id as first_project_id,
+        task_project_section.project_name as first_project_name
     from task_project_section
+    where is_first_project
 ),
 
 agg_project_sections as (
@@ -72,9 +72,9 @@ agg_project_sections as (
 final as (
     select
         agg_project_sections.task_id,
-        task_project_primary.current_project_id,
+        task_project_primary.first_project_id,
         agg_project_sections.project_ids,
-        task_project_primary.current_project_name,
+        task_project_primary.first_project_name,
         agg_project_sections.project_names,
         agg_project_sections.projects_sections,
         agg_project_sections.number_of_projects
