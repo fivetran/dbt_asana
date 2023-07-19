@@ -9,7 +9,7 @@
   - See also [our documentation](https://fivetran.github.io/dbt_asana/#!/overview). 
 
 ## Contributors
-- [@irvingpop ](https://github.com/irvingpop ) ([PR #28](https://github.com/fivetran/dbt_asana/pull/28))
+- [@irvingpop](https://github.com/irvingpop ) ([PR #28](https://github.com/fivetran/dbt_asana/pull/28))
 
 # dbt_asana v0.8.0
 ## 🎉 Feature Update 🎉
