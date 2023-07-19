@@ -55,17 +55,6 @@ agg_project_sections as (
     from task_project_section
 
     group by 1
-),
-
-final as (
-    select
-        agg_project_sections.task_id,
-        agg_project_sections.project_ids,
-        agg_project_sections.project_names,
-        agg_project_sections.projects_sections,
-        agg_project_sections.number_of_projects
-
-    from agg_project_sections
 )
 
-select * from final
+select * from agg_project_sections
