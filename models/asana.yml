@@ -98,7 +98,10 @@ models:
         description: Count of the tags associated with the task.
 
       - name: projects_sections
-        description: A list of the projects + sections that this task is listed under.
+        description: >
+          A list of the projects + sections that this task is listed under.
+          You can parse or explode the items in the list using a comma + space (`", "`) as a delimiter.
+          To keep the table grain at the task_id level, this list is not parsed by default.
 
       - name: is_subtask
         description: Boolean that's true if the task is a subtask of another.
@@ -130,17 +133,17 @@ models:
       - name: number_of_likes
         description: Number of users who have liked this task.
 
-      - name: first_project_id
-        description: The first project_id associated with the task.
-
       - name: project_ids
-        description: List of all project_ids associated with the task.
-
-      - name: first_project_name
-        description: The first project_name associated with the task.
+        description: >
+          List of all `project_ids` associated with the task. 
+          You can parse or explode the items in the list using a comma + space (`", "`) as a delimiter.
+          To keep the table grain at the task_id level, this list is not parsed by default.
 
       - name: project_names
-        description: List of all project_names associated with the task.
+        description: >
+          List of all `project_names` associated with the task. 
+          You can parse or explode the items in the list using a comma + space (`", "`) as a delimiter.
+          To keep the table grain at the task_id level, this list is not parsed by default.
 
       - name: number_of_projects
         description: The number of projects associated with the task.

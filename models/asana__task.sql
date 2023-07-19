@@ -79,9 +79,7 @@ task_join as (
         task_tags.tags,
         coalesce(task_tags.number_of_tags, 0) as number_of_tags,
 
-        task_projects.first_project_id,
         task_projects.project_ids,
-        task_projects.first_project_name,
         task_projects.project_names,
         task_projects.projects_sections,
         task_projects.number_of_projects,

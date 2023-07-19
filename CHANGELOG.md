@@ -2,12 +2,12 @@
 [PR #29](https://github.com/fivetran/dbt_asana/pull/29) includes the following updates:
 ## 🎉 Feature Update 🎉
 - Updated `int_asana__task_projects` to create the following new columns that are brought into `asana__task`:
-  - first_project_id
   - project_ids
-  + first_project_name
   - project_names
   - number_of_projects
-- Refer to [our documentation](https://fivetran.github.io/dbt_asana/#!/overview) for definitions. 
+- Note `project_ids` and `project_names` are aggregated lists. You can parse or explode the items in the list using a comma + space (`", "`) as a delimiter.
+          To keep the table grain at the task_id level, this list is not parsed by default.
+  - You can also refer to [our documentation](https://fivetran.github.io/dbt_asana/#!/overview) for definitions. 
 
 ## Contributors
 - [@irvingpop ](https://github.com/irvingpop ) ([PR #28](https://github.com/fivetran/dbt_asana/pull/28))
