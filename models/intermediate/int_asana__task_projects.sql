@@ -66,8 +66,6 @@ final as (
         agg_project_sections.number_of_projects
 
     from agg_project_sections
-    left join task_project_primary
-        on agg_project_sections.task_id = task_project_primary.task_id
 )
 
 select * from final
