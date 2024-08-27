@@ -20,10 +20,12 @@
 - Generates a comprehensive data dictionary of your source and modeled Asana data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
 - These tables are designed to work simultaneously with our [Asana source package](https://github.com/fivetran/dbt_asana_source).
 
-The following table provides a detailed list of all models materialized within this package by default.
+
+<!--section=“asana_transformation_model"-->
+The following table provides a detailed list of all tables materialized within this package by default.
 > TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_asana/#!/overview?g_v=1&g_e=seeds).
 
-| **Model**                | **Description**                                                                                                                                |
+| **Table**                | **Description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | [asana__task](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__task)             | Each record represents an Asana task, enriched with data about its assignee, projects, sections, tasks, teams, tags, parent task, comments, followers, and activity. |
 | [asana__user](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__user)             | Each record represents an Asana user, enriched with metrics about their completed tasks, open tasks, and the projects they work on. Also includes data about the user's most recently completed task and their next due task. |
@@ -31,7 +33,7 @@ The following table provides a detailed list of all models materialized within t
 | [asana__team](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__team)             | Each record represents an Asana team, enriched with data about their completed tasks, open tasks, their projects, and the users involved with the team. |
 | [asana__tag](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__tag)              | Each record represents an Asana tag, enriched with metrics about open and completed tasks associated with the tag. |
 | [asana__daily_metrics](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__daily_metrics)    | Each record represents a single day, enriched with metrics about tasks opened at created that day. |
-
+<!--section-end-->
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
