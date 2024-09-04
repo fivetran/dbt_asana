@@ -23,7 +23,7 @@
 
 <!--section=“asana_transformation_model"-->
 The following table provides a detailed list of all tables materialized within this package by default.
-> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_asana/#!/overview?g_v=1&g_e=seeds).
+> TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_asana/#!/overview?g_v=1&g_e=seeds).
 
 | **Table**                | **Description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -132,4 +132,3 @@ We highly encourage and welcome contributions to this package. Check out [this d
 ## Are there any resources available?
 - If you have questions or want to reach out for help, see the [GitHub Issue](https://github.com/fivetran/dbt_asana/issues/new/choose) section to find the right avenue of support for you.
 - If you would like to provide feedback to the dbt package team at Fivetran or would like to request a new dbt package, fill out our [Feedback Form](https://www.surveymonkey.com/r/DQ7K7WW).
-- Have questions or just want to say hi? Book a time during our office hours [on Calendly](https://calendly.com/fivetran-solutions-team/fivetran-solutions-team-office-hours) or email us at solutions@fivetran.com.
