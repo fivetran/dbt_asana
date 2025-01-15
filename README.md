@@ -33,12 +33,15 @@ The following table provides a detailed list of all tables materialized within t
 | [asana__team](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__team)             | Each record represents an Asana team, enriched with data about their completed tasks, open tasks, their projects, and the users involved with the team. |
 | [asana__tag](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__tag)              | Each record represents an Asana tag, enriched with metrics about open and completed tasks associated with the tag. |
 | [asana__daily_metrics](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__daily_metrics)    | Each record represents a single day, enriched with metrics about tasks opened at created that day. |
+
+### Materialized Models
+Each Quickstart transformation job run materializes 28 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 ## How do I use the dbt package?
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Asana connector syncing data into your destination.
+- At least one Fivetran Asana connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
 
 ### Step 2: Install the package

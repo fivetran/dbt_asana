@@ -1,3 +1,9 @@
+# dbt_asana version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#35](https://github.com/fivetran/dbt_asana/pull/35))
+- Corrected references to connectors and connections in the README. ([#35](https://github.com/fivetran/dbt_asana/pull/35))
+
 # dbt_asana v0.8.1
 [PR #29](https://github.com/fivetran/dbt_asana/pull/29) includes the following updates:
 ## 🎉 Feature Update 🎉
