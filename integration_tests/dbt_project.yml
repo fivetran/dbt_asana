@@ -16,6 +16,17 @@ vars:
     asana_task_tag_identifier: "task_tag_data"
     asana_section_identifier: "section_data"
     asana_task_section_identifier: "task_section_data"
+
+    using_asana_tags: False
+    using_asana_task_tags: False
+
+models:
+  asana:
+    +schema: asana
+    +materialized: table
+    intermediate:
+      +materialized: table
+
 seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
   asana_integration_tests:

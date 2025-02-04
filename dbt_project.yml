@@ -10,6 +10,8 @@ models:
       +materialized: ephemeral
 vars:
   asana:
+    using_tags: "{{ asana_source.does_table_exist('tag') }}"
+    using_task_tags: "{{ asana_source.does_table_exist('task_tag') }}"
     project_task: "{{ ref('stg_asana__project_task') }}"
     project: "{{ ref('stg_asana__project') }}"
     section: "{{ ref('stg_asana__section') }}"

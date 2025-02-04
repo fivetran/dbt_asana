@@ -1,26 +1,24 @@
-with asana_tag as (
+{{ config(
+    enabled=var('asana.using_asana_tags', True) or var('asana.using_asana_task_tags', True)
+) }}
 
+with asana_tag as (
     select * 
-    from {{ var('tag') }}
+    from {{ var('tag') }} 
 ),
 
-task_tag as (
-
+task_tag as ( 
     select * 
-    from {{ var('task_tag') }}
+    from {{ var('task_tag') }} 
 ),
 
 task as (
-
     select *
     from {{ ref('asana__task') }}
-
     where is_completed and tags is not null
-
 ),
 
 agg_tag as (
-
     select
         asana_tag.tag_id,
         asana_tag.tag_name,
@@ -30,12 +28,9 @@ agg_tag as (
         sum(case when task.is_completed then 1 else 0 end) as number_of_tasks_completed,
         round(avg(case when task.is_completed then task.days_open else null end), 0) as avg_days_open,
         round(avg(case when task.is_completed then task.days_since_last_assignment else null end), 0) as avg_days_assigned
-
-
     from asana_tag 
     left join task_tag on asana_tag.tag_id = task_tag.tag_id
     left join task on task.task_id = task_tag.task_id
-
     group by 1,2,3
 )
 
