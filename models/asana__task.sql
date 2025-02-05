@@ -21,11 +21,13 @@ task_open_length as (
     from {{ ref('int_asana__task_open_length') }}
 ),
 
+{% if var('asana__using_tags', True) and var('asana__using_task_tags', True) %}
 task_tags as (
 
     select *
     from {{ ref('int_asana__task_tags') }}
 ),
+{% endif %}
 
 task_assignee as (
 
@@ -76,8 +78,11 @@ task_join as (
         coalesce(task_comments.number_of_comments, 0) as number_of_comments,
         task_followers.followers,
         coalesce(task_followers.number_of_followers, 0) as number_of_followers,
+
+        {% if var('asana__using_tags', True) and var('asana__using_task_tags', True) %}
         task_tags.tags,
         coalesce(task_tags.number_of_tags, 0) as number_of_tags,
+        {% endif %}
 
         task_projects.project_ids,
         task_projects.project_names,
@@ -98,7 +103,10 @@ task_join as (
 
     left join task_comments on task.task_id = task_comments.task_id
     left join task_followers on task.task_id = task_followers.task_id
+    
+    {% if var('asana__using_tags', True) and var('asana__using_task_tags', True) %}
     left join task_tags on task.task_id = task_tags.task_id
+    {% endif %}
 
     left join task_assignee on task.task_id = task_assignee.task_id
 

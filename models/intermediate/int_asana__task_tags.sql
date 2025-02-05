@@ -1,5 +1,5 @@
 {{ config(
-    enabled=var('using_asana_tags', True) or var('asana_using_task_tags', True)
+    enabled=var('asana__using_tags', True) and var('asana__using_task_tags', True)
 ) }}
 
 with task_tag as ( 

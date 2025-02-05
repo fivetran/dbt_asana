@@ -1,9 +1,9 @@
 config-version: 2
 name: 'asana_integration_tests'
-version: 0.8.1
+version: 0.9.0
 profile: 'integration_tests'
 vars:
-  asana_schema: asana_integrations_tests_03
+  asana_schema: asana_integrations_tests_4
   asana_source:
     asana_user_identifier: "user_data"
     asana_project_identifier: "project_data"
@@ -17,15 +17,8 @@ vars:
     asana_section_identifier: "section_data"
     asana_task_section_identifier: "task_section_data"
 
-    using_asana_tags: False
-    using_asana_task_tags: False
-
-models:
-  asana:
-    +schema: asana
-    +materialized: table
-    intermediate:
-      +materialized: table
+models: 
+  +schema: "asana_{{ var('directed_schema','dev') }}" ## To be used for validation tests
 
 seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
