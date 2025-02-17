@@ -1,7 +1,7 @@
-# dbt_asana v0.9.0
+# dbt_asana v0.8.2
 This release will introduce the following changes: 
 
-## Breaking Changes 
+## Feature Updates
 - Introduces variables `asana__using_tags` and `asana__using_task_tags` to allow the `tag` and `task_tag` source tables to be disabled. By default, these variables are set to True. ([#37](https://github.com/fivetran/dbt_asana/pull/37))
 - This will disable the tables `int_asana__task_tags` and `asana__tag` if either of the variables are set to False. This allows the downstream models to run even if the respective source `tag` and `task_tag` tables don't exist. ([#37](https://github.com/fivetran/dbt_asana/pull/37)) 
 - This will exclude the fields `tags` and `number_of_tags` in `asana__task` if either of the variables are set to false.
