@@ -1,4 +1,16 @@
-# dbt_asana version.version
+# dbt_asana v0.8.2
+This release will introduce the following changes: 
+
+## Feature Updates
+- Introduces variables `asana__using_tags` and `asana__using_task_tags` to allow the `tag` and `task_tag` source tables to be disabled. By default, these variables are set to True. ([#37](https://github.com/fivetran/dbt_asana/pull/37))
+- This will disable the tables `int_asana__task_tags` and `asana__tag` if either of the variables are set to False. This allows the downstream models to run even if the respective source `tag` and `task_tag` tables don't exist. ([#37](https://github.com/fivetran/dbt_asana/pull/37)) 
+- This will exclude the fields `tags` and `number_of_tags` in `asana__task` if either of the variables are set to false.
+- For more information on how to configure these variables, refer to the [README](https://github.com/fivetran/dbt_asana/blob/main/README.md#step-4-enablingdisabling-models). ([#37](https://github.com/fivetran/dbt_asana/pull/37))
+
+## Under the Hood
+- Added `asana__using_tags` and `asana__using_task_tags` to the `quickstart.yml` configuration to ensure when these source tables are not selected, these variables are set to false and the above changes are applied in Quickstart. ([#37](https://github.com/fivetran/dbt_asana/pull/37))
+- Added False configurations for `asana__using_tags` and `asana__using_task_tags` to our Buildkite `run_models.sh` script. ([#37](https://github.com/fivetran/dbt_asana/pull/37))
+- Added consistency tests within `integration_tests` to ensure no unexpected row changes occur in the `asana__tag` and `asana_task` models in development. ([#37](https://github.com/fivetran/dbt_asana/pull/37))
 
 ## Documentation
 - Added Quickstart model counts to README. ([#35](https://github.com/fivetran/dbt_asana/pull/35))

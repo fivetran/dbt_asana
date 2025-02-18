@@ -19,5 +19,7 @@ dbt deps
 dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
+dbt run --vars '{asana__using_tags: false, asana__using_task_tags: false, asana_tag_identifier: missing, asana_task_tag_identifier: missing}' --target "$db" --full-refresh
+dbt test --target "$db"
 
 dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"
