@@ -4,12 +4,12 @@
 ) }}
 
 with prod as (
-    select * 
+    select {{ dbt_utils.star(from=ref('asana__task'), except=var('consistency_test_exclude_metrics', [])) }}
     from {{ target.schema }}_asana_prod.asana__task
 ),
 
 dev as (
-    select * 
+    select {{ dbt_utils.star(from=ref('asana__task'), except=var('consistency_test_exclude_metrics', [])) }}
     from {{ target.schema }}_asana_dev.asana__task
 ),
 
