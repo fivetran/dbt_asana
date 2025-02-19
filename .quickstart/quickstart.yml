@@ -4,9 +4,9 @@ schema_key: asana_schema
 dbt_versions: ">=1.3.0 <2.0.0"
 
 table_variables:
-  asana_using_tags:
+  asana__using_tags:
     - _tag
-  asana_using_task_tags:
+  asana__using_task_tags:
     - _task_tag
 
 destination_configurations:

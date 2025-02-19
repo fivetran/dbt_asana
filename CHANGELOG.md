@@ -1,3 +1,9 @@
+# dbt_asana v0.8.3
+[PR #39](https://github.com/fivetran/dbt_asana/pull/39) includes the following updates:
+
+## Under the Hood
+- Fixed `asana__using_tags` and `asana__using_task_tags` in the `quickstart.yml` configuration to ensure when these source tables are not selected, these variables are set to false and the above changes are applied in Quickstart.  
+
 # dbt_asana v0.8.2
 This release will introduce the following changes: 
 
