@@ -1,16 +1,21 @@
-<p align="center">
+
+# Asana dbt Package ([Docs](https://fivetran.github.io/dbt_asana/))
+
+<p align="left">
     <a alt="License"
-        href="https://github.com/fivetran/dbt_asana_source/blob/main/LICENSE">
+        href="https://github.com/fivetran/dbt_asana/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
     <a alt="dbt-core">
-        <img src="https://img.shields.io/badge/dbt_Core™_version->=1.3.0_<2.0.0-orange.svg" /></a>
+        <img src="https://img.shields.io/badge/dbt_Core™_version->=1.3.0_,<2.0.0-orange.svg" /></a>
     <a alt="Maintained?">
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
+    <a alt="Fivetran Quickstart Compatible"
+        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-# Asana dbt Package ([Docs](https://fivetran.github.io/dbt_asana/))
 ## What does this dbt package do?
 
 - Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation) and builds off of the output of our [Asana source package](https://github.com/fivetran/dbt_asana_source).
@@ -19,7 +24,6 @@
 - Provides a daily metrics table, which lays out a timeline of task creations and completions to show the overall pace of deliverables.
 - Generates a comprehensive data dictionary of your source and modeled Asana data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
 - These tables are designed to work simultaneously with our [Asana source package](https://github.com/fivetran/dbt_asana_source).
-
 
 <!--section=“asana_transformation_model"-->
 The following table provides a detailed list of all tables materialized within this package by default.
