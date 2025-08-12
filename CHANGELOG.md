@@ -1,3 +1,13 @@
+# dbt_asana v0.10.0
+[PR #43](https://github.com/fivetran/dbt_asana/pull/43) includes the following updates:
+
+### dbt Fusion Compatibility Updates
+- Updated package to maintain compatibility with dbt-core versions both before and after v1.10.6, which introduced a breaking change to multi-argument test syntax (e.g., `unique_combination_of_columns`).
+- Temporarily removed unsupported tests to avoid errors and ensure smoother upgrades across different dbt-core versions. These tests will be reintroduced once a safe migration path is available.
+  - Removed all `dbt_utils.unique_combination_of_columns` tests.
+  - Removed all `accepted_values` tests.
+  - Moved `loaded_at_field: _fivetran_synced` under the `config:` block in `src_asana.yml`.
+
 # dbt_asana v0.9.0
 [PR #40](https://github.com/fivetran/dbt_asana/pull/40) includes the following updates:
 

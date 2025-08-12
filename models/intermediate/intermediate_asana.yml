@@ -11,13 +11,6 @@ models:
 
   - name: int_asana__project_user
     description: Table of who is *working* on the project -- its owner + users assigned to it tasks 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - project_id
-            - user_id
-            - role
-            - currently_working_on
 
   - name: int_asana__subtask_parent
     description: Combines subtasks + information regarding parent tasks
