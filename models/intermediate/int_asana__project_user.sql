@@ -1,7 +1,7 @@
 with project_tasks as (
     
     select *
-    from {{ var('project_task') }}
+    from {{ ref('stg_asana__project_task') }}
 ),
 
 assigned_tasks as (
@@ -15,7 +15,7 @@ assigned_tasks as (
 project as (
     
     select *
-    from {{ var('project') }}
+    from {{ ref('stg_asana__project') }}
 
     where not is_archived
 

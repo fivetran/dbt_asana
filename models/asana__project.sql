@@ -7,7 +7,7 @@ with project_task_metrics as (
 project as (
     
     select *
-    from {{ var('project') }}
+    from {{ ref('stg_asana__project') }}
 ),
 
 project_user as (
@@ -18,12 +18,12 @@ project_user as (
 
 asana_user as (
     select *
-    from {{ var('user') }}
+    from {{ ref('stg_asana__user') }}
 ),
 
 team as (
     select *
-    from {{ var('team') }}
+    from {{ ref('stg_asana__team') }}
 ),
 
 agg_sections as (
@@ -32,7 +32,7 @@ agg_sections as (
         project_id,
         {{ fivetran_utils.string_agg( 'section_name', "', '") }} as sections
 
-    from {{ var('section') }}
+    from {{ ref('stg_asana__section') }}
     where section_name != '(no section)'
     group by 1
 ),

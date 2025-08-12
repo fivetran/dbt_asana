@@ -50,9 +50,9 @@ Include the following asana package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/asana
-    version: [">=0.9.0", "<0.10.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.0.0", "<1.1.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
-Do NOT include the `asana_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
+> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/asana_source` in your `packages.yml` since this package has been deprecated.
 
 ### Step 3: Define database and schema variables
 By default, this package runs using your [destination](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile) and the `asana` schema. If this is not where your Asana data is (for example, if your Asana schema is named `asana_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -61,7 +61,7 @@ By default, this package runs using your [destination](https://docs.getdbt.com/d
 config-version: 2
 
 vars:
-  asana_source:
+  asana:
     asana_database: your_database_name
     asana_schema: your_schema_name 
 ```
@@ -79,14 +79,14 @@ vars:
 ```
 
 ### (Optional) Step 5: Additional configurations
-<details><summary>Expand for configurations</summary>
+<details open><summary>Expand/Collapse details</summary>
 
 #### Passing Through Additional Columns
 This package allows users to include additional columns to the source task table.  To do this, include any additional columns to the `asana_source` pass-through variables to ensure the downstream columns are present.
 
 ```yml
 vars:
-  asana_source:
+  asana:
     task_pass_through_columns: [custom_status, custom_department]
 ```
 
@@ -95,10 +95,10 @@ By default this package will build the Asana staging models within a schema titl
 
 ```yml
 models:
-  asana:
-    +schema: my_new_schema_name # leave blank for just the target_schema
-  asana_source:
-    +schema: my_new_schema_name # leave blank for just the target_schema
+    asana:
+      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      staging:
+        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
 
 #### Change the source table references
@@ -126,9 +126,6 @@ This dbt package is dependent on the following dbt packages. These dependencies 
 
 ```yml
 packages:
-    - package: fivetran/asana_source
-      version: [">=0.9.0", "<0.10.0"]
-
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
 

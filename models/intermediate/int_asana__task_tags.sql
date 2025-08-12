@@ -4,12 +4,12 @@
 
 with task_tag as ( 
     select * 
-    from {{ var('task_tag') }} 
+    from {{ ref('stg_asana__task_tag') }} 
 ),
 
 asana_tag as (
     select * 
-    from {{ var('tag') }}
+    from {{ ref('stg_asana__tag') }}
 ),
 
 agg_tags as (
