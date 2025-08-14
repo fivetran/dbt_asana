@@ -1,27 +1,27 @@
 with task_project as (
 
     select *
-    from {{ var('project_task') }}
+    from {{ ref('stg_asana__project_task') }}
 
 ),
 
 project as (
 
     select *
-    from {{ var ('project') }}
+    from {{ ref('stg_asana__project') }}
 ),
 
 task_section as (
 
     select *
-    from {{ var('task_section') }}
+    from {{ ref('stg_asana__task_section') }}
 
 ),
 
 section as (
 
     select *
-    from {{ var ('section') }}
+    from {{ ref('stg_asana__section') }}
 
 ),
 

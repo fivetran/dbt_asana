@@ -1,10 +1,10 @@
 config-version: 2
 name: 'asana_integration_tests'
-version: 0.9.0
+version: '1.0.0'
 profile: 'integration_tests'
 vars:
   asana_schema: asana_integrations_tests_03
-  asana_source:
+  asana:
     asana_user_identifier: "user_data"
     asana_project_identifier: "project_data"
     asana_task_identifier: "task_data"
@@ -21,6 +21,8 @@ models:
   +schema: "asana_{{ var('directed_schema','dev') }}" ## To be used for validation tests
 
 seeds:
+  +docs:
+    show: False
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
   asana_integration_tests:
     +column_types:
@@ -88,3 +90,5 @@ dispatch:
 
 flags:
   send_anonymous_usage_stats: False
+
+  use_colors: True

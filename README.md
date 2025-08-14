@@ -1,25 +1,28 @@
-<p align="center">
+
+# Asana dbt Package ([Docs](https://fivetran.github.io/dbt_asana/))
+
+<p align="left">
     <a alt="License"
-        href="https://github.com/fivetran/dbt_asana_source/blob/main/LICENSE">
+        href="https://github.com/fivetran/dbt_asana/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
     <a alt="dbt-core">
-        <img src="https://img.shields.io/badge/dbt_Core™_version->=1.3.0_<2.0.0-orange.svg" /></a>
+        <img src="https://img.shields.io/badge/dbt_Core™_version->=1.3.0_,<2.0.0-orange.svg" /></a>
     <a alt="Maintained?">
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
+    <a alt="Fivetran Quickstart Compatible"
+        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-# Asana dbt Package ([Docs](https://fivetran.github.io/dbt_asana/))
 ## What does this dbt package do?
 
-- Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation) and builds off of the output of our [Asana source package](https://github.com/fivetran/dbt_asana_source).
+- Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation).
 
 - Enhances the task, users, projects, teams, and tags tables. Each of these tables is enriched with metrics that reflect the volume and breadth of current work and also the velocity of completed work.
 - Provides a daily metrics table, which lays out a timeline of task creations and completions to show the overall pace of deliverables.
 - Generates a comprehensive data dictionary of your source and modeled Asana data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
-- These tables are designed to work simultaneously with our [Asana source package](https://github.com/fivetran/dbt_asana_source).
-
 
 <!--section=“asana_transformation_model"-->
 The following table provides a detailed list of all tables materialized within this package by default.
@@ -50,9 +53,9 @@ Include the following asana package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/asana
-    version: [">=0.9.0", "<0.10.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.0.0", "<1.1.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
-Do NOT include the `asana_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
+> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/asana_source` in your `packages.yml` since this package has been deprecated.
 
 ### Step 3: Define database and schema variables
 By default, this package runs using your [destination](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile) and the `asana` schema. If this is not where your Asana data is (for example, if your Asana schema is named `asana_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -61,7 +64,7 @@ By default, this package runs using your [destination](https://docs.getdbt.com/d
 config-version: 2
 
 vars:
-  asana_source:
+  asana:
     asana_database: your_database_name
     asana_schema: your_schema_name 
 ```
@@ -79,14 +82,14 @@ vars:
 ```
 
 ### (Optional) Step 5: Additional configurations
-<details><summary>Expand for configurations</summary>
+<details open><summary>Expand/Collapse details</summary>
 
 #### Passing Through Additional Columns
-This package allows users to include additional columns to the source task table.  To do this, include any additional columns to the `asana_source` pass-through variables to ensure the downstream columns are present.
+This package allows users to include additional columns to the source task table.  To do this, include any additional columns to the pass-through variables to ensure the downstream columns are present.
 
 ```yml
 vars:
-  asana_source:
+  asana:
     task_pass_through_columns: [custom_status, custom_department]
 ```
 
@@ -95,16 +98,16 @@ By default this package will build the Asana staging models within a schema titl
 
 ```yml
 models:
-  asana:
-    +schema: my_new_schema_name # leave blank for just the target_schema
-  asana_source:
-    +schema: my_new_schema_name # leave blank for just the target_schema
+    asana:
+      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      staging:
+        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
 
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_asana_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_asana/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 vars:
@@ -126,9 +129,6 @@ This dbt package is dependent on the following dbt packages. These dependencies 
 
 ```yml
 packages:
-    - package: fivetran/asana_source
-      version: [">=0.9.0", "<0.10.0"]
-
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
 

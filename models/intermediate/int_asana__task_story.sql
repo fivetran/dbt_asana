@@ -1,14 +1,14 @@
 with story as (
     
     select * 
-    from {{ var('story') }}
+    from {{ ref('stg_asana__story') }}
 
 ),
 
 asana_user as (
 
     select * 
-    from {{ var('user') }}
+    from {{ ref('stg_asana__user') }}
 ),
 
 story_user as (
