@@ -24,3 +24,4 @@ vars:
     task: "{{ source('asana', 'task') }}"
     team: "{{ source('asana', 'team') }}"
     user: "{{ source('asana', 'user') }}"
+    task_pass_through_columns: []
