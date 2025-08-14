@@ -8,14 +8,14 @@ with task as (
 project as (
 
     select * 
-    from {{ var('project') }}
+    from {{ ref('stg_asana__project') }}
 
 ),
 
 project_task as (
 
     select * 
-    from {{ var('project_task') }}
+    from {{ ref('stg_asana__project_task') }}
 ),
 
 project_task_history as (

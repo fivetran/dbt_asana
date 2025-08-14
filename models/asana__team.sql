@@ -1,6 +1,6 @@
 with team as (
 
-    select * from {{ var('team') }}
+    select * from {{ ref('stg_asana__team') }}
 ),
 
 project as (
