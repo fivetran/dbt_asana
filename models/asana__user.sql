@@ -23,7 +23,7 @@ count_user_projects as (
         user_id,
         sum(case when role = 'owner' then 1
             else 0 end) as number_of_projects_owned,
-         sum(case when currently_working_on = true then 1
+        sum(case when currently_working_on = true then 1
             else 0 end) as number_of_projects_currently_assigned_to
 
     from project_user

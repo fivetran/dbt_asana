@@ -8,7 +8,7 @@ with task_project as (
 project as (
 
     select *
-    from {{ var ('project') }}
+    from {{ ref('stg_asana__project') }}
 ),
 
 task_section as (
@@ -21,7 +21,7 @@ task_section as (
 section as (
 
     select *
-    from {{ var ('section') }}
+    from {{ ref('stg_asana__section') }}
 
 ),
 
