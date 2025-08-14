@@ -1,2 +1,2 @@
 select * 
-from {{ var('story') }}
+from {{ source('asana', 'story') }}

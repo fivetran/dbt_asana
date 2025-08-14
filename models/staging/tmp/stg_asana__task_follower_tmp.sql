@@ -1,2 +1,2 @@
 select * 
-from {{ var('task_follower') }}
+from {{ source('asana', 'task_follower') }}
