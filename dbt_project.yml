@@ -9,8 +9,8 @@ models:
     intermediate:
       +materialized: ephemeral
     staging:
-      +schema: asana_source
-      +materialized: view
+      +schema: stg_asana
+      +materialized: table
 vars:
   asana:
     project_task: "{{ source('asana', 'project_task') }}"

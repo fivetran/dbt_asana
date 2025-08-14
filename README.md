@@ -18,12 +18,11 @@
 
 ## What does this dbt package do?
 
-- Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation) and builds off of the output of our [Asana source package](https://github.com/fivetran/dbt_asana_source).
+- Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation).
 
 - Enhances the task, users, projects, teams, and tags tables. Each of these tables is enriched with metrics that reflect the volume and breadth of current work and also the velocity of completed work.
 - Provides a daily metrics table, which lays out a timeline of task creations and completions to show the overall pace of deliverables.
 - Generates a comprehensive data dictionary of your source and modeled Asana data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
-- These tables are designed to work simultaneously with our [Asana source package](https://github.com/fivetran/dbt_asana_source).
 
 <!--section=“asana_transformation_model"-->
 The following table provides a detailed list of all tables materialized within this package by default.
@@ -86,7 +85,7 @@ vars:
 <details open><summary>Expand/Collapse details</summary>
 
 #### Passing Through Additional Columns
-This package allows users to include additional columns to the source task table.  To do this, include any additional columns to the `asana_source` pass-through variables to ensure the downstream columns are present.
+This package allows users to include additional columns to the source task table.  To do this, include any additional columns to the pass-through variables to ensure the downstream columns are present.
 
 ```yml
 vars:
@@ -108,7 +107,7 @@ models:
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_asana_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_asana/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 vars:
