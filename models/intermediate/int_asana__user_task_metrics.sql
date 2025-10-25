@@ -8,7 +8,8 @@ with tasks as (
 
 agg_user_tasks as (
 
-    select 
+    select
+    source_relation,
     assignee_user_id as user_id,
     sum(case when not is_completed then 1 else 0 end) as number_of_open_tasks,
     sum(case when is_completed then 1 else 0 end) as number_of_tasks_completed,
@@ -16,19 +17,20 @@ agg_user_tasks as (
 
     from  tasks
 
-    group by 1
+    group by 1, 2
 
 ),
 
 final as (
     select
+        agg_user_tasks.source_relation,
         agg_user_tasks.user_id,
         agg_user_tasks.number_of_open_tasks,
         agg_user_tasks.number_of_tasks_completed,
         nullif(agg_user_tasks.days_assigned_this_user, 0) * 1.0 / nullif(agg_user_tasks.number_of_tasks_completed, 0) as avg_close_time_days
 
-    from 
-    agg_user_tasks 
+    from
+    agg_user_tasks
 )
 
 select * from final

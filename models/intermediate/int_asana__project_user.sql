@@ -24,55 +24,61 @@ project as (
 project_assignee as (
 
     select
+        project_tasks.source_relation,
         project_tasks.project_id,
         project_tasks.task_id,
         assigned_tasks.assignee_user_id,
         assigned_tasks.assignee_name,
         not assigned_tasks.is_completed as currently_working_on
 
-    from project_tasks 
-    join assigned_tasks 
+    from project_tasks
+    join assigned_tasks
         on assigned_tasks.task_id = project_tasks.task_id
+        and assigned_tasks.source_relation = project_tasks.source_relation
 
 ),
 
 project_owner as (
 
-    select 
+    select
+        source_relation,
         project_id,
         project_name,
         owner_user_id
 
     from project
-    
+
     where owner_user_id is not null
 ),
 
 project_user as (
-    
+
     select
+        source_relation,
         project_id,
         project_name,
         owner_user_id as user_id,
         'owner' as role,
         null as currently_working_on
-    
+
     from project_owner
 
     union all
 
     select
+        project.source_relation,
         project.project_id,
         project.project_name,
         project_assignee.assignee_user_id as user_id,
         'task assignee' as role,
         project_assignee.currently_working_on
-    
-    from project 
-    
-    join project_assignee 
+
+    from project
+
+    join project_assignee
         on project.project_id = project_assignee.project_id
-    group by 1,2,3,4,5
+        and project.source_relation = project_assignee.source_relation
+    group by 1, 2, 3, 4, 5, 6
 
 )
 

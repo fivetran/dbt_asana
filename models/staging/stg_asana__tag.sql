@@ -16,13 +16,15 @@ fields as (
                 staging_columns=get_tag_columns()
             )
         }}
-        
+        {{ asana.apply_source_relation() }}
+
     from base
 ),
 
 final as (
     
-    select 
+    select
+        source_relation,
         id as tag_id,
         name as tag_name,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at

@@ -19,7 +19,8 @@ project_user as (
 
 count_user_projects as (
 
-    select 
+    select
+        source_relation,
         user_id,
         sum(case when role = 'owner' then 1
             else 0 end) as number_of_projects_owned,
@@ -28,29 +29,31 @@ count_user_projects as (
 
     from project_user
 
-    group by 1
+    group by 1, 2
 
 ),
 
 unique_user_projects as (
     select
+        source_relation,
         user_id,
         project_id,
         project_name
 
     from project_user
-    group by 1,2,3
+    group by 1, 2, 3, 4
 ),
 
 
 agg_user_projects as (
 
-    select 
+    select
+    source_relation,
     user_id,
     {{ fivetran_utils.string_agg( 'project_name', "', '" )}} as projects_working_on
 
     from unique_user_projects
-    group by 1
+    group by 1, 2
 
 ),
 
@@ -66,11 +69,14 @@ user_join as (
         coalesce(count_user_projects.number_of_projects_currently_assigned_to, 0) as number_of_projects_currently_assigned_to,
         agg_user_projects.projects_working_on
     
-    from asana_user 
+    from asana_user
 
     left join user_task_metrics on asana_user.user_id = user_task_metrics.user_id
+        and asana_user.source_relation = user_task_metrics.source_relation
     left join count_user_projects on asana_user.user_id = count_user_projects.user_id
+        and asana_user.source_relation = count_user_projects.source_relation
     left join agg_user_projects on asana_user.user_id = agg_user_projects.user_id
+        and asana_user.source_relation = agg_user_projects.source_relation
 )
 
 select * from user_join

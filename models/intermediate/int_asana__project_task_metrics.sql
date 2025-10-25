@@ -21,6 +21,7 @@ project_task as (
 project_task_history as (
 
     select
+        project.source_relation,
         project.project_id,
         task.task_id,
         task.is_completed as task_is_completed,
@@ -29,16 +30,19 @@ project_task_history as (
         task.days_since_last_assignment as task_days_assigned_current_user
 
     from project
-    left join project_task 
+    left join project_task
         on project.project_id = project_task.project_id
-    left join task 
+        and project.source_relation = project_task.source_relation
+    left join task
         on project_task.task_id = task.task_id
+        and project_task.source_relation = task.source_relation
 
 ),
 
 agg_proj_tasks as (
 
-    select 
+    select
+    source_relation,
     project_id,
     sum(case when not task_is_completed then 1 else 0 end) as number_of_open_tasks,
     sum(case when not task_is_completed and task_assignee_user_id is not null then 1 else 0 end) as number_of_assigned_open_tasks,
@@ -49,7 +53,7 @@ agg_proj_tasks as (
 
     from  project_task_history
 
-    group by 1
+    group by 1, 2
 
 ),
 

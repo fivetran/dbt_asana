@@ -7,25 +7,27 @@ with story as (
 
 ordered_stories as (
 
-    select 
+    select
+        source_relation,
         target_task_id,
         created_by_user_id,
         created_by_name,
         created_at,
-        row_number() over ( partition by target_task_id order by created_at asc ) as nth_story
-        
+        row_number() over ( partition by source_relation, target_task_id order by created_at asc ) as nth_story
+
     from story
 
 ),
 
 first_modifier as (
 
-    select  
+    select
+        source_relation,
         target_task_id as task_id,
         created_by_user_id as first_modifier_user_id,
         created_by_name as first_modifier_name
 
-    from ordered_stories 
+    from ordered_stories
     where nth_story = 1
 )
 

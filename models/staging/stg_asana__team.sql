@@ -15,13 +15,15 @@ fields as (
                 staging_columns=get_team_columns()
             )
         }}
-        
+        {{ asana.apply_source_relation() }}
+
     from base
 ),
 
 final as (
     
-    select 
+    select
+        source_relation,
         id as team_id,
         name as team_name
     from fields

@@ -15,13 +15,15 @@ fields as (
                 staging_columns=get_task_section_columns()
             )
         }}
-        
+        {{ asana.apply_source_relation() }}
+
     from base
 ),
 
 final as (
     
-    select 
+    select
+        source_relation,
         section_id,
         task_id
     from fields

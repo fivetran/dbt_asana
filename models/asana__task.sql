@@ -99,20 +99,28 @@ task_join as (
     from
     task
     join task_open_length on task.task_id = task_open_length.task_id
+        and task.source_relation = task_open_length.source_relation
     left join task_first_modifier on task.task_id = task_first_modifier.task_id
+        and task.source_relation = task_first_modifier.source_relation
 
     left join task_comments on task.task_id = task_comments.task_id
+        and task.source_relation = task_comments.source_relation
     left join task_followers on task.task_id = task_followers.task_id
-    
+        and task.source_relation = task_followers.source_relation
+
     {% if var('asana__using_tags', True) and var('asana__using_task_tags', True) %}
     left join task_tags on task.task_id = task_tags.task_id
+        and task.source_relation = task_tags.source_relation
     {% endif %}
 
     left join task_assignee on task.task_id = task_assignee.task_id
+        and task.source_relation = task_assignee.source_relation
 
     left join subtask_parent on task.task_id = subtask_parent.subtask_id
+        and task.source_relation = subtask_parent.source_relation
 
     left join task_projects on task.task_id = task_projects.task_id
+        and task.source_relation = task_projects.source_relation
 
 )
 

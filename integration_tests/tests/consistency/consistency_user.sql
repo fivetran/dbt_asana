@@ -3,14 +3,15 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
+-- this test ensures the asana__user end model matches the prior version
 with prod as (
-    select {{ dbt_utils.star(from=ref('asana__tag'), except=var('consistency_test_exclude_metrics', [])) }}
-    from {{ target.schema }}_asana_prod.asana__tag
+    select {{ dbt_utils.star(from=ref('asana__user'), except=var('consistency_test_exclude_metrics', [])) }}
+    from {{ target.schema }}_asana_prod.asana__user
 ),
 
 dev as (
-    select {{ dbt_utils.star(from=ref('asana__tag'), except=var('consistency_test_exclude_metrics', [])) }}
-    from {{ target.schema }}_asana_dev.asana__tag
+    select {{ dbt_utils.star(from=ref('asana__user'), except=var('consistency_test_exclude_metrics', [])) }}
+    from {{ target.schema }}_asana_dev.asana__user
 ),
 
 prod_not_in_dev as (

@@ -91,11 +91,16 @@ project_join as (
 
     from
     project 
-    left join project_task_metrics on project.project_id = project_task_metrics.project_id 
-    left join agg_project_users on project.project_id = agg_project_users.project_id  
+    left join project_task_metrics on project.project_id = project_task_metrics.project_id
+        and project.source_relation = project_task_metrics.source_relation
+    left join agg_project_users on project.project_id = agg_project_users.project_id
+        and project.source_relation = agg_project_users.source_relation
     left join count_project_users on project.project_id = count_project_users.project_id
+        and project.source_relation = count_project_users.source_relation
     join team on team.team_id = project.team_id -- every project needs a team
+        and team.source_relation = project.source_relation
     left join agg_sections on project.project_id = agg_sections.project_id
+        and project.source_relation = agg_sections.source_relation
 
 )
 

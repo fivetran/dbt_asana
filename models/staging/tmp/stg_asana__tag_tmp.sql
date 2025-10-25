@@ -1,4 +1,10 @@
 {{ config(enabled=var('asana__using_tags', True)) }}
 
-select * 
-from {{ var('tag') }}
+{{
+    asana.asana_union_connections(
+        connection_dictionary=var('asana_sources'),
+        single_source_name='asana',
+        single_table_name='tag',
+        default_identifier='tag'
+    )
+}}

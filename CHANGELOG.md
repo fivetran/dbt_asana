@@ -1,3 +1,19 @@
+# dbt_asana v1.1.0
+
+## Schema/Data Change
+**1 total change • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | ----| --- | ----- |
+| All models | New column | | `source_relation` | Identifies the source connection when using multiple Asana connections |
+
+## Feature Update
+- **Union Data Functionality**: This release supports running the package on multiple Asana source connections. See the [README](https://github.com/fivetran/dbt_asana/tree/main?tab=readme-ov-file#step-3-define-database-and-schema-variables) for details on how to leverage this feature.
+
+## Tests Update
+- Removes uniqueness tests. The new unioning feature requires combination-of-column tests to consider the new `source_relation` column in addition to the existing primary key, but this is not supported across dbt versions.
+- These tests will be reintroduced once a version-agnostic solution is available.
+
 # dbt_asana v1.0.0
 
 [PR #44](https://github.com/fivetran/dbt_asana/pull/44) includes the following updates:

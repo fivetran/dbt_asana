@@ -15,13 +15,15 @@ fields as (
                 staging_columns=get_user_columns()
             )
         }}
-        
+        {{ asana.apply_source_relation() }}
+
     from base
 ),
 
 final as (
     
-    select 
+    select
+        source_relation,
         id as user_id,
         email,
         name as user_name

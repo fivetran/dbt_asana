@@ -28,8 +28,9 @@ spine as (
 ),
 
 spine_tasks as (
-        
+
     select
+        task.source_relation,
         spine.date_day,
         sum( {{ dbt.datediff('task.created_at', 'spine.date_day', 'day') }} ) as total_days_open,
         count( task.task_id) as number_of_tasks_open,
@@ -39,18 +40,19 @@ spine_tasks as (
         sum( case when cast(spine.date_day as timestamp) = {{ dbt.date_trunc('day', 'task.completed_at') }} then 1 else 0 end) as number_of_tasks_completed
 
     from spine
-    join task -- can't do left join with no =  
+    join task -- can't do left join with no =
         on cast(spine.date_day as timestamp) >= {{ dbt.date_trunc('day', 'task.created_at') }}
-        and case when task.is_completed then 
+        and case when task.is_completed then
             cast(spine.date_day as timestamp) < {{ dbt.date_trunc('day', 'task.completed_at') }}
             else true end
 
-    group by 1
+    group by 1, 2
 ),
 
 join_metrics as (
 
     select
+        spine_tasks.source_relation,
         spine.date_day,
         coalesce(spine_tasks.number_of_tasks_open, 0) as number_of_tasks_open,
         coalesce(spine_tasks.number_of_tasks_open_assigned, 0) as number_of_tasks_open_assigned,
@@ -60,9 +62,9 @@ join_metrics as (
         round(nullif(spine_tasks.total_days_open,0) * 1.0 / nullif(spine_tasks.number_of_tasks_open,0), 0) as avg_days_open,
         round(nullif(spine_tasks.total_days_open_assigned,0) * 1.0 / nullif(spine_tasks.number_of_tasks_open_assigned,0), 0) as avg_days_open_assigned
 
-    from 
+    from
     spine
-    left join spine_tasks on spine_tasks.date_day = spine.date_day 
+    left join spine_tasks on spine_tasks.date_day = spine.date_day
 
 )
 
