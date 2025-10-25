@@ -29,41 +29,47 @@ team as (
 agg_sections as (
 
     select
+        source_relation,
         project_id,
         {{ fivetran_utils.string_agg( 'section_name', "', '") }} as sections
 
     from {{ ref('stg_asana__section') }}
     where section_name != '(no section)'
-    group by 1
+    group by 1, 2
 ),
 
 agg_project_users as (
 
-    select 
+    select
+        project_user.source_relation,
         project_user.project_id,
         {{ fivetran_utils.string_agg( "asana_user.user_name || ' as ' || project_user.role" , "', '" ) }} as users
 
-    from project_user join asana_user using(user_id)
+    from project_user
+    join asana_user on project_user.user_id = asana_user.user_id
+        and project_user.source_relation = asana_user.source_relation
 
-    group by 1
+    group by 1, 2
 
 ),
 
 -- need to split from above due to redshift's inability to string/list_agg and use distinct aggregates
 count_project_users as (
- 
-    select 
-        project_id, 
+
+    select
+        source_relation,
+        project_id,
         count(distinct user_id) as number_of_users_involved
 
     from project_user
-    group by 1
+    group by 1, 2
 
 ),
 
 project_join as (
 
     select
+        project.source_relation,
         project.project_id,
         project_name,
 

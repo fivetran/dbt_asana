@@ -4,6 +4,11 @@ with task as (
     from {{ ref('asana__task') }}
 ),
 
+source_relations as (
+    select 
+        distinct source_relation
+    from task
+),
 
 spine as (
 
@@ -25,6 +30,8 @@ spine as (
         end_date = dbt.dateadd("week", 1, "current_date") ) 
     }} 
 
+    cross join source_relations
+
 ),
 
 spine_tasks as (
@@ -40,11 +47,12 @@ spine_tasks as (
         sum( case when cast(spine.date_day as timestamp) = {{ dbt.date_trunc('day', 'task.completed_at') }} then 1 else 0 end) as number_of_tasks_completed
 
     from spine
-    join task -- can't do left join with no =
+    left join task -- can't do left join with no =
         on cast(spine.date_day as timestamp) >= {{ dbt.date_trunc('day', 'task.created_at') }}
         and case when task.is_completed then
             cast(spine.date_day as timestamp) < {{ dbt.date_trunc('day', 'task.completed_at') }}
             else true end
+        and spine.source_relation = task.source_relation
 
     group by 1, 2
 ),
@@ -52,8 +60,8 @@ spine_tasks as (
 join_metrics as (
 
     select
-        spine_tasks.source_relation,
-        spine.date_day,
+        spine_with_sources.source_relation,
+        spine_with_sources.date_day,
         coalesce(spine_tasks.number_of_tasks_open, 0) as number_of_tasks_open,
         coalesce(spine_tasks.number_of_tasks_open_assigned, 0) as number_of_tasks_open_assigned,
         coalesce(spine_tasks.number_of_tasks_created, 0) as number_of_tasks_created,
@@ -62,9 +70,10 @@ join_metrics as (
         round(nullif(spine_tasks.total_days_open,0) * 1.0 / nullif(spine_tasks.number_of_tasks_open,0), 0) as avg_days_open,
         round(nullif(spine_tasks.total_days_open_assigned,0) * 1.0 / nullif(spine_tasks.number_of_tasks_open_assigned,0), 0) as avg_days_open_assigned
 
-    from
-    spine
-    left join spine_tasks on spine_tasks.date_day = spine.date_day
+    from spine
+    left join spine_tasks
+        on spine_tasks.date_day = spine.date_day
+        and spine_tasks.source_relation = spine.source_relation
 
 )
 
