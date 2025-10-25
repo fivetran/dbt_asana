@@ -60,8 +60,8 @@ spine_tasks as (
 join_metrics as (
 
     select
-        spine_with_sources.source_relation,
-        spine_with_sources.date_day,
+        spine.source_relation,
+        spine.date_day,
         coalesce(spine_tasks.number_of_tasks_open, 0) as number_of_tasks_open,
         coalesce(spine_tasks.number_of_tasks_open_assigned, 0) as number_of_tasks_open_assigned,
         coalesce(spine_tasks.number_of_tasks_created, 0) as number_of_tasks_created,
