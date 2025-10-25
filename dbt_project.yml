@@ -13,7 +13,6 @@ models:
       +materialized: table
 vars:
   asana:
-    asana_sources: []
     project_task: "{{ source('asana', 'project_task') }}"
     project: "{{ source('asana', 'project') }}"
     section: "{{ source('asana', 'section') }}"
