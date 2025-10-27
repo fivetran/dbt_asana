@@ -44,8 +44,9 @@ task_project_section as (
         and task_section.source_relation = task_project.source_relation
     join section
         on section.section_id = task_section.section_id
+        and section.source_relation = task_section.source_relation
         and section.project_id = project.project_id
-        and section.source_relation = task_project.source_relation
+        and section.source_relation = project.source_relation
 ),
 
 agg_project_sections as (
