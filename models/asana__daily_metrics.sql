@@ -47,7 +47,7 @@ spine_tasks as (
         sum( case when cast(spine.date_day as timestamp) = {{ dbt.date_trunc('day', 'task.completed_at') }} then 1 else 0 end) as number_of_tasks_completed
 
     from spine
-    left join task -- can't do left join with no =
+    left join task
         on cast(spine.date_day as timestamp) >= {{ dbt.date_trunc('day', 'task.created_at') }}
         and case when task.is_completed then
             cast(spine.date_day as timestamp) < {{ dbt.date_trunc('day', 'task.completed_at') }}
