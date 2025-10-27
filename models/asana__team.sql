@@ -26,8 +26,6 @@ team_join as (
         {{ fivetran_utils.string_agg('case when not project.is_archived then project.project_name else null end', "', '") }} as active_projects,
         coalesce( sum(case when project.is_archived then 1 else 0 end), 0) as number_of_archived_projects
 
-
-
     from team
     left join project on project.team_id = team.team_id
         and project.source_relation = team.source_relation
