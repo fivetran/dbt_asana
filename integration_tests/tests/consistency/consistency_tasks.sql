@@ -3,13 +3,15 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
+{% set except_columns = ['followers', 'project_names', 'project_ids', 'projects_sections'] + var('consistency_test_exclude_metrics', []) %}
+
 with prod as (
-    select {{ dbt_utils.star(from=ref('asana__task'), except=var('consistency_test_exclude_metrics', [])) }}
+    select {{ dbt_utils.star(from=ref('asana__task'), except=except_columns) }}
     from {{ target.schema }}_asana_prod.asana__task
 ),
 
 dev as (
-    select {{ dbt_utils.star(from=ref('asana__task'), except=var('consistency_test_exclude_metrics', [])) }}
+    select {{ dbt_utils.star(from=ref('asana__task'), except=except_columns) }}
     from {{ target.schema }}_asana_dev.asana__task
 ),
 

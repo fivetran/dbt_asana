@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: asana 
     database: "{% if target.type != 'spark' %}{{ var('asana_database', target.database)}}{% endif %}"
-    schema: "{{var ('asana_schema', 'asana')}}"
+    schema: "{{ var('asana_schema', 'asana')}}"
 
     loader: fivetran
 

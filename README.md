@@ -95,7 +95,7 @@ vars:
 By default, this package defines one single-connection source, called `asana`, which will be disabled if you are unioning multiple connections. This means that your DAG will not include your Asana sources, though the package will run successfully.
 
 To properly incorporate all of your Asana connections into your project's DAG:
-1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_asana.yml` [file](https://github.com/fivetran/dbt_asana/blob/main/models/staging/src_asana.yml).
+1. Define each of your sources in a `.yml` file in the `models` directory of your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_asana.yml` [file](https://github.com/fivetran/dbt_asana/blob/main/models/staging/src_asana.yml).
 
 ```yml
 # a .yml file in your root project

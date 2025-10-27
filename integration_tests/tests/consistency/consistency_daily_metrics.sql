@@ -3,14 +3,16 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
+{% set except_columns = var('consistency_test_exclude_metrics', []) %}
+
 -- this test ensures the asana__daily_metrics end model matches the prior version
 with prod as (
-    select {{ dbt_utils.star(from=ref('asana__daily_metrics'), except=var('consistency_test_exclude_metrics', [])) }}
+    select {{ dbt_utils.star(from=ref('asana__daily_metrics'), except=except_columns) }}
     from {{ target.schema }}_asana_prod.asana__daily_metrics
 ),
 
 dev as (
-    select {{ dbt_utils.star(from=ref('asana__daily_metrics'), except=var('consistency_test_exclude_metrics', [])) }}
+    select {{ dbt_utils.star(from=ref('asana__daily_metrics'), except=except_columns) }}
     from {{ target.schema }}_asana_dev.asana__daily_metrics
 ),
 
