@@ -4,7 +4,7 @@
 
 {%- endmacro %}
 
-{% macro default__partition_by_source_relation(has_other_partitions, alias) -%}
+{% macro default__partition_by_source_relation(has_other_partitions='yes', alias=None) -%}
     {% set prefix = '' if alias is none else alias ~ '.' %}
 
     {%- if has_other_partitions == 'no' -%}
