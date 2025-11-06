@@ -20,6 +20,7 @@ task as (
 
 agg_tag as (
     select
+        asana_tag.source_relation,
         asana_tag.tag_id,
         asana_tag.tag_name,
         asana_tag.created_at,
@@ -28,10 +29,12 @@ agg_tag as (
         sum(case when task.is_completed then 1 else 0 end) as number_of_tasks_completed,
         round(avg(case when task.is_completed then task.days_open else null end), 0) as avg_days_open,
         round(avg(case when task.is_completed then task.days_since_last_assignment else null end), 0) as avg_days_assigned
-    from asana_tag 
+    from asana_tag
     left join task_tag on asana_tag.tag_id = task_tag.tag_id
+        and asana_tag.source_relation = task_tag.source_relation
     left join task on task.task_id = task_tag.task_id
-    group by 1,2,3
+        and task.source_relation = task_tag.source_relation
+    group by 1,2,3,4
 )
 
 select * from agg_tag

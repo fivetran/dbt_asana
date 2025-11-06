@@ -19,9 +19,10 @@ task_assignee as (
         asana_user.user_name as assignee_name,
         asana_user.email as assignee_email
 
-    from task 
-    left join asana_user 
+    from task
+    left join asana_user
         on task.assignee_user_id = asana_user.user_id
+        and task.source_relation = asana_user.source_relation
 )
 
 select * from task_assignee

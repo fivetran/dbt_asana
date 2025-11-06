@@ -4,13 +4,15 @@ models:
 
   # enriched core object tables
   - name: asana__task
-    description: An enriched task table consisting of base task info + aggregated metrics and lists 
+    description: An enriched task table consisting of base task info + aggregated metrics and lists
     columns:
+
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
       - name: task_id
         description: System generated unique ID of the task.
         tests:
-          - unique
           - not_null
 
       - name: task_name
@@ -152,10 +154,12 @@ models:
     description: Enriched user table consisting of base user info + metrics around tasks and completions
     columns:
 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
       - name: user_id
         description: System generated unique ID of the user
         tests:
-          - unique
           - not_null
       
       - name: user_name
@@ -187,10 +191,12 @@ models:
     description: Table of projects' basic info enriched with metrics regarding tasks and completions
     columns:
 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
       - name: project_id
         description: System-generated unique ID of the project.
         tests:
-          - unique
           - not_null
       
       - name: project_name
@@ -258,10 +264,12 @@ models:
     description: Enriched team table consisting of basic team info + task/completion metrics (note that teams can only act on tasks in projects)
     columns:
 
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
       - name: team_id
         description: System generate unique ID for the team
         tests:
-          - unique
           - not_null
 
       - name: team_name
@@ -291,14 +299,16 @@ models:
       - name: number_of_archived_projects
         description: Count of archived projects
   
-  - name: asana__tag 
+  - name: asana__tag
     description: Table of tag basic info enriched with some task metrics.
     columns:
+
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
       - name: tag_id
         description: System-generated unique ID for the tag
         tests:
-          - unique
           - not_null
       
       - name: tag_name
@@ -326,10 +336,12 @@ models:
   - name: asana__daily_metrics
     description: Table of task metrics per each day
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
       - name: date_day
-        description: Unique day for which metrics are calculated. 
+        description: Unique day for which metrics are calculated.
         tests:
-          - unique
           - not_null
 
       - name: number_of_tasks_open

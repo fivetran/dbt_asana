@@ -13,8 +13,9 @@ story as (
 ),
 
 assignments as (
-    
-    select 
+
+    select
+    source_relation,
     target_task_id as task_id,
     min(created_at) as first_assigned_at,
     max(created_at) as last_assigned_at -- current assignment
@@ -22,7 +23,7 @@ assignments as (
     from story
     where action_taken = 'assigned'
 
-    group by 1
+    group by 1, 2
 
 ),
 
@@ -32,6 +33,7 @@ open_assigned_length as (
     {% set open_until = 'task.completed_at' if 'task.is_completed' is true else dbt.current_timestamp_backcompat() %}
 
     select
+        task.source_relation,
         task.task_id,
         task.is_completed,
         task.completed_at,
@@ -45,11 +47,12 @@ open_assigned_length as (
         {{ dbt.datediff('assignments.last_assigned_at', open_until, 'day') }} as days_since_last_assignment,
 
         {{ dbt.datediff('assignments.first_assigned_at', open_until, 'day') }} as days_since_first_assignment
-        
+
 
     from task
-    left join assignments 
+    left join assignments
         on task.task_id = assignments.task_id
+        and task.source_relation = assignments.source_relation
 
 )
 

@@ -4,11 +4,12 @@ models:
 
   - name: stg_asana__project
     description: Table containing all projects
-    columns: 
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: project_id
         description: System-generated unique ID of the project
         tests:
-          - unique
           - not_null
       - name: is_archived
         description: Boolean representing if the project has been archived in the UI
@@ -36,6 +37,8 @@ models:
   - name: stg_asana__project_task
     description: Table of tasks and the project(s) they each belong to. If a project doesn't have a task, it won't be in here (and vice versa)
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: project_id
         description: Foreign key referencing the ID of the PROJECT
         tests:
@@ -51,7 +54,6 @@ models:
       - name: section_id
         description: System-generated unique ID of the section
         tests:
-          - unique
           - not_null
       - name: created_at
         description: Timestamp of when the section was created
@@ -66,7 +68,6 @@ models:
       - name: story_id
         description: System generated unique ID of the story/action taken on a task.
         tests:
-          - unique
           - not_null
       - name: created_at
         description: Timestamp of when the story occurred.
@@ -86,8 +87,6 @@ models:
     columns:
       - name: tag_id
         description: System generated unique ID of the tag
-        tests:
-          - unique
       - name: tag_name
         description: User-facing name of the tag.
       - name: created_at
@@ -99,7 +98,6 @@ models:
       - name: task_id
         description: System generated unique ID of the task
         tests:
-          - unique
           - not_null
       - name: assignee_user_id
         description: Foreign key referencing the USER that is currently assigned the task.
@@ -170,7 +168,6 @@ models:
       - name: team_id
         description: System generated unique ID for each team
         tests:
-          - unique
           - not_null
       - name: team_name
         description: User-facing name of the team
@@ -181,7 +178,6 @@ models:
       - name: user_id
         description: System generated unique ID for each user
         tests:
-          - unique
           - not_null
       - name: email
         description: The user's email

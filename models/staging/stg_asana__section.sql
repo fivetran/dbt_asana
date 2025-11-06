@@ -15,13 +15,15 @@ fields as (
                 staging_columns=get_section_columns()
             )
         }}
-        
+        {{ asana.apply_source_relation() }}
+
     from base
 ),
 
 final as (
     
-    select 
+    select
+        source_relation,
         id as section_id,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         name as section_name,

@@ -14,13 +14,15 @@ asana_tag as (
 
 agg_tags as (
     select
+        task_tag.source_relation,
         task_tag.task_id,
         {{ fivetran_utils.string_agg( 'asana_tag.tag_name', "', '" ) }} as tags,
         count(*) as number_of_tags
-    from task_tag 
-    join asana_tag 
+    from task_tag
+    join asana_tag
         on asana_tag.tag_id = task_tag.tag_id
-    group by 1
+        and asana_tag.source_relation = task_tag.source_relation
+    group by 1, 2
 )
 
 select * from agg_tags

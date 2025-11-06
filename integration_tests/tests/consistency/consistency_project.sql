@@ -3,16 +3,17 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
-{% set except_columns = ['followers', 'project_names', 'project_ids', 'projects_sections'] + var('consistency_test_exclude_metrics', []) %}
+{% set except_columns = ['sections'] + var('consistency_test_exclude_metrics', []) %}
 
+-- this test ensures the asana__project end model matches the prior version
 with prod as (
-    select {{ dbt_utils.star(from=ref('asana__task'), except=except_columns) }}
-    from {{ target.schema }}_asana_prod.asana__task
+    select {{ dbt_utils.star(from=ref('asana__project'), except=except_columns) }}
+    from {{ target.schema }}_asana_prod.asana__project
 ),
 
 dev as (
-    select {{ dbt_utils.star(from=ref('asana__task'), except=except_columns) }}
-    from {{ target.schema }}_asana_dev.asana__task
+    select {{ dbt_utils.star(from=ref('asana__project'), except=except_columns) }}
+    from {{ target.schema }}_asana_dev.asana__project
 ),
 
 prod_not_in_dev as (

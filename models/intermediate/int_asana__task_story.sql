@@ -12,17 +12,19 @@ asana_user as (
 ),
 
 story_user as (
-    select 
+    select
         story.*,
         asana_user.user_name as created_by_name
     from story
-    join asana_user 
+    join asana_user
         on story.created_by_user_id = asana_user.user_id
+        and story.source_relation = asana_user.source_relation
 ),
 
 split_comments as (
 
     select
+        source_relation,
         story_id,
         created_at,
         created_by_user_id,
@@ -87,6 +89,7 @@ split_comments as (
 
 parse_actions as (
     select
+        source_relation,
         story_id,
         target_task_id,
         created_at,

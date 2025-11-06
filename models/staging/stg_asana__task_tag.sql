@@ -16,13 +16,15 @@ fields as (
                 staging_columns=get_task_tag_columns()
             )
         }}
-        
+        {{ asana.apply_source_relation() }}
+
     from base
 ),
 
 final as (
     
-    select 
+    select
+        source_relation,
         tag_id,
         task_id
     from fields
