@@ -1,9 +1,8 @@
 # dbt_asana v1.2.0
-
 [PR #49](https://github.com/fivetran/dbt_asana/pull/49) includes the following updates:
 
 ## Features
-  - Increases the required dbt version upper limit to v3.0.0
+- Increases the required dbt version upper limit to v3.0.0.
 
 # dbt_asana v1.1.0
 
