@@ -12,9 +12,9 @@ table_variables:
   _fivetran_quickstart_section:
     - section
   _fivetran_quickstart_task_follower:
-    - task_follower
+    - _task_follower
   _fivetran_quickstart_task_section:
-    - task_section
+    - _task_section
 
 destination_configurations:
   databricks:
