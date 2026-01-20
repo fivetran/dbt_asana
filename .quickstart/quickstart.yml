@@ -9,6 +9,13 @@ table_variables:
   asana__using_task_tags:
     - _task_tag
 
+  _fivetran_quickstart_section:
+    - section
+  _fivetran_quickstart_task_follower:
+    - _task_follower
+  _fivetran_quickstart_task_section:
+    - _task_section
+
 destination_configurations:
   databricks:
     dispatch:
@@ -23,3 +30,10 @@ public_models: [
   "asana__project",
   "asana__tag"
 ]
+
+supported_vars:
+  task_pass_through_columns:
+    type: dictionary
+    description: "Additional `TASK` fields to include in `asana__task`"
+    display_name: "Additional Task Columns"
+

@@ -1,5 +1,5 @@
-
-# Asana dbt Package ([Docs](https://fivetran.github.io/dbt_asana/))
+<!--section="asana_transformation_model"-->
+# Asana dbt Package
 
 <p align="left">
     <a alt="License"
@@ -12,52 +12,76 @@
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
     <a alt="Fivetran Quickstart Compatible"
-        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        href="https://fivetran.com/docs/transformations/data-models/quickstart-management#quickstartmanagement">
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
+This dbt package transforms data from Fivetran's Asana connector into analytics-ready tables.
+
+## Resources
+
+- Number of materialized models¹: 28
+- Connector documentation
+  - [Asana connector documentation](https://fivetran.com/docs/connectors/applications/asana)
+  - [Asana ERD](https://fivetran.com/docs/connectors/applications/asana#schemainformation)
+- dbt package documentation
+  - [GitHub repository](https://github.com/fivetran/dbt_asana)
+  - [dbt Docs](https://fivetran.github.io/dbt_asana/#!/overview)
+  - [DAG](https://fivetran.github.io/dbt_asana/#!/overview?g_v=1)
+  - [Changelog](https://github.com/fivetran/dbt_asana/blob/main/CHANGELOG.md)
+
 ## What does this dbt package do?
+This package enables you to enhance task, user, project, team, and tag tables with metrics and provide daily metrics for task tracking. It creates enriched models with metrics focused on work volume, breadth, and velocity.
 
-- Produces modeled tables that leverage Asana data from [Fivetran's connector](https://fivetran.com/docs/applications/asana) in the format described by [this ERD](https://fivetran.com/docs/applications/asana#schemainformation).
+### Output schema
+Final output tables are generated in the following target schema:
 
-- Enhances the task, users, projects, teams, and tags tables. Each of these tables is enriched with metrics that reflect the volume and breadth of current work and also the velocity of completed work.
-- Provides a daily metrics table, which lays out a timeline of task creations and completions to show the overall pace of deliverables.
-- Generates a comprehensive data dictionary of your source and modeled Asana data through the [dbt docs site](https://fivetran.github.io/dbt_asana/).
+```
+<your_database>.<connector/schema_name>_asana
+```
 
-<!--section=“asana_transformation_model"-->
-The following table provides a detailed list of all tables materialized within this package by default.
-> TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_asana/#!/overview?g_v=1&g_e=seeds).
+### Final output tables
 
-| **Table**                | **Description**                                                                                                                                |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [asana__task](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__task)             | Each record represents an Asana task, enriched with data about its assignee, projects, sections, tasks, teams, tags, parent task, comments, followers, and activity. |
-| [asana__user](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__user)             | Each record represents an Asana user, enriched with metrics about their completed tasks, open tasks, and the projects they work on. Also includes data about the user's most recently completed task and their next due task. |
-| [asana__project](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__project)          | Each record represents an Asana project, enriched with metrics about their completed tasks, open tasks, and the users involved in the project. Also includes data about the project's most recently completed task and next due tasks. |
-| [asana__team](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__team)             | Each record represents an Asana team, enriched with data about their completed tasks, open tasks, their projects, and the users involved with the team. |
-| [asana__tag](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__tag)              | Each record represents an Asana tag, enriched with metrics about open and completed tasks associated with the tag. |
-| [asana__daily_metrics](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__daily_metrics)    | Each record represents a single day, enriched with metrics about tasks opened at created that day. |
+By default, this package materializes the following final tables:
 
-### Materialized Models
-Each Quickstart transformation job run materializes 28 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
-<!--section-end-->
-## How do I use the dbt package?
-### Step 1: Prerequisites
+| Table | Description |
+| :---- | :---- |
+| [asana__task](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__task) | Provides comprehensive task-level data including assignments, due dates, completion status, project associations, and custom field values to track work progress and team productivity. <br></br>**Example Analytics Questions:**<ul><li>Which tasks are overdue or at risk of missing their due dates?</li><li>How many tasks are assigned to each team member and what is their completion rate?</li><li>What custom field values correlate with faster task completion times?</li></ul>|
+| [asana__user](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__user) | Summarizes user activity and workload including assigned tasks, created tasks, completion metrics, and project involvement to understand individual productivity and capacity. <br></br>**Example Analytics Questions:**<ul><li>Which users have the highest task completion rates and productivity metrics?</li><li>What is the current workload (open tasks) for each team member?</li><li>How many tasks has each user created versus completed over time?</li></ul>|
+| [asana__project](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__project) | Tracks all Asana projects with completion metrics, ownership details, and privacy settings to understand project status, workload distribution, and team organization. <br></br>**Example Analytics Questions:**<ul><li>Which projects have the most open tasks and longest completion times?</li><li>How are projects distributed across teams and owners?</li><li>What is the ratio of completed to total tasks for each active project?</li></ul>|
+| [asana__team](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__team) | Tracks team-level metrics including total tasks, completion rates, and project counts to monitor team performance and workload balance across the organization. <br></br>**Example Analytics Questions:**<ul><li>Which teams have the highest task volumes and completion rates?</li><li>How are projects and tasks distributed across different teams?</li><li>What is the average task completion time for each team?</li></ul>|
+| [asana__tag](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__tag) | Aggregates task metrics by tag to categorize work, track themes, and analyze patterns across projects using Asana's tagging system. <br></br>**Example Analytics Questions:**<ul><li>Which tags are associated with the most tasks and longest completion times?</li><li>How are tags distributed across different projects and teams?</li><li>What percentage of tasks with specific tags are completed on time?</li></ul>|
+| [asana__daily_metrics](https://fivetran.github.io/dbt_asana/#!/model/model.asana.asana__daily_metrics) | Summarizes daily task activity including tasks created, completed, and overall team productivity to track workflow trends and identify peak productivity periods. <br></br>**Example Analytics Questions:**<ul><li>How many tasks are created versus completed each day across the organization?</li><li>What days of the week show the highest task creation and completion rates?</li><li>Are there daily patterns in task activity that could inform capacity planning?</li></ul>|
+
+¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+
+---
+
+## Prerequisites
 To use this dbt package, you must have the following:
 
 - At least one Fivetran Asana connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
 
-### Step 2: Install the package
+## How do I use the dbt package?
+You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
+
+- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/data-models/quickstart-management).
+- To add the package to your dbt project, follow the setup instructions in the dbt package's [README file](https://github.com/fivetran/dbt_asana/blob/main/README.md#how-do-i-use-the-dbt-package) to use this package.
+
+<!--section-end-->
+
+### Install the package
 Include the following asana package version in your `packages.yml` file.
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yaml
 packages:
   - package: fivetran/asana
-    version: [">=1.2.0", "<1.3.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.3.0", "<1.4.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/asana_source` in your `packages.yml` since this package has been deprecated.
 
-### Step 3: Define database and schema variables
+### Define database and schema variables
 
 #### Option A: Single connection
 By default, this package runs using your [destination](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile) and the `asana` schema. If this is not where your Asana data is (for example, if your Asana schema is named `asana_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -116,7 +140,7 @@ sources:
     tables: # copy and paste from asana/models/staging/src_asana.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
 ```
 
-> **Note**: If there are source tables you do not have (see [Step 4](https://github.com/fivetran/dbt_asana?tab=readme-ov-file#step-4-disable-models-for-non-existent-sources)), you may still include them, as long as you have set the right variables to `False`.
+> **Note**: If there are source tables you do not have (see [Enabling/Disabling Models](https://github.com/fivetran/dbt_asana?tab=readme-ov-file#enablingdisabling-models)), you may still include them, as long as you have set the right variables to `False`.
 
 2. Set the `has_defined_sources` variable (scoped to the `asana` package) to `True`, like such:
 ```yml
@@ -126,7 +150,7 @@ vars:
     has_defined_sources: true
 ```
 
-### Step 4: Enabling/Disabling Models
+### Enabling/Disabling Models
 
 Your Asana connection might not sync every table that this package expects. If your syncs exclude certain tables, it is either because you do not use that functionality in Asana or have actively excluded some tables from your syncs. In order to enable or disable the relevant tables in the package, you will need to add the following variable(s) to your `dbt_project.yml` file.
 
@@ -138,7 +162,7 @@ vars:
     asana__using_task_tags: false           # default is true
 ```
 
-### (Optional) Step 5: Additional configurations
+### (Optional) Additional configurations
 <details open><summary>Expand/Collapse details</summary>
 
 #### Passing Through Additional Columns
@@ -173,10 +197,10 @@ vars:
 
 </details>
 
-### (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
+### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for more details</summary>
 
-Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt#setupguide).
+Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt/setup-guide#transformationsfordbtcoresetupguide).
 
 </details>
 
@@ -192,14 +216,19 @@ packages:
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
 ```
+
+<!--section="asana_maintenance"-->
 ## How is this package maintained and can I contribute?
+
 ### Package Maintenance
-The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/asana/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_asana/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
+The Fivetran team maintaining this package only maintains the [latest version](https://hub.getdbt.com/fivetran/asana/latest/) of the package. We highly recommend you stay consistent with the latest version of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_asana/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
 
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Check out [this dbt Discourse article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+
+<!--section-end-->
 
 ## Are there any resources available?
 - If you have questions or want to reach out for help, see the [GitHub Issue](https://github.com/fivetran/dbt_asana/issues/new/choose) section to find the right avenue of support for you.

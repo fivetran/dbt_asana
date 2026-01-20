@@ -1,3 +1,15 @@
+# dbt_asana v1.3.0
+
+[PR #50](https://github.com/fivetran/dbt_asana/pull/50) includes the following updates:
+
+## Documentation
+- Updates README with standardized Fivetran formatting.
+
+## Under the Hood
+- In the `quickstart.yml` file:
+  - Adds `table_variables` for relevant sources to prevent missing sources from blocking downstream Quickstart models.
+  - Adds `supported_vars` for Quickstart UI customization.
+
 # dbt_asana v1.2.0
 [PR #49](https://github.com/fivetran/dbt_asana/pull/49) includes the following updates:
 
