@@ -17,7 +17,10 @@ vars:
     asana_section_identifier: "section_data"
     asana_task_section_identifier: "task_section_data"
 
-models: 
+models:
+  +persist_docs:
+    relation: true
+    columns: true 
   +schema: "asana_{{ var('directed_schema','dev') }}" ## To be used for validation tests
 
 seeds:
