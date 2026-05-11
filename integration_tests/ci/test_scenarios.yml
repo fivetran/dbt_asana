@@ -1,0 +1,29 @@
+# Test scenarios configuration for asana dbt package
+# This file defines the different test scenarios to run during CI/CD
+
+# Required: The dbt variable name that controls which schema to use for testing
+schema_variable_name: "asana_schema"
+
+# Test scenarios - FIRST MUST BE DEFAULT WITH NO VARS
+dbt_adapter_versions:
+  snowflake: ">=1.3.0,<2.0.0"
+  bigquery: ">=1.3.0,<2.0.0"
+  postgres: ">=1.3.0,<2.0.0"
+  redshift: ">=1.3.0,<2.0.0"
+  databricks: ">=1.6.0,<2.0.0"
+
+test_scenarios:
+
+  # REQUIRED: Default scenario with no custom variables
+  - name: "Default"
+    vars: {}
+    include_incremental: false
+
+  # Tags disabled scenario
+  - name: "tags disabled"
+    vars:
+      asana__using_tags: false
+      asana__using_task_tags: false
+      asana_tag_identifier: "missing"
+      asana_task_tag_identifier: "missing"
+    include_incremental: false
