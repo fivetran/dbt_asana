@@ -15,7 +15,7 @@ fields as (
                 staging_columns=get_team_columns()
             )
         }}
-        {{ asana.apply_source_relation() }}
+        , source_relation
 
     from base
 ),

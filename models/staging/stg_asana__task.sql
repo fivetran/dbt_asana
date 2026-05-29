@@ -15,7 +15,7 @@ fields as (
                 staging_columns=get_task_columns()
             )
         }}
-        {{ asana.apply_source_relation() }}
+        , source_relation
 
         --The below script allows for pass through columns.
         {% if var('task_pass_through_columns') %}

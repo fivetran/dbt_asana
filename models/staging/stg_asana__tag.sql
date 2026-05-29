@@ -16,7 +16,7 @@ fields as (
                 staging_columns=get_tag_columns()
             )
         }}
-        {{ asana.apply_source_relation() }}
+        , source_relation
 
     from base
 ),
