@@ -15,6 +15,7 @@ fields as (
                 staging_columns=get_task_columns()
             )
         }}
+
         {{ fivetran_utils.apply_source_relation() }}
 
         --The below script allows for pass through columns.
