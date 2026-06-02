@@ -16,6 +16,9 @@ fields as (
             )
         }}
 
+        {{ fivetran_utils.apply_source_relation() }}
+
+
         --The below script allows for pass through columns.
         {% if var('task_pass_through_columns') %}
         ,
