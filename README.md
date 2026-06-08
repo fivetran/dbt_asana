@@ -64,19 +64,17 @@ Include the following asana package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/asana
-    version: [">=1.3.0", "<1.4.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.4.0", "<1.5.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/asana_source` in your `packages.yml` since this package has been deprecated.
 
 ### Define database and schema variables
-
 #### Option A: Single connection
-By default, this package runs using your [destination](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile) and the `asana` schema. If this is not where your Asana data is (for example, if your Asana schema is named `asana_fivetran`), add the following configuration to your root `dbt_project.yml` file:
+By default, this package runs using your destination and the `asana` schema. If this is not where your Asana data is (for example, if your Asana schema is named `asana_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 vars:
-  asana:
-    asana_database: your_database_name
+    asana_database: your_destination_name
     asana_schema: your_schema_name
 ```
 
@@ -100,42 +98,9 @@ vars:
         name: connection_2_source_name
 ```
 
-##### Recommended: Incorporate unioned sources into DAG
-> *If you are running the package through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore), the below step is necessary in order to synchronize model runs with your Asana connections. Alternatively, you may choose to run the package through Fivetran [Quickstart](https://fivetran.com/docs/transformations/quickstart), which would create separate sets of models for each Asana source rather than one set of unioned models.*
+#### Optional: Incorporate unioned sources into DAG
 
-By default, this package defines one single-connection source, called `asana`, which will be disabled if you are unioning multiple connections. This means that your DAG will not include your Asana sources, though the package will run successfully.
-
-To properly incorporate all of your Asana connections into your project's DAG:
-1. Define each of your sources in a `.yml` file in the `models` directory of your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_asana.yml` [file](https://github.com/fivetran/dbt_asana/blob/main/models/staging/src_asana.yml).
-
-```yml
-# a .yml file in your root project
-
-version: 2
-
-sources:
-  - name: <name> # ex: Should match name in asana_sources
-    schema: <schema_name>
-    database: <database_name>
-    loader: fivetran
-    config:
-      loaded_at_field: _fivetran_synced
-      freshness: # feel free to adjust to your liking
-        warn_after: {count: 72, period: hour}
-        error_after: {count: 168, period: hour}
-
-    tables: # copy and paste from asana/models/staging/src_asana.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
-```
-
-> **Note**: If there are source tables you do not have (see [Enabling/Disabling Models](https://github.com/fivetran/dbt_asana?tab=readme-ov-file#enablingdisabling-models)), you may still include them, as long as you have set the right variables to `False`.
-
-2. Set the `has_defined_sources` variable (scoped to the `asana` package) to `True`, like such:
-```yml
-# dbt_project.yml
-vars:
-  asana:
-    has_defined_sources: true
-```
+If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore) and are unioning multiple Asana connections, you can define your sources in a property `.yml` file, [using this as a template](https://github.com/fivetran/dbt_asana/blob/main/models/staging/src_asana.yml). Set the variable `has_defined_sources: true` under the Asana namespace in your `dbt_project.yml`. Otherwise, your Asana connections won't appear in your DAG. See the `union_connections` macro [documentation](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#optional-union-connections-defined-sources-configuration) for full configuration details.
 
 ### Enabling/Disabling Models
 
@@ -180,6 +145,14 @@ If an individual source table has a different name than the package expects, add
 ```yml
 vars:
     asana_<default_source_table_name>_identifier: your_table_name 
+```
+
+#### Source casing for case-sensitive destinations
+By default, the package applies case-insensitive comparisons when resolving `source_relation` values. If your destination is case-sensitive and you want downstream transformations to respect the exact casing of your source database and schema names, set the following variable:
+
+```yml
+vars:
+    fivetran_using_source_casing: true
 ```
 
 </details>

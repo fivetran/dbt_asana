@@ -1,6 +1,6 @@
 config-version: 2
 name: 'asana_integration_tests'
-version: '1.3.0'
+version: '1.4.0'
 profile: 'integration_tests'
 vars:
   asana_schema: asana_integrations_tests_03
@@ -26,7 +26,7 @@ models:
 seeds:
   +docs:
     show: False
-  +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+  +quote_columns: "{{ target.type == 'redshift' or var('fivetran_using_source_casing', false) }}"
   asana_integration_tests:
     +column_types:
       _fivetran_synced: timestamp
