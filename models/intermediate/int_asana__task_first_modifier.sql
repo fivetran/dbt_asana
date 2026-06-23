@@ -13,7 +13,7 @@ ordered_stories as (
         created_by_user_id,
         created_by_name,
         created_at,
-        row_number() over (partition by target_task_id {{ asana.partition_by_source_relation() }} order by created_at asc ) as nth_story
+        row_number() over (partition by target_task_id {{ fivetran_utils.partition_by_source_relation(package_name='asana') }} order by created_at asc ) as nth_story
 
     from story
 
