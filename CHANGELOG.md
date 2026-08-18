@@ -1,3 +1,11 @@
+# dbt_asana v1.4.1
+
+[PR #58](https://github.com/fivetran/dbt_asana/pull/58) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
+
 # dbt_asana v1.4.0
 
 [PR #56](https://github.com/fivetran/dbt_asana/pull/56) includes the following updates:
