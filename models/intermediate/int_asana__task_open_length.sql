@@ -30,7 +30,7 @@ assignments as (
 
 open_assigned_length as (
 
-    {% set open_until = 'task.completed_at' if 'task.is_completed' is true else dbt.current_timestamp_backcompat() %}
+    {% set open_until = 'case when task.is_completed then task.completed_at else ' ~ dbt.current_timestamp_backcompat() ~ ' end' %}
 
     select
         task.source_relation,
