@@ -50,7 +50,7 @@ spine_tasks as (
     left join task
         on cast(spine.date_day as timestamp) >= {{ dbt.date_trunc('day', 'task.created_at') }}
         and case when task.is_completed then
-            cast(spine.date_day as timestamp) < {{ dbt.date_trunc('day', 'task.completed_at') }}
+            cast(spine.date_day as timestamp) <= {{ dbt.date_trunc('day', 'task.completed_at') }}
             else true end
         and spine.source_relation = task.source_relation
 
