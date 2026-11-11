@@ -17,7 +17,7 @@ agg_followers as (
     select
         task_follower.source_relation,
         task_follower.task_id,
-        {{ fivetran_utils.string_agg( 'asana_user.user_name', "', '" )}} as followers,
+        {{ dbt.listagg( 'asana_user.user_name', "', '" )}} as followers,
         count(*) as number_of_followers
     from task_follower
     join asana_user

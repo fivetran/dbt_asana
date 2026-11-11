@@ -31,7 +31,7 @@ agg_sections as (
     select
         source_relation,
         project_id,
-        {{ fivetran_utils.string_agg( 'section_name', "', '") }} as sections
+        {{ dbt.listagg( 'section_name', "', '") }} as sections
 
     from {{ ref('stg_asana__section') }}
     where section_name != '(no section)'
@@ -43,7 +43,7 @@ agg_project_users as (
     select
         project_user.source_relation,
         project_user.project_id,
-        {{ fivetran_utils.string_agg( "asana_user.user_name || ' as ' || project_user.role" , "', '" ) }} as users
+        {{ dbt.listagg( "asana_user.user_name || ' as ' || project_user.role" , "', '" ) }} as users
 
     from project_user
     join asana_user on project_user.user_id = asana_user.user_id
