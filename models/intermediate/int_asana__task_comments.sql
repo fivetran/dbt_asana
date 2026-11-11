@@ -13,7 +13,7 @@ task_conversation as (
         source_relation,
         target_task_id as task_id,
         -- creates a chronologically ordered conversation about the task
-        {{ fivetran_utils.string_agg( "created_at || '  -  ' || created_by_name || ':  ' || comment_content", "'\\n'" ) }} as conversation,
+        {{ dbt.listagg( "created_at || '  -  ' || created_by_name || ':  ' || comment_content", "'\\n'" ) }} as conversation,
         count(*) as number_of_comments
 
     from comments

@@ -50,7 +50,7 @@ agg_user_projects as (
     select
     source_relation,
     user_id,
-    {{ fivetran_utils.string_agg( 'project_name', "', '" )}} as projects_working_on
+    {{ dbt.listagg( 'project_name', "', '" )}} as projects_working_on
 
     from unique_user_projects
     group by 1, 2

@@ -16,7 +16,7 @@ agg_tags as (
     select
         task_tag.source_relation,
         task_tag.task_id,
-        {{ fivetran_utils.string_agg( 'asana_tag.tag_name', "', '" ) }} as tags,
+        {{ dbt.listagg( 'asana_tag.tag_name', "', '" ) }} as tags,
         count(*) as number_of_tags
     from task_tag
     join asana_tag

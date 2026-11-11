@@ -53,9 +53,9 @@ agg_project_sections as (
     select
         source_relation,
         task_id,
-        {{ fivetran_utils.string_agg( 'task_project_section.project_section', "', '" )}} as projects_sections,
-        {{ fivetran_utils.string_agg( 'task_project_section.project_id', "', '" )}} as project_ids,
-        {{ fivetran_utils.string_agg( 'task_project_section.project_name', "', '" )}} as project_names,
+        {{ dbt.listagg( 'task_project_section.project_section', "', '" )}} as projects_sections,
+        {{ dbt.listagg( 'task_project_section.project_id', "', '" )}} as project_ids,
+        {{ dbt.listagg( 'task_project_section.project_name', "', '" )}} as project_names,
         count(project_id) as number_of_projects
 
     from task_project_section
