@@ -1,3 +1,10 @@
+# dbt_asana v1.4.2
+
+[PR #69](https://github.com/fivetran/dbt_asana/pull/69) includes the following updates:
+
+## Bug Fix
+- `dbt compile` fails on a new schema because the `asana__daily_metrics` model queries `asana__task` before it exists. The model now runs this query only during `dbt run` and `dbt build`, and falls back to 2016-01-01 when the query returns no date.
+
 # dbt_asana v1.4.1
 
 [PR #58](https://github.com/fivetran/dbt_asana/pull/58) includes the following updates:
