@@ -51,6 +51,8 @@ models:
   - name: stg_asana__section
     description: Table of all sections within projects. If tasks in a project are not in an explicit user-made section, a default section called "(no section)" is created here
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: section_id
         description: System-generated unique ID of the section
         tests:
@@ -65,6 +67,8 @@ models:
   - name: stg_asana__story
     description: Table containing all stories -- stories are actions taken on tasks
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: story_id
         description: System generated unique ID of the story/action taken on a task.
         tests:
@@ -85,6 +89,8 @@ models:
   - name: stg_asana__tag
     description: Table of the custom tags made in the organization
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: tag_id
         description: System generated unique ID of the tag
       - name: tag_name
@@ -95,14 +101,14 @@ models:
   - name: stg_asana__task
     description: Table containing all created tasks
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: task_id
         description: System generated unique ID of the task
         tests:
           - not_null
       - name: assignee_user_id
         description: Foreign key referencing the USER that is currently assigned the task.
-      - name: assignee_status
-        description: Scheduling status for the assignee that the task is or will eventually be assigned to. This maps to the sections of "My Tasks"
       - name: is_completed
         description: Boolean that is true if the task is currently marked complete.
       - name: completed_at
@@ -133,6 +139,8 @@ models:
   - name: stg_asana__task_follower
     description: Table of tasks with the users that are following them. Tasks without users do not appear here.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: task_id
         description: Foreign key referencing the ID of the TASK being followed.
         tests:
@@ -145,6 +153,8 @@ models:
   - name: stg_asana__task_section
     description: Table of tasks and the section that they live under. Section-less tasks within projects appear here, but project-less tasks do not
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: task_id
         description: Foreign key referencing the ID of the TASK
         tests:
@@ -157,6 +167,8 @@ models:
   - name: stg_asana__task_tag
     description: Table of tasks with the tags attached to them. Tasks without tags (and vice versa) do not appear here.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: tag_id
         description: Foreign key referencing the ID of the TAG attached to the task
       - name: task_id
@@ -165,6 +177,8 @@ models:
   - name: stg_asana__team
     description: Table of the teams within the organization
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: team_id
         description: System generated unique ID for each team
         tests:
@@ -175,6 +189,8 @@ models:
   - name: stg_asana__user
     description: Table of all accounts in the organization
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: user_id
         description: System generated unique ID for each user
         tests:
