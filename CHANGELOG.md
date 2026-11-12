@@ -1,3 +1,12 @@
+# dbt_asana v1.4.2
+
+[PR #68](https://github.com/fivetran/dbt_asana/pull/68) includes the following updates:
+
+## Under the Hood
+- **Documentation updates**: Updates the staging model documentation so that it matches the columns the models actually output.
+  - Adds documentation for the `source_relation` column to the nine staging models that output it but did not document it.
+  - Removes the `assignee_status` column from the `stg_asana__task` documentation, since the model no longer outputs this field.
+
 # dbt_asana v1.4.1
 
 [PR #58](https://github.com/fivetran/dbt_asana/pull/58) includes the following updates:
