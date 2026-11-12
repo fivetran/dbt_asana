@@ -1,4 +1,4 @@
 version: 1.4.2
 pr_number: 69
 bug_fixes:
-  - description: "`dbt compile` fails on a new schema because the `asana__daily_metrics` model queries `asana__task` before it exists. The model now runs this query only during `dbt run` and `dbt build`, and falls back to 2016-01-01 when the query returns no date. ([#30](https://github.com/fivetran/dbt_asana/issues/30))"
+  - description: "`dbt compile` fails on a new schema because the `asana__daily_metrics` model queries `asana__task` before it exists. The model now runs this query only during `dbt run` and `dbt build`, and falls back to 2016-01-01 when the query returns no date."
