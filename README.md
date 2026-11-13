@@ -15,7 +15,7 @@ This dbt package transforms data from Fivetran's Asana connector into analytics-
   - [DAG](https://fivetran.github.io/dbt_asana/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_asana/blob/main/CHANGELOG.md)
 - dbt Core™ supported versions
-  - `>=1.3.0, <3.0.0`
+  - `>=1.10.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to enhance task, user, project, team, and tag tables with metrics and provide daily metrics for task tracking. It creates enriched models with metrics focused on work volume, breadth, and velocity.
@@ -64,7 +64,7 @@ Include the following asana package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/asana
-    version: [">=1.4.0", "<1.5.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.5.0", "<1.6.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/asana_source` in your `packages.yml` since this package has been deprecated.
 
