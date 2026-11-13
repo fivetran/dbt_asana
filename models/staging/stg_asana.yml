@@ -4,6 +4,12 @@ models:
 
   - name: stg_asana__project
     description: Table containing all projects
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - project_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -36,6 +42,13 @@ models:
  
   - name: stg_asana__project_task
     description: Table of tasks and the project(s) they each belong to. If a project doesn't have a task, it won't be in here (and vice versa)
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - project_id
+              - task_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -50,6 +63,12 @@ models:
 
   - name: stg_asana__section
     description: Table of all sections within projects. If tasks in a project are not in an explicit user-made section, a default section called "(no section)" is created here
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - section_id
     columns:
       - name: section_id
         description: System-generated unique ID of the section
@@ -64,6 +83,12 @@ models:
 
   - name: stg_asana__story
     description: Table containing all stories -- stories are actions taken on tasks
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - story_id
     columns:
       - name: story_id
         description: System generated unique ID of the story/action taken on a task.
@@ -84,6 +109,12 @@ models:
 
   - name: stg_asana__tag
     description: Table of the custom tags made in the organization
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - tag_id
     columns:
       - name: tag_id
         description: System generated unique ID of the tag
@@ -94,6 +125,12 @@ models:
 
   - name: stg_asana__task
     description: Table containing all created tasks
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - task_id
     columns:
       - name: task_id
         description: System generated unique ID of the task
@@ -132,6 +169,13 @@ models:
       
   - name: stg_asana__task_follower
     description: Table of tasks with the users that are following them. Tasks without users do not appear here.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - task_id
+              - user_id
     columns:
       - name: task_id
         description: Foreign key referencing the ID of the TASK being followed.
@@ -144,6 +188,13 @@ models:
 
   - name: stg_asana__task_section
     description: Table of tasks and the section that they live under. Section-less tasks within projects appear here, but project-less tasks do not
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - task_id
+              - section_id
     columns:
       - name: task_id
         description: Foreign key referencing the ID of the TASK
@@ -156,6 +207,13 @@ models:
 
   - name: stg_asana__task_tag
     description: Table of tasks with the tags attached to them. Tasks without tags (and vice versa) do not appear here.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - task_id
+              - tag_id
     columns:
       - name: tag_id
         description: Foreign key referencing the ID of the TAG attached to the task
@@ -164,6 +222,12 @@ models:
 
   - name: stg_asana__team
     description: Table of the teams within the organization
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - team_id
     columns:
       - name: team_id
         description: System generated unique ID for each team
@@ -174,6 +238,12 @@ models:
 
   - name: stg_asana__user
     description: Table of all accounts in the organization
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - user_id
     columns:
       - name: user_id
         description: System generated unique ID for each user
