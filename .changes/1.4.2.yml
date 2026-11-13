@@ -1,7 +1,8 @@
 version: 1.4.2
 pr_number: 69
 bug_fixes:
-- description: '`dbt compile` fails on a new schema because the `asana__daily_metrics` model queries `asana__task` before it exists. The model now runs this query only during `dbt run` and `dbt build`, and falls back to 2016-01-01 when the query returns no date.'
-under_the_hood:
-- description: Adds `dbt_utils.unique_combination_of_columns` tests to the staging and end models. The tests use the `arguments` syntax introduced in dbt v1.10, which the new v1.11.0 minimum supports.
+- description: '`dbt compile` fails on a new schema because the `asana__daily_metrics`
+    model queries `asana__task` before it exists. The model now runs this query only
+    during `dbt run` and `dbt build`, and falls back to 2016-01-01 when the query
+    returns no date.'
 date: '2026-11-12'
