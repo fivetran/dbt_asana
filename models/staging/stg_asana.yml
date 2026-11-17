@@ -70,6 +70,8 @@ models:
               - source_relation
               - section_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: section_id
         description: System-generated unique ID of the section
         tests:
@@ -90,6 +92,8 @@ models:
               - source_relation
               - story_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: story_id
         description: System generated unique ID of the story/action taken on a task.
         tests:
@@ -116,6 +120,8 @@ models:
               - source_relation
               - tag_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: tag_id
         description: System generated unique ID of the tag
       - name: tag_name
@@ -132,14 +138,14 @@ models:
               - source_relation
               - task_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: task_id
         description: System generated unique ID of the task
         tests:
           - not_null
       - name: assignee_user_id
         description: Foreign key referencing the USER that is currently assigned the task.
-      - name: assignee_status
-        description: Scheduling status for the assignee that the task is or will eventually be assigned to. This maps to the sections of "My Tasks"
       - name: is_completed
         description: Boolean that is true if the task is currently marked complete.
       - name: completed_at
@@ -177,6 +183,8 @@ models:
               - task_id
               - user_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: task_id
         description: Foreign key referencing the ID of the TASK being followed.
         tests:
@@ -196,6 +204,8 @@ models:
               - task_id
               - section_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: task_id
         description: Foreign key referencing the ID of the TASK
         tests:
@@ -215,6 +225,8 @@ models:
               - task_id
               - tag_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: tag_id
         description: Foreign key referencing the ID of the TAG attached to the task
       - name: task_id
@@ -229,6 +241,8 @@ models:
               - source_relation
               - team_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: team_id
         description: System generated unique ID for each team
         tests:
@@ -245,6 +259,8 @@ models:
               - source_relation
               - user_id
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: user_id
         description: System generated unique ID for each user
         tests:
