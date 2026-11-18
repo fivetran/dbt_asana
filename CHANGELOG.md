@@ -1,3 +1,16 @@
+# dbt_asana v1.5.0
+
+[PR #70](https://github.com/fivetran/dbt_asana/pull/70) includes the following updates:
+
+## Feature Update
+- Raises the minimum dbt version to 1.10.0.
+- Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_asana/issues/new/choose).
+
+## Under the Hood
+- **Documentation updates**: Updates the staging model documentation so that it matches the columns the models actually output.
+  - Adds documentation for the `source_relation` column to the nine staging models that output it but did not document it.
+  - Removes the `assignee_status` column from the `stg_asana__task` documentation, since the model no longer outputs this field.
+
 # dbt_asana v1.4.2
 
 [PR #69](https://github.com/fivetran/dbt_asana/pull/69) includes the following updates:
