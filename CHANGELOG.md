@@ -7,8 +7,7 @@
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_asana/issues/new/choose).
 
 ## Under the Hood
-- Adds documentation for the `source_relation` column to the nine staging models in `stg_asana.yml`.
-- Removes the `assignee_status` column from the `stg_asana__task` documentation.
+- Updates yml column documentation to match model output.
 
 # dbt_asana v1.4.2
 
