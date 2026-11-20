@@ -15,7 +15,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: project_id
         description: System-generated unique ID of the project
-        tests:
+        data_tests:
           - not_null
       - name: is_archived
         description: Boolean representing if the project has been archived in the UI
@@ -54,11 +54,11 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: project_id
         description: Foreign key referencing the ID of the PROJECT
-        tests:
+        data_tests:
           - not_null
       - name: task_id
         description: Foreign key referencing the ID of the TASK
-        tests:
+        data_tests:
           - not_null
 
   - name: stg_asana__section
@@ -74,7 +74,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: section_id
         description: System-generated unique ID of the section
-        tests:
+        data_tests:
           - not_null
       - name: created_at
         description: Timestamp of when the section was created
@@ -96,7 +96,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: story_id
         description: System generated unique ID of the story/action taken on a task.
-        tests:
+        data_tests:
           - not_null
       - name: created_at
         description: Timestamp of when the story occurred.
@@ -104,7 +104,7 @@ models:
         description: Foreign key referencing the USER who took the action (sometimes null)
       - name: target_task_id
         description: Foreign key referencing the TASK that the action was taken on.
-        tests:
+        data_tests:
           - not_null
       - name: story_content
         description: Free-form text that is either the content of a comment (event_type=comment) or the description of an action (event_type=system)
@@ -142,7 +142,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: task_id
         description: System generated unique ID of the task
-        tests:
+        data_tests:
           - not_null
       - name: assignee_user_id
         description: Foreign key referencing the USER that is currently assigned the task.
@@ -187,11 +187,11 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: task_id
         description: Foreign key referencing the ID of the TASK being followed.
-        tests:
+        data_tests:
           - not_null
       - name: user_id
         description: Foreign key referencing the ID of the USER following the task.
-        tests:
+        data_tests:
           - not_null
 
   - name: stg_asana__task_section
@@ -208,11 +208,11 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: task_id
         description: Foreign key referencing the ID of the TASK
-        tests:
+        data_tests:
           - not_null
       - name: section_id
         description: Foreign key referencing the ID of the SECTION housing the task
-        tests:
+        data_tests:
           - not_null
 
   - name: stg_asana__task_tag
@@ -245,7 +245,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: team_id
         description: System generated unique ID for each team
-        tests:
+        data_tests:
           - not_null
       - name: team_name
         description: User-facing name of the team
@@ -263,7 +263,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: user_id
         description: System generated unique ID for each user
-        tests:
+        data_tests:
           - not_null
       - name: email
         description: The user's email

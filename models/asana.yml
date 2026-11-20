@@ -18,7 +18,7 @@ models:
 
       - name: task_id
         description: System generated unique ID of the task.
-        tests:
+        data_tests:
           - not_null
 
       - name: task_name
@@ -171,7 +171,7 @@ models:
 
       - name: user_id
         description: System generated unique ID of the user
-        tests:
+        data_tests:
           - not_null
       
       - name: user_name
@@ -214,7 +214,7 @@ models:
 
       - name: project_id
         description: System-generated unique ID of the project.
-        tests:
+        data_tests:
           - not_null
       
       - name: project_name
@@ -293,7 +293,7 @@ models:
 
       - name: team_id
         description: System generate unique ID for the team
-        tests:
+        data_tests:
           - not_null
 
       - name: team_name
@@ -338,7 +338,7 @@ models:
 
       - name: tag_id
         description: System-generated unique ID for the tag
-        tests:
+        data_tests:
           - not_null
       
       - name: tag_name
@@ -377,7 +377,7 @@ models:
 
       - name: date_day
         description: Unique day for which metrics are calculated.
-        tests:
+        data_tests:
           - not_null
 
       - name: number_of_tasks_open
