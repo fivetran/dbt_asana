@@ -8,7 +8,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: project_id
-        tests:
+        data_tests:
           - not_null
 
   - name: int_asana__project_user
@@ -24,7 +24,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: subtask_id
-        tests: 
+        data_tests: 
           - not_null
     
   - name: int_asana__task_assignee
@@ -34,7 +34,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: task_id
-        tests:
+        data_tests:
           - not_null
   
   - name: int_asana__task_comments
@@ -44,7 +44,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: task_id
-        tests:
+        data_tests:
           - not_null
 
   - name: int_asana__task_first_modifier
@@ -54,7 +54,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: task_id
-        tests:
+        data_tests:
           - not_null
 
   - name: int_asana__task_followers
@@ -64,7 +64,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: task_id
-        tests:
+        data_tests:
           - not_null
 
   - name: int_asana__task_open_length
@@ -74,7 +74,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: task_id
-        tests:
+        data_tests:
           - not_null
 
   - name: int_asana__task_projects
@@ -84,7 +84,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: task_id
-        tests:
+        data_tests:
           - not_null
   
   - name: int_asana__task_story
@@ -94,7 +94,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: story_id
-        tests:
+        data_tests:
           - not_null
       - name: action_taken
         description: The bucket that the story event falls into.
@@ -110,7 +110,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: task_id
-        tests:
+        data_tests:
           - not_null
 
   - name: int_asana__user_task_metrics
@@ -120,5 +120,5 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: user_id
-        tests:
+        data_tests:
           - not_null
