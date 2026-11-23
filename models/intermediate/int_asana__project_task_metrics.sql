@@ -49,7 +49,7 @@ agg_proj_tasks as (
     sum(case when task_is_completed then 1 else 0 end) as number_of_tasks_completed,
     sum(case when task_is_completed and task_assignee_user_id is not null then 1 else 0 end) as number_of_assigned_tasks_completed,
     sum(case when task_is_completed then task_days_open else 0 end) as total_days_open,
-    sum(case when task_is_completed then task_days_assigned_current_user else 0 end) as total_days_assigned_last_user -- will divde later for avg
+    sum(case when task_is_completed then task_days_assigned_current_user else 0 end) as total_days_assigned_last_user -- will divide later for avg
 
     from  project_task_history
 

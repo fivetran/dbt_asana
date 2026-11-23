@@ -292,7 +292,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
       - name: team_id
-        description: System generate unique ID for the team
+        description: System-generated unique ID for the team
         data_tests:
           - not_null
 
