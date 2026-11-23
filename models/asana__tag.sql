@@ -15,7 +15,7 @@ task_tag as (
 task as (
     select *
     from {{ ref('asana__task') }}
-    where is_completed and tags is not null
+    where tags is not null
 ),
 
 agg_tag as (
