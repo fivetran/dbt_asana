@@ -42,7 +42,7 @@ split_comments as (
 ),
 
 
--- the next CTE uses this dictionary to parse the type of action out of the event descfription
+-- the next CTE uses this dictionary to parse the type of action out of the event description
 {% set actions = {
     'added the name%': 'added name',
     'changed the name%': 'changed name',

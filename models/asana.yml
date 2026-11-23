@@ -5,6 +5,12 @@ models:
   # enriched core object tables
   - name: asana__task
     description: An enriched task table consisting of base task info + aggregated metrics and lists
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - task_id
     columns:
 
       - name: source_relation
@@ -12,7 +18,7 @@ models:
 
       - name: task_id
         description: System generated unique ID of the task.
-        tests:
+        data_tests:
           - not_null
 
       - name: task_name
@@ -152,6 +158,12 @@ models:
 
   - name: asana__user
     description: Enriched user table consisting of base user info + metrics around tasks and completions
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - user_id
     columns:
 
       - name: source_relation
@@ -159,7 +171,7 @@ models:
 
       - name: user_id
         description: System generated unique ID of the user
-        tests:
+        data_tests:
           - not_null
       
       - name: user_name
@@ -189,6 +201,12 @@ models:
 
   - name: asana__project
     description: Table of projects' basic info enriched with metrics regarding tasks and completions
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - project_id
     columns:
 
       - name: source_relation
@@ -196,7 +214,7 @@ models:
 
       - name: project_id
         description: System-generated unique ID of the project.
-        tests:
+        data_tests:
           - not_null
       
       - name: project_name
@@ -262,14 +280,20 @@ models:
       
   - name: asana__team
     description: Enriched team table consisting of basic team info + task/completion metrics (note that teams can only act on tasks in projects)
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - team_id
     columns:
 
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
       - name: team_id
-        description: System generate unique ID for the team
-        tests:
+        description: System-generated unique ID for the team
+        data_tests:
           - not_null
 
       - name: team_name
@@ -301,6 +325,12 @@ models:
   
   - name: asana__tag
     description: Table of tag basic info enriched with some task metrics.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - tag_id
     columns:
 
       - name: source_relation
@@ -308,7 +338,7 @@ models:
 
       - name: tag_id
         description: System-generated unique ID for the tag
-        tests:
+        data_tests:
           - not_null
       
       - name: tag_name
@@ -335,13 +365,19 @@ models:
 
   - name: asana__daily_metrics
     description: Table of task metrics per each day
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - date_day
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
       - name: date_day
         description: Unique day for which metrics are calculated.
-        tests:
+        data_tests:
           - not_null
 
       - name: number_of_tasks_open

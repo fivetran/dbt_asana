@@ -13,7 +13,7 @@ agg_user_tasks as (
     assignee_user_id as user_id,
     sum(case when not is_completed then 1 else 0 end) as number_of_open_tasks,
     sum(case when is_completed then 1 else 0 end) as number_of_tasks_completed,
-    sum(case when is_completed then days_since_last_assignment else 0 end) as days_assigned_this_user -- will divde later for avg
+    sum(case when is_completed then days_since_last_assignment else 0 end) as days_assigned_this_user -- will divide later for avg
 
     from  tasks
 
