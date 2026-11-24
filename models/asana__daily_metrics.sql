@@ -37,13 +37,15 @@ spine as (
 
 spine_tasks as (
 
+    {% set is_open = "(not task.is_completed or cast(spine.date_day as timestamp) < " ~ dbt.date_trunc('day', 'task.completed_at') ~ ")" %}
+
     select
         task.source_relation,
         spine.date_day,
-        sum( {{ dbt.datediff('task.created_at', 'spine.date_day', 'day') }} ) as total_days_open,
-        count( task.task_id) as number_of_tasks_open,
-        sum( case when cast(spine.date_day as timestamp) >= {{ dbt.date_trunc('day', 'task.first_assigned_at') }} then 1 else 0 end) as number_of_tasks_open_assigned,
-        sum( {{ dbt.datediff('task.first_assigned_at', 'spine.date_day', 'day') }} ) as total_days_open_assigned,
+        sum( case when {{ is_open }} then {{ dbt.datediff('task.created_at', 'spine.date_day', 'day') }} end) as total_days_open,
+        count( case when {{ is_open }} then task.task_id end) as number_of_tasks_open,
+        sum( case when {{ is_open }} and cast(spine.date_day as timestamp) >= {{ dbt.date_trunc('day', 'task.first_assigned_at') }} then 1 else 0 end) as number_of_tasks_open_assigned,
+        sum( case when {{ is_open }} then {{ dbt.datediff('task.first_assigned_at', 'spine.date_day', 'day') }} end) as total_days_open_assigned,
         sum( case when cast(spine.date_day as timestamp) = {{ dbt.date_trunc('day', 'task.created_at') }} then 1 else 0 end) as number_of_tasks_created,
         sum( case when cast(spine.date_day as timestamp) = {{ dbt.date_trunc('day', 'task.completed_at') }} then 1 else 0 end) as number_of_tasks_completed
 
@@ -51,7 +53,7 @@ spine_tasks as (
     left join task
         on cast(spine.date_day as timestamp) >= {{ dbt.date_trunc('day', 'task.created_at') }}
         and case when task.is_completed then
-            cast(spine.date_day as timestamp) < {{ dbt.date_trunc('day', 'task.completed_at') }}
+            cast(spine.date_day as timestamp) <= {{ dbt.date_trunc('day', 'task.completed_at') }}
             else true end
         and spine.source_relation = task.source_relation
 
